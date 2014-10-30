@@ -1,10 +1,17 @@
 #include <iostream>
-
 #include <GL/glew.h>
+#include <SDL/SDL.h>
 
-int main()
+#include "display.h"
+
+int main(int argc, char *argv[])
 {
-	std::cout << "Eat it" << std::endl;
+	Display window;
+	
+	while (!window.closed())
+	{
+		window.update();
+	}
 	
 	return 0;
 }
