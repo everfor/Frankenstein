@@ -5,14 +5,14 @@
 #include <exception>
 #include <string>
 
-#define COLOR_SIZE				8
-#define ALPHA_SIZE				8
-#define USE_DOUBLE_BUFFER		1
-
-// Default values
-#define DEFAULT_WIDTH			800
-#define DEFAULT_HEIGHT			600
-#define DEFAULT_TITLE			"Frankenstein"
+// Default display parameters
+#define COLOR_SIZE						8
+#define ALPHA_SIZE						8
+#define USE_DOUBLE_BUFFER				1
+// Default values for window
+#define DEFAULT_WIDTH					800
+#define DEFAULT_HEIGHT					600
+#define DEFAULT_TITLE					"Frankenstein"
 
 class Display
 {
@@ -23,7 +23,6 @@ class Display
 		unsigned int getHeight() const { return height; };
 		std::string getTitle() const { return title; };
 		bool closed() const { return isClosed; }
-
 		void update();
 	private:
 		std::string title;
@@ -37,8 +36,10 @@ class Display
 class DisplayException : public std::exception
 {
 	public:
-		DisplayException(const char *msg = NULL) throw();
+		DisplayException(const char *msg = NULL) throw() : message(std::string(msg)) {};
+		DisplayException(const DisplayException& other) : message(other.getMessage()) {};
 		virtual const char* what() const throw() { return (_HEADER + message).c_str(); };
+		std::string getMessage() const { return message; };
 	private:
 		std::string message;
 		static const std::string _HEADER;

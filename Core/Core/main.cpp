@@ -2,16 +2,16 @@
 #include <GL/glew.h>
 #include <SDL/SDL.h>
 
-#include "display.h"
+#include "core.h"
+
+// Safeguard for SDL when the Linker System is Console
+#undef main
 
 int main(int argc, char *argv[])
 {
-	Display window;
-	
-	while (!window.closed())
-	{
-		window.update();
-	}
+	Core core;
+
+	core.start();
 	
 	return 0;
 }

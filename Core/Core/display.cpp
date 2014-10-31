@@ -20,7 +20,7 @@ Display::Display(unsigned int init_width, unsigned int init_height, std::string&
 	GLenum status = glewInit();
 	if (status != GLEW_OK)
 	{
-		throw;
+		throw DisplayException("Failed to initialize OpenGL.");
 	}
 }
 
