@@ -15,21 +15,21 @@ Game::~Game()
 
 void Game::input()
 {
-	if (Input::getKeyDown(VK_LBUTTON))
+	if (Input::getKeyDown(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse down!" << std::endl;
 	}
-	if (Input::getKeyUp(VK_LBUTTON))
+	if (Input::getKeyUp(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse up!" << std::endl;
 		glm::vec2 cursor = Input::getCursorPos();
 		std::cout << "x: " << cursor.x << " y: " << cursor.y << std::endl;
 	}
-	if (Input::getKeyDown(VK_UP))
+	if (Input::getKeyDown(KEY_UP))
 	{
 		std::cout << "Up arrow down!" << std::endl;
 	}
-	if (Input::getKeyUp(VK_UP))
+	if (Input::getKeyUp(KEY_UP))
 	{
 		std::cout << "Up arrow up!" << std::endl;
 	}
