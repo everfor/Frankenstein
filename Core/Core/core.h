@@ -5,6 +5,7 @@
 #include <string>
 
 #include "display.h"
+#include "game.h"
 
 #define FRAME_CAP			1000
 #define MIN_SLEEP_TIME		1
@@ -22,5 +23,6 @@ class Core
 		Display window;
 		bool is_running;
 		unsigned int frame_rate;
+		Game game;
 };
 

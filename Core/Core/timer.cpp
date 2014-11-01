@@ -8,7 +8,6 @@ Timer::Timer()
 {
 }
 
-
 Timer::~Timer()
 {
 }
