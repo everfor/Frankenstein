@@ -1,5 +1,7 @@
 #pragma once
 
+#include "mesh.h"
+
 class Game
 {
 	public:
@@ -7,5 +9,8 @@ class Game
 		virtual ~Game();
 		void input();
 		void update();
+		void render();
+	private:
+		Mesh mesh;
 };
 

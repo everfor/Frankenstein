@@ -158,14 +158,16 @@
 class Input
 {
 	public:
-		static void initialize();
-		static void update();
-		static bool getKeyDown(int keyCode);
-		static bool getKeyUp(int keyCode);
-		static glm::vec2 getCursorPos();
+		static void Initialize();
+		static void Update();
+		static bool GetKeyDown(int keyCode);
+		static bool GetKeyUp(int keyCode);
+		static glm::vec2 GetCursorPosition();
 	private:
+		Input();
+		~Input();
 		static std::vector<int> _KEYS;
 		static std::vector<int>	_UP_KEYS;
 		static std::vector<int> _DOWN_KEYS;
-		static short checkKey(int keyCode);
+		static short CheckKey(int keyCode);
 };

@@ -1,12 +1,17 @@
 #include "game.h"
 #include "input.h"
+#include "vertex.h"
 
-#include <Windows.h>
 #include <iostream>
 
-Game::Game()
+Game::Game() :
+		mesh(Mesh())
 {
-	Input::initialize();
+	Input::Initialize();
+
+	// TEST MESH
+	Vertex vertices[] = {Vertex(glm::vec3(-1.0f, 1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(-1.0f, 1.0f, 0.0f))};
+	mesh.addVertices(vertices, 3);
 }
 
 Game::~Game()
@@ -15,21 +20,21 @@ Game::~Game()
 
 void Game::input()
 {
-	if (Input::getKeyDown(MOUSE_LEFT))
+	if (Input::GetKeyDown(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse down!" << std::endl;
 	}
-	if (Input::getKeyUp(MOUSE_LEFT))
+	if (Input::GetKeyUp(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse up!" << std::endl;
-		glm::vec2 cursor = Input::getCursorPos();
+		glm::vec2 cursor = Input::GetCursorPosition();
 		std::cout << "x: " << cursor.x << " y: " << cursor.y << std::endl;
 	}
-	if (Input::getKeyDown(KEY_UP))
+	if (Input::GetKeyDown(KEY_UP))
 	{
 		std::cout << "Up arrow down!" << std::endl;
 	}
-	if (Input::getKeyUp(KEY_UP))
+	if (Input::GetKeyUp(KEY_UP))
 	{
 		std::cout << "Up arrow up!" << std::endl;
 	}
@@ -38,5 +43,10 @@ void Game::input()
 
 void Game::update()
 {
-	Input::update();
+	Input::Update();
+}
+
+void Game::render()
+{
+	mesh.draw();
 }

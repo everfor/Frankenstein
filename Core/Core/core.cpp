@@ -1,5 +1,6 @@
 #include "core.h"
 #include "timer.h"
+#include "render.h"
 
 // Platform dependent include for sleep function
 #ifdef _WIN32
@@ -13,6 +14,7 @@
 Core::Core(int width, int height, std::string& title, int init_frame_rate) :
 			window(Display(width, height, title)), is_running(false), frame_rate(init_frame_rate), game(Game())
 {
+	Render::InitGraphics();
 }
 
 Core::~Core()
@@ -101,5 +103,7 @@ void Core::stop()
 
 void Core::render()
 {
+	Render::ClearScreen();
+	game.render();
 	this->window.update();
 }
