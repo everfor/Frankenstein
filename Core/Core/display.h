@@ -33,15 +33,3 @@ class Display
 		SDL_GLContext context;
 };
 
-class DisplayException : public std::exception
-{
-	public:
-		DisplayException(const char *msg = NULL) throw() : message(std::string(msg)) {};
-		DisplayException(const DisplayException& other) : message(other.getMessage()) {};
-		virtual const char* what() const throw() { return (_HEADER + message).c_str(); };
-		std::string getMessage() const { return message; };
-	private:
-		std::string message;
-		static const std::string _HEADER;
-};
-

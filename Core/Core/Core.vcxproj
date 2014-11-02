@@ -75,16 +75,21 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="render.cpp" />
+    <ClCompile Include="resource_manager.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h" />
     <ClInclude Include="display.h" />
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="render.h" />
+    <ClInclude Include="resource_manager.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="vertex.h" />
   </ItemGroup>

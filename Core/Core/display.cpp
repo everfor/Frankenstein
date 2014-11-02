@@ -1,6 +1,5 @@
 #include "display.h"
-
-const std::string DisplayException::_HEADER = "DISPLAY ERROR: ";
+#include "exceptions.h"
 
 Display::Display(unsigned int init_width, unsigned int init_height, std::string& init_title) :
 	width(init_width), height(init_height), title(init_title), isClosed(false)
