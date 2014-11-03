@@ -10,10 +10,18 @@ Shader::Shader()
 		throw ShaderException("Shader creation failed. Could not find valid memory location in constructor");
 	}
 
+	shaderCount = 0;
 }
 
 Shader::~Shader()
 {
+	while (shaderCount > 0)
+	{
+		glDetachShader(program, shaders[shaderCount]);
+		glDeleteShader(shaders[shaderCount--]);
+	}
+
+	glDeleteProgram(program);
 }
 
 void Shader::addProgram(std::string& text, GLenum type)
@@ -36,6 +44,8 @@ void Shader::addProgram(std::string& text, GLenum type)
 	checkShaderError(shader, GL_COMPILE_STATUS, false, "Shader Compile Error: ");
 
 	glAttachShader(shader, program);
+
+	shaders[shaderCount++] = shader;
 }
 
 void Shader::addFragmentShader(std::string& text)

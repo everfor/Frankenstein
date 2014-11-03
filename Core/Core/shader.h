@@ -17,4 +17,6 @@ class Shader
 		void addProgram(std::string& text, GLenum type);
 		void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& error);
 		GLuint program;
+		unsigned int shaderCount;
+		GLuint shaders[3];			// Only have 3 kinds of shaders in total
 };
