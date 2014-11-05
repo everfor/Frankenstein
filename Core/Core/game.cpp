@@ -1,17 +1,22 @@
 #include "game.h"
 #include "input.h"
 #include "vertex.h"
+#include "resource_manager.h"
 
 #include <iostream>
 
 Game::Game() :
-		mesh(Mesh())
+		mesh(Mesh()), shader(Shader())
 {
 	Input::Initialize();
 
 	// TEST MESH
-	Vertex vertices[] = {Vertex(glm::vec3(-1.0f, 1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(-1.0f, 1.0f, 0.0f))};
-	mesh.addVertices(vertices, 3);
+	Vertex vertices[3] = { Vertex(glm::vec3(-1, -1, 0)), Vertex(glm::vec3(0, 1, 0)), Vertex(glm::vec3(1, -1, 0)) };
+	mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+	// TEST SHADER
+	shader.addVertexShader(ResourceManager::LoadShader("./res/shaders/basicShader.vs"));
+	// shader.addFragmentShader(ResourceManager::LoadShader("./res/shaders/basicShader.fs"));
 }
 
 Game::~Game()
@@ -48,5 +53,6 @@ void Game::update()
 
 void Game::render()
 {
+	shader.bind();
 	mesh.draw();
 }

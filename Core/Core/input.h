@@ -151,7 +151,7 @@
 #define NUM_DECIMAL			VK_DECIMAL
 #endif
 
-#define NUM_KEYS			256
+#define TOTAL_KEYS			256
 /*
  * Handles different kinds of input
 */

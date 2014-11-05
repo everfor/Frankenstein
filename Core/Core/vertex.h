@@ -7,10 +7,10 @@
 class Vertex
 {
 	public:
-		Vertex(glm::vec3& init_pos);
+		Vertex(const glm::vec3& init_pos);
 		virtual ~Vertex();
-		void setPose(glm::vec3& new_pos);
-		glm::vec3& getPose();
+		void setPose(const glm::vec3& new_pos);
+		glm::vec3& getPose() const;
 	private:
 		glm::vec3 pos;
 };

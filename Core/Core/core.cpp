@@ -71,7 +71,6 @@ void Core::run()
 
 			if (frame_counter >= MILLISEC_IN_SEC)
 			{
-				// std::cout << frames << std::endl;
 				frames = 0;
 				frame_counter = 0;
 			}

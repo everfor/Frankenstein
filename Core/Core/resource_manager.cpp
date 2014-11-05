@@ -16,7 +16,7 @@ std::string ResourceManager::LoadShader(const std::string& fileName)
 		while (file.good())
 		{
 			std::getline(file, line);
-			output.append(line);
+			output.append(line + "\n");
 		}
 	}
 	else

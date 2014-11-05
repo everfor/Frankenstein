@@ -11,7 +11,13 @@ class Mesh
 		void addVertices(Vertex *vertices, int num_vert);
 		void draw();
 	private:
-		GLuint vbo;
+		enum
+		{
+			POSITION_VB,
+			NUM_BUFFERS
+		};
+		GLuint vao;					// Vertex Array Object
+		GLuint vbo[NUM_BUFFERS];		// Vertex Buffers
 		GLuint size;
 };
 

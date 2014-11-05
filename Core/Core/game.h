@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mesh.h"
+#include "shader.h"
 
 class Game
 {
@@ -12,5 +13,6 @@ class Game
 		void render();
 	private:
 		Mesh mesh;
+		Shader shader;
 };
 

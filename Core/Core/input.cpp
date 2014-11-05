@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <bitset>
 
-std::vector<int> Input::_KEYS(NUM_KEYS);
+std::vector<int> Input::_KEYS(TOTAL_KEYS);
 std::vector<int> Input::_UP_KEYS;
 std::vector<int> Input::_DOWN_KEYS;
 
@@ -14,6 +14,8 @@ std::vector<int> Input::_DOWN_KEYS;
 void Input::Initialize()
 {
 	std::fill(_KEYS.begin(), _KEYS.end(), 0x0000);
+	Input::_UP_KEYS.reserve(TOTAL_KEYS);
+	Input::_DOWN_KEYS.reserve(TOTAL_KEYS);
 }
 
 void Input::Update()
@@ -21,7 +23,7 @@ void Input::Update()
 	_UP_KEYS.clear();
 	_DOWN_KEYS.clear();
 
-	for (int i = 0; i < NUM_KEYS; i++)
+	for (int i = 0; i < TOTAL_KEYS; i++)
 	{
 		short currentState = Input::CheckKey(i);
 		short stateChange = _KEYS[i] ^ currentState;

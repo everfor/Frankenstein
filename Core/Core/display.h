@@ -11,7 +11,7 @@
 #define USE_DOUBLE_BUFFER				1
 // Default values for window
 #define DEFAULT_WIDTH					800
-#define DEFAULT_HEIGHT					600
+#define DEFAULT_HEIGHT					800
 #define DEFAULT_TITLE					"Frankenstein"
 
 class Display

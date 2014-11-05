@@ -17,8 +17,8 @@ Shader::~Shader()
 {
 	while (shaderCount > 0)
 	{
-		glDetachShader(program, shaders[shaderCount]);
-		glDeleteShader(shaders[shaderCount--]);
+		glDetachShader(program, shaders[--shaderCount]);
+		glDeleteShader(shaders[shaderCount]);
 	}
 
 	glDeleteProgram(program);
@@ -43,19 +43,19 @@ void Shader::addProgram(std::string& text, GLenum type)
 
 	checkShaderError(shader, GL_COMPILE_STATUS, false, "Shader Compile Error: ");
 
-	glAttachShader(shader, program);
-
 	shaders[shaderCount++] = shader;
+
+	glAttachShader(program, shader);
 }
 
 void Shader::addFragmentShader(std::string& text)
 {
-	addProgram(text, GL_VERTEX_SHADER);
+	addProgram(text, GL_FRAGMENT_SHADER);
 }
 
 void Shader::addVertexShader(std::string& text)
 {
-	addProgram(text, GL_FRAGMENT_SHADER);
+	addProgram(text, GL_VERTEX_SHADER);
 }
 
 void Shader::addGeometryShader(std::string& text)

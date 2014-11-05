@@ -1,8 +1,8 @@
 #include "vertex.h"
 
 
-Vertex::Vertex(glm::vec3& init_pos) :
-			pos(glm::vec3(init_pos))
+Vertex::Vertex(const glm::vec3& init_pos) :
+			pos(init_pos)
 {
 }
 
@@ -10,12 +10,12 @@ Vertex::~Vertex()
 {
 }
 
-void Vertex::setPose(glm::vec3& new_pos)
+void Vertex::setPose(const glm::vec3& new_pos)
 {
-	pos = glm::vec3(new_pos);
+	pos = new_pos;
 }
 
-glm::vec3& Vertex::getPose()
+glm::vec3& Vertex::getPose() const
 {
 	return glm::vec3(pos);
 }
