@@ -15,7 +15,7 @@ void Vertex::setPose(const glm::vec3& new_pos)
 	pos = new_pos;
 }
 
-glm::vec3& Vertex::getPose() const
+glm::vec3& Vertex::getPose()
 {
-	return glm::vec3(pos);
+	return pos;
 }
