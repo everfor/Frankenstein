@@ -2,6 +2,7 @@
 #include "exceptions.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 
 Shader::Shader() :
 			uniforms(std::map<std::string, GLuint>())

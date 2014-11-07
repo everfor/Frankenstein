@@ -7,7 +7,7 @@
 #include <iostream>
 
 Game::Game() :
-		mesh(Mesh()), shader(Shader())
+		mesh(Mesh()), shader(Shader()), transform(Transform())
 {
 	Input::Initialize();
 
@@ -21,7 +21,8 @@ Game::Game() :
 	shader.compileAllShaders();
 
 	// TEST UNIFORM
-	shader.addUniform("uniformFloat");
+	shader.addUniform("colorvar");
+	shader.addUniform("transform");
 }
 
 Game::~Game()
@@ -50,6 +51,8 @@ void Game::input()
 	}
 }
 
+static float color_var = 0.0f;
+
 void Game::update()
 {
 	Input::Update();
@@ -57,11 +60,16 @@ void Game::update()
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += Timer::getDelta() / 1000.0;
-	shader.setUniformf("uniformFloat", abs(sinf(temp)));
+	color_var = abs(sinf(temp));
+
+	// TEST TRANSLATION
+	transform.setTranslation(sinf(temp), 0, 0);
 }
 
 void Game::render()
 {
 	shader.bind();
+	shader.setUniformf("colorvar", color_var);
+	shader.setUniform("transform", transform.getTransformation());
 	mesh.draw();
 }

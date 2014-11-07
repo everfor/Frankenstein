@@ -2,6 +2,7 @@
 
 #include "mesh.h"
 #include "shader.h"
+#include "transform.h"
 
 class Game
 {
@@ -14,5 +15,6 @@ class Game
 	private:
 		Mesh mesh;
 		Shader shader;
+		Transform transform;
 };
 
