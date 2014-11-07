@@ -1,7 +1,10 @@
 #include "shader.h"
 #include "exceptions.h"
 
-Shader::Shader()
+#include <glm/gtc/type_ptr.hpp>
+
+Shader::Shader() :
+			uniforms(std::map<std::string, GLuint>())
 {
 	program = glCreateProgram();
 
@@ -24,7 +27,7 @@ Shader::~Shader()
 	glDeleteProgram(program);
 }
 
-void Shader::addProgram(std::string& text, GLenum type)
+void Shader::addProgram(const std::string& text, GLenum type)
 {
 	GLuint shader = glCreateShader(type);
 
@@ -48,21 +51,24 @@ void Shader::addProgram(std::string& text, GLenum type)
 	glAttachShader(program, shader);
 }
 
-void Shader::addFragmentShader(std::string& text)
+void Shader::addFragmentShader(const std::string& text)
 {
 	addProgram(text, GL_FRAGMENT_SHADER);
 }
 
-void Shader::addVertexShader(std::string& text)
+void Shader::addVertexShader(const std::string& text)
 {
 	addProgram(text, GL_VERTEX_SHADER);
 }
 
-void Shader::addGeometryShader(std::string& text)
+void Shader::addGeometryShader(const std::string& text)
 {
 	addProgram(text, GL_GEOMETRY_SHADER);
 }
 
+/*
+ * DONT FORGET TO CALL DIS METHOD YOU SCRUB
+ */
 void Shader::compileAllShaders()
 {
 	glLinkProgram(program);
@@ -72,6 +78,38 @@ void Shader::compileAllShaders()
 	glValidateProgram(program);
 
 	checkShaderError(program, GL_VALIDATE_STATUS, true, "Program Validate Error: ");
+}
+
+void Shader::addUniform(const std::string& uniform)
+{
+	GLuint uniform_loc = glGetUniformLocation(program, uniform.c_str());
+
+	if (uniform_loc == 0xFFFFFFFF)
+	{
+		throw ShaderException("Could not find uniform" + uniform);
+	}
+
+	uniforms.insert(std::pair<std::string, GLuint>(uniform, uniform_loc));
+}
+
+void Shader::setUniformi(const std::string& uniform, const GLint value)
+{
+	glUniform1i(uniforms.at(uniform), value);
+}
+
+void Shader::setUniformf(const std::string& uniform, const GLfloat value)
+{
+	glUniform1f(uniforms.at(uniform), value);
+}
+
+void Shader::setUniform(const std::string& uniform, const glm::vec3& value)
+{
+	glUniform3f(uniforms.at(uniform), value.x, value.y, value.z);
+}
+
+void Shader::setUniform(const std::string& uniform, const glm::mat4& value)
+{
+	glUniformMatrix4fv(uniforms.at(uniform), 1, GL_FALSE, glm::value_ptr(value)); 
 }
 
 void Shader::bind()

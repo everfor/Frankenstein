@@ -4,6 +4,9 @@
 #include <Windows.h>
 #endif
 
+long Timer::last = 0;
+long Timer::current = 0;
+
 Timer::Timer()
 {
 }
@@ -22,4 +25,12 @@ long Timer::getCurrentTime()
 #else
 	return 0;
 #endif
+}
+
+long Timer::getDelta()
+{
+	last = current;
+	current = getCurrentTime();
+
+	return current - last;
 }

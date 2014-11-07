@@ -2,6 +2,7 @@
 #include "input.h"
 #include "vertex.h"
 #include "resource_manager.h"
+#include "timer.h"
 
 #include <iostream>
 
@@ -17,6 +18,10 @@ Game::Game() :
 	// TEST SHADER
 	shader.addVertexShader(ResourceManager::LoadShader("./res/shaders/basicShader.vs"));
 	shader.addFragmentShader(ResourceManager::LoadShader("./res/shaders/basicShader.fs"));
+	shader.compileAllShaders();
+
+	// TEST UNIFORM
+	shader.addUniform("uniformFloat");
 }
 
 Game::~Game()
@@ -43,16 +48,20 @@ void Game::input()
 	{
 		std::cout << "Up arrow up!" << std::endl;
 	}
-	// std::cout<<Input::checkKey(VK_UP)<<std::endl;
 }
 
 void Game::update()
 {
 	Input::Update();
+
+	// TEST uniform
+	static float temp = 0.0f;
+	temp += Timer::getDelta() / 1000.0;
+	shader.setUniformf("uniformFloat", abs(sinf(temp)));
 }
 
 void Game::render()
 {
-	// shader.bind();
+	shader.bind();
 	mesh.draw();
 }
