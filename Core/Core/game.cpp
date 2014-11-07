@@ -51,7 +51,8 @@ void Game::input()
 	}
 }
 
-static float color_var = 0.0f;
+static float sin_var = 0.0f;
+static float cos_var = 0.0f;
 
 void Game::update()
 {
@@ -60,16 +61,19 @@ void Game::update()
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += Timer::getDelta() / 1000.0;
-	color_var = abs(sinf(temp));
+	sin_var = abs(sinf(temp));
+	cos_var = abs(cosf(temp));
 
-	// TEST TRANSLATION
+	// TEST TRANSFORMATION
 	transform.setTranslation(sinf(temp), 0, 0);
+	transform.setRotation(0, 0, temp * 100);
+	transform.setScale(sin_var, cos_var, 0);
 }
 
 void Game::render()
 {
 	shader.bind();
-	shader.setUniformf("colorvar", color_var);
+	shader.setUniformf("colorvar", sin_var);
 	shader.setUniform("transform", transform.getTransformation());
 	mesh.draw();
 }
