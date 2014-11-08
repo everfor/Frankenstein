@@ -12,8 +12,9 @@ Game::Game() :
 	Input::Initialize();
 
 	// TEST MESH
-	Vertex vertices[3] = { Vertex(glm::vec3(-1.0f, -1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(1.0f, -1.0f, 0)) };
-	mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	Vertex vertices[] = { Vertex(glm::vec3(-1.0f, -1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(1.0f, -1.0f, 0)), Vertex(glm::vec3(0.0f, -1.0f, 1.0f)) };
+	unsigned short indices[] = { 0, 1, 3, 3, 1, 2, 3, 2, 1, 0, 2, 3 };
+	mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
 	// TEST SHADER
 	shader.addVertexShader(ResourceManager::LoadShader("./res/shaders/basicShader.vs"));
@@ -21,7 +22,6 @@ Game::Game() :
 	shader.compileAllShaders();
 
 	// TEST UNIFORM
-	shader.addUniform("colorvar");
 	shader.addUniform("transform");
 }
 
@@ -61,19 +61,18 @@ void Game::update()
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += Timer::getDelta() / 1000.0;
-	sin_var = abs(sinf(temp));
+	sin_var = sinf(temp);
 	cos_var = abs(cosf(temp));
 
 	// TEST TRANSFORMATION
-	transform.setTranslation(sinf(temp), 0, 0);
-	transform.setRotation(0, 0, temp * 100);
-	transform.setScale(sin_var, cos_var, 0);
+	transform.setTranslation(sin_var, 0, 0);
+	transform.setRotation(0, sin_var * 180, 0);
+	// transform.setScale(sin_var, sin_var, sin_var);
 }
 
 void Game::render()
 {
 	shader.bind();
-	shader.setUniformf("colorvar", sin_var);
 	shader.setUniform("transform", transform.getTransformation());
 	mesh.draw();
 }

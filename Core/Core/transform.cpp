@@ -3,7 +3,7 @@
 #include <glm/gtx/transform.hpp>
 
 Transform::Transform() :
-			translation(glm::vec3()), rotation(glm::vec3()), scale(glm::vec3())
+			translation(glm::vec3()), rotation(glm::vec3()), scale(glm::vec3(1.0f, 1.0f, 1.0f))
 {
 }
 

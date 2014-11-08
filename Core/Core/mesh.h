@@ -8,12 +8,13 @@ class Mesh
 	public:
 		Mesh();
 		virtual ~Mesh();
-		void addVertices(Vertex *vertices, int num_vert);
+		void addVertices(Vertex *vertices, int num_vert, unsigned short *indices, int num_index);
 		void draw();
 	private:
 		enum
 		{
 			POSITION_VB,
+			INDEX_VB,
 			NUM_BUFFERS
 		};
 		GLuint vao;					// Vertex Array Object
