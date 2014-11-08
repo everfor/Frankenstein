@@ -12,9 +12,10 @@ Game::Game() :
 	Input::Initialize();
 
 	// TEST MESH
-	Vertex vertices[] = { Vertex(glm::vec3(-1.0f, -1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(1.0f, -1.0f, 0)), Vertex(glm::vec3(0.0f, -1.0f, 1.0f)) };
-	unsigned short indices[] = { 0, 1, 3, 3, 1, 2, 3, 2, 1, 0, 2, 3 };
-	mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	//Vertex vertices[] = { Vertex(glm::vec3(-1.0f, -1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(1.0f, -1.0f, 0)), Vertex(glm::vec3(0.0f, -1.0f, 1.0f)) };
+	//unsigned short indices[] = { 0, 1, 3, 3, 1, 2, 3, 2, 1, 0, 2, 3 };
+	//mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	ResourceManager::loadMesh(std::string("./res/models/monkey.obj"), mesh);
 
 	// TEST SHADER
 	shader.addVertexShader(ResourceManager::LoadShader("./res/shaders/basicShader.vs"));
@@ -65,7 +66,7 @@ void Game::update()
 	cos_var = abs(cosf(temp));
 
 	// TEST TRANSFORMATION
-	transform.setTranslation(sin_var, 0, 0);
+	// transform.setTranslation(sin_var, 0, 0);
 	transform.setRotation(0, sin_var * 180, 0);
 	// transform.setScale(sin_var, sin_var, sin_var);
 }

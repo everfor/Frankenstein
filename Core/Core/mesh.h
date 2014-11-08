@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <vector>
 #include "vertex.h"
 
 class Mesh
@@ -9,6 +10,7 @@ class Mesh
 		Mesh();
 		virtual ~Mesh();
 		void addVertices(Vertex *vertices, int num_vert, unsigned short *indices, int num_index);
+		void addVertices(std::vector<Vertex>& vertices, int num_vert, std::vector<unsigned short>& indices, int num_index);
 		void draw();
 	private:
 		enum

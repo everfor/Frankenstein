@@ -79,6 +79,7 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="transform.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +94,7 @@
     <ClInclude Include="shader.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
