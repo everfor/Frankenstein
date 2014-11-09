@@ -11,7 +11,10 @@ class Camera
 		// Position
 		glm::vec3& getPos() { return position; };
 		void setPos(glm::vec3& new_pos) { position = new_pos; };
-		void move(glm::vec3& dir, float amt);
+		void move(const glm::vec3& dir, float amt);
+		void moveX(float amt);
+		void moveY(float amt);
+		void moveZ(float amt);
 		// Orientation
 		glm::quat& getOrient() { return orientation; };
 		void setOrient(glm::quat& new_orient) { orientation = new_orient; };

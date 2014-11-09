@@ -3,6 +3,7 @@
 #include "mesh.h"
 #include "vertex.h"
 
+#include <GL/glew.h>
 #include <string>
 #include <exception>
 #include <vector>
@@ -13,9 +14,11 @@ class ResourceManager
 {
 	public:
 		// Returns the file content of a shader
-		static std::string LoadShader(const std::string& fileName);
+		static void LoadShader(const std::string& fileName, std::string& shader_string);
 		// Parse a mesh file and store the corresponding data in Mesh object
-		static void loadMesh(std::string& fileName, Mesh& mesh);
+		static void LoadMesh(std::string& fileName, Mesh& mesh);
+		// Parse an image file for texture
+		static void LoadTexture(const std::string& fileName, GLenum textureType);
 	private:
 		ResourceManager();
 		// Mesh parsing specifically for ".obj" files

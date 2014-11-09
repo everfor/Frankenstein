@@ -17,9 +17,24 @@ Camera::~Camera()
 {
 }
 
-void Camera::move(glm::vec3& dir, float amt)
+void Camera::move(const glm::vec3& dir, float amt)
 {
 	position += amt * glm::normalize(dir);
+}
+
+void Camera::moveX(float amt)
+{
+	move(_X_AXIS, amt);
+}
+
+void Camera::moveY(float amt)
+{
+	move(_Y_AXIS, amt);
+}
+
+void Camera::moveZ(float amt)
+{
+	move(_Z_AXIS, amt);
 }
 
 void Camera::rotate(const glm::vec3& axis, float angle)
