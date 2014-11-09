@@ -3,11 +3,12 @@
 #include "vertex.h"
 #include "resource_manager.h"
 #include "timer.h"
+#include "basic_shader.h"
 
 #include <iostream>
 
 Game::Game() :
-		mesh(Mesh()), shader(Shader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), texture(Texture())
+		mesh(Mesh()), shader(BasicShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), texture(Texture())
 {
 	Input::Initialize();
 
@@ -17,26 +18,13 @@ Game::Game() :
 	//mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), mesh);
 
-	// TEST SHADER
-	std::string vertex_shader_str, fragment_shader_str;
-	ResourceManager::LoadShader("./res/shaders/basicShader.vs", vertex_shader_str);
-	ResourceManager::LoadShader("./res/shaders/basicShader.fs", fragment_shader_str);
-	shader.addVertexShader(vertex_shader_str);
-	shader.addFragmentShader(fragment_shader_str);
-	shader.compileAllShaders();
-
-	// TEST UNIFORM
-	shader.addUniform("transform");
-
-	// Set transform
-	// Transform::setProjection(100.0f, 800.0f, 600.0f, 0.1f, 1000);
-
 	// TEST TEXTURE
 	texture.setTexture("./res/textures/test.png");
 }
 
 Game::~Game()
 {
+	BasicShader::DestroyShader();
 }
 
 static float move_amt = 0.05;
@@ -82,8 +70,8 @@ void Game::update()
 
 void Game::render()
 {
-	shader.bind();
-	shader.setUniform("transform", camera.getCameraProjection() * transform.getTransformation());
+	shader->bind();
+	shader->updateUniforms(transform.getTransformation(), camera.getCameraProjection() * transform.getTransformation());
 	texture.bind();
 	mesh.draw();
 }

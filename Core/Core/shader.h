@@ -8,7 +8,6 @@
 class Shader
 {
 	public:
-		Shader();
 		virtual ~Shader();
 		// Shaders
 		void addVertexShader(const std::string& text);
@@ -21,7 +20,10 @@ class Shader
 		void setUniformf(const std::string& uniform, const GLfloat value);
 		void setUniform(const std::string& uniform, const glm::vec3& value);
 		void setUniform(const std::string& uniform, const glm::mat4& value);
+		virtual void updateUniforms(const glm::mat4& world, const glm::mat4& projection);
 		void bind();
+	protected:
+		Shader();
 	private:
 		void addProgram(const std::string& text, GLenum type);
 		void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& error);

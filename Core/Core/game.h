@@ -16,7 +16,7 @@ class Game
 		void render();
 	private:
 		Mesh mesh;
-		Shader shader;
+		Shader* shader;
 		Transform transform;
 		Camera camera;
 		Texture texture;

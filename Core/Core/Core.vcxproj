@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="basic_shader.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="display.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="basic_shader.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="display.h" />

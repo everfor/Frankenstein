@@ -113,6 +113,11 @@ void Shader::setUniform(const std::string& uniform, const glm::mat4& value)
 	glUniformMatrix4fv(uniforms.at(uniform), 1, GL_FALSE, glm::value_ptr(value)); 
 }
 
+void Shader::updateUniforms(const glm::mat4& world, const glm::mat4& projection)
+{
+
+}
+
 void Shader::bind()
 {
 	glUseProgram(program);
