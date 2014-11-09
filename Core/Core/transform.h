@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "camera.h"
 
 class Transform
 {
@@ -17,7 +18,9 @@ class Transform
 		void setScale(const glm::vec3& new_scale);
 		void setScale(float x, float y, float z);
 		glm::mat4& getTransformation();
+		static void setProjection(float fov, float width, float height, float zNear, float zFar);
 	private:
+		static float _z_near, _z_far, _width, _height, _fov;
 		glm::vec3 translation;
 		glm::vec3 rotation;
 		glm::vec3 scale;

@@ -2,6 +2,12 @@
 
 #include <glm/gtx/transform.hpp>
 
+float Transform::_fov = 0;
+float Transform::_height = 0;
+float Transform::_width = 0;
+float Transform::_z_far = 0;
+float Transform::_z_near = 0;
+
 Transform::Transform() :
 			translation(glm::vec3()), rotation(glm::vec3()), scale(glm::vec3(1.0f, 1.0f, 1.0f))
 {
@@ -63,4 +69,13 @@ glm::mat4& Transform::getTransformation()
 		* glm::scale(scale);						// Scale
 
 	return transformation;
+}
+
+void Transform::setProjection(float fov, float width, float height, float zNear, float zFar)
+{
+	_fov = fov;
+	_width = width;
+	_height = height;
+	_z_near = zNear;
+	_z_far = zFar;
 }

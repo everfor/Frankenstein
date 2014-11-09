@@ -7,7 +7,7 @@
 #include <iostream>
 
 Game::Game() :
-		mesh(Mesh()), shader(Shader()), transform(Transform())
+		mesh(Mesh()), shader(Shader()), transform(Transform()), camera(Camera(70.0f, 800.0f/600.0f, 0.1f, 1000))
 {
 	Input::Initialize();
 
@@ -24,6 +24,9 @@ Game::Game() :
 
 	// TEST UNIFORM
 	shader.addUniform("transform");
+
+	// Set transform
+	// Transform::setProjection(100.0f, 800.0f, 600.0f, 0.1f, 1000);
 }
 
 Game::~Game()
@@ -68,12 +71,12 @@ void Game::update()
 	// TEST TRANSFORMATION
 	// transform.setTranslation(sin_var, 0, 0);
 	transform.setRotation(0, sin_var * 180, 0);
-	// transform.setScale(sin_var, sin_var, sin_var);
+	// transform.setScale(0.5, 0.5, 0.5);
 }
 
 void Game::render()
 {
 	shader.bind();
-	shader.setUniform("transform", transform.getTransformation());
+	shader.setUniform("transform", camera.getCameraProjection() * transform.getTransformation());
 	mesh.draw();
 }

@@ -3,6 +3,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "transform.h"
+#include "camera.h"
 
 class Game
 {
@@ -16,5 +17,6 @@ class Game
 		Mesh mesh;
 		Shader shader;
 		Transform transform;
+		Camera camera;
 };
 
