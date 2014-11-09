@@ -97,7 +97,6 @@ void ResourceManager::loadMeshObj(std::string& fileName, std::vector<Vertex>& ve
 								[](const std::string& s) { return s.length() == 0; }),
 				tokens.end());
 
-
 			if (tokens.size() == 0 || tokens[0] == "#")
 			{
 				continue;
@@ -108,9 +107,27 @@ void ResourceManager::loadMeshObj(std::string& fileName, std::vector<Vertex>& ve
 			}
 			else if (tokens[0] == "f")
 			{
-				indices.push_back(atoi(tokens[1].c_str()) - 1);
-				indices.push_back(atoi(tokens[2].c_str()) - 1);
-				indices.push_back(atoi(tokens[3].c_str()) - 1);
+				// Basic triangulation
+				int total_num_indices = tokens.size() - 1;
+				int index = 1;
+
+				// Store vertex index
+				std::vector<int> vert_indices;
+				vert_indices.reserve(total_num_indices);
+				for (int i = 1; i <= total_num_indices; i++)
+				{
+					vert_indices.push_back(atoi(tokens[i].substr(0, tokens[i].find("/")).c_str()) - 1);
+					tokens[i].erase(0, tokens[i].find("/") + 1);
+				}
+
+				while (index < total_num_indices)
+				{
+					indices.push_back(vert_indices[(index - 1) % total_num_indices]);
+					indices.push_back(vert_indices[index % total_num_indices]);
+					indices.push_back(vert_indices[(index + 1) % total_num_indices]);
+
+					index += 2;
+				}
 			}
 		}
 	}
