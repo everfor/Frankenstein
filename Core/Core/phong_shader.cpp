@@ -3,7 +3,8 @@
 
 std::unique_ptr<PhongShader> PhongShader::_basic_shader;
 bool PhongShader::_is_initialized = false;
-glm::vec3 PhongShader::_ambient_light;
+glm::vec3 PhongShader::_ambient_light = glm::vec3(0.2, 0.2, 0.2);
+DirectionalLight PhongShader::_directional_light(BaseLight(glm::vec3(1, 1, 1), 0), glm::vec3(0, 0, 0));
 
 PhongShader::PhongShader() : Shader()
 {
@@ -16,8 +17,12 @@ PhongShader::PhongShader() : Shader()
 	compileAllShaders();
 
 	addUniform("transform");
+	addUniform("projection");
 	addUniform("baseColor");
 	addUniform("ambientLight");
+	addUniform("directionalLight.base.color");
+	addUniform("directionalLight.base.intensity");
+	addUniform("directionalLight.direction");
 }
 
 PhongShader::~PhongShader()
@@ -31,9 +36,11 @@ void PhongShader::updateUniforms(const glm::mat4& world, const glm::mat4& projec
 		material.getTexture().bind();
 	}
 
-	setUniform("transform", projection);
+	setUniform("transform", world);
+	setUniform("projection", projection);
 	setUniform("baseColor", material.getColor());
 	setUniform("ambientLight", _ambient_light);
+	setLightUniform("directionalLight", _directional_light);
 }
 
 PhongShader* PhongShader::GetShader()
@@ -51,4 +58,16 @@ void PhongShader::DestroyShader()
 {
 	_basic_shader.reset();
 	_is_initialized = false;
+}
+
+void PhongShader::setLightUniform(const std::string& uniform, BaseLight& baseLight)
+{
+	setUniform(uniform + ".color", baseLight.getColor());
+	setUniformf(uniform + ".intensity", baseLight.getIntensity());
+}
+
+void PhongShader::setLightUniform(const std::string& uniform, DirectionalLight& directionalLight)
+{
+	setLightUniform(uniform + ".base", directionalLight.getBaseLight());
+	setUniform(uniform + ".direction", directionalLight.getDirection());
 }

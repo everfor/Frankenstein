@@ -43,6 +43,7 @@ void ResourceManager::LoadMesh(std::string& fileName, Mesh& mesh)
 		std::vector<unsigned short> indices;
 
 		loadMeshObj(fileName, vertices, indices);
+		_calculate_normals(vertices, vertices.size(), indices, indices.size());
 
 		mesh.addVertices(vertices, vertices.size(), indices, indices.size());
 	}

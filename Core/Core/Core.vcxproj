@@ -90,9 +90,11 @@
     <ClCompile Include="vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base_light.h" />
     <ClInclude Include="basic_shader.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="core.h" />
+    <ClInclude Include="directional_light.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="game.h" />

@@ -5,6 +5,8 @@
 #include "timer.h"
 #include "basic_shader.h"
 #include "phong_shader.h"
+#include "directional_light.h"
+#include "base_light.h"
 
 #include <iostream>
 
@@ -19,10 +21,12 @@ Game::Game() :
 	// TEST TEXTURE
 	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
 	texture = material.getTexture();
-	material.getTexture().setTexture("./res/textures/bricks.jpg");
+	material.getTexture().setTexture("./res/textures/shaft.jpg");
 
 	// Set lighting
 	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
+	// Lighting on x direction is reversed
+	PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.8f), glm::vec3(1, 1, 0)));
 }
 
 Game::~Game()

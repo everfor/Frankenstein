@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Demo">
       <UniqueIdentifier>{467d8b91-33bd-4103-81da-da9225403981}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rendering\Lighting">
+      <UniqueIdentifier>{94e793f0-ef7d-405d-bfe0-757d4baa7527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -148,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="material.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="base_light.h">
+      <Filter>Header Files\Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="directional_light.h">
+      <Filter>Header Files\Rendering\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
