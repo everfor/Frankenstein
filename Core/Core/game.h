@@ -5,6 +5,7 @@
 #include "transform.h"
 #include "camera.h"
 #include "texture.h"
+#include "material.h"
 
 class Game
 {
@@ -19,6 +20,7 @@ class Game
 		Shader* shader;
 		Transform transform;
 		Camera camera;
+		Material material;
 		Texture texture;
 };
 

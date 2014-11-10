@@ -42,7 +42,7 @@ void Mesh::addVertices(Vertex *vertices, int num_vert, unsigned short *indices, 
 	glBufferData(GL_ARRAY_BUFFER, num_vert * sizeof(textures[0]), &textures[0], GL_STATIC_DRAW);
 	// Bind VBO
 	glEnableVertexAttribArray(TEXCOORD_VB);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Bind IBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDEX_VB]);
@@ -55,25 +55,34 @@ void Mesh::addVertices(std::vector<Vertex>& vertices, int num_vert, std::vector<
 {
 	// Construct glm::vec3 arrays
 	std::vector<glm::vec3> positions;
+	std::vector<glm::vec2> textures;
 	positions.reserve(num_vert);
+	textures.reserve(num_vert);
 
 	for (int i = 0; i < num_vert; i++)
 	{
 		positions.push_back(vertices[i].getPose());
+		textures.push_back(vertices[i].getTex());
 	}
 
-	// Initialize VBO
+	// Initialize VBO for position
 	glGenBuffers(NUM_BUFFERS, vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[POSITION_VB]);
 	glBufferData(GL_ARRAY_BUFFER, num_vert * sizeof(positions[0]), &positions[0], GL_STATIC_DRAW);
+	// Bind VBO
+	glEnableVertexAttribArray(POSITION_VB);
+	glVertexAttribPointer(POSITION_VB, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// VBO for textures
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[TEXCOORD_VB]);
+	glBufferData(GL_ARRAY_BUFFER, num_vert * sizeof(textures[0]), &textures[0], GL_STATIC_DRAW);
+	// Bind VBO
+	glEnableVertexAttribArray(TEXCOORD_VB);
+	glVertexAttribPointer(TEXCOORD_VB, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Bind IBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDEX_VB]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_index * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
-
-	// Bind VBO
-	glEnableVertexAttribArray(POSITION_VB);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	size = num_index;
 }

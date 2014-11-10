@@ -4,19 +4,16 @@
 
 #include <memory>
 
-/*
-* Singleton Basic Shader
-*/
-class BasicShader : public Shader
+class PhongShader : public Shader
 {
 	public:
-		virtual ~BasicShader();
-		static BasicShader* GetShader();
+		virtual ~PhongShader();
+		static PhongShader* GetShader();
 		static void DestroyShader();
 		void updateUniforms(const glm::mat4& world, const glm::mat4& projection, Material& material) override;
 	private:
-		BasicShader();
-		static std::unique_ptr<BasicShader> _basic_shader;
+		PhongShader();
+		static std::unique_ptr<PhongShader> _basic_shader;
 		static bool _is_initialized;
 };
 

@@ -4,11 +4,12 @@
 #include "resource_manager.h"
 #include "timer.h"
 #include "basic_shader.h"
+#include "phong_shader.h"
 
 #include <iostream>
 
 Game::Game() :
-		mesh(Mesh()), shader(BasicShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), texture(Texture())
+		mesh(Mesh()), shader(PhongShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), material(Material(Texture(), glm::vec3(0.2, 0.5, 0.5)))
 {
 	Input::Initialize();
 
@@ -19,7 +20,9 @@ Game::Game() :
 	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), mesh);
 
 	// TEST TEXTURE
-	texture.setTexture("./res/textures/test.png");
+	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
+	texture = material.getTexture();
+	material.getTexture().setTexture("./res/textures/bricks.jpg");
 }
 
 Game::~Game()
@@ -71,7 +74,7 @@ void Game::update()
 void Game::render()
 {
 	shader->bind();
-	shader->updateUniforms(transform.getTransformation(), camera.getCameraProjection() * transform.getTransformation());
-	texture.bind();
+	shader->updateUniforms(transform.getTransformation(), camera.getCameraProjection() * transform.getTransformation(), material);
+	// material.getTexture().bind();
 	mesh.draw();
 }

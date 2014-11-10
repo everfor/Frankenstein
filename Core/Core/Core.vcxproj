@@ -76,7 +76,9 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="phong_shader.cpp" />
     <ClCompile Include="render.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="shader.cpp" />
@@ -95,7 +97,9 @@
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="phong_shader.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="shader.h" />

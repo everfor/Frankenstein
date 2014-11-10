@@ -81,6 +81,9 @@ void ResourceManager::loadMeshObj(std::string& fileName, std::vector<Vertex>& ve
 	std::string output;
 	std::string line;
 
+	// textures
+	std::vector<glm::vec2> uvs;
+
 	if (file.is_open())
 	{
 		std::vector<std::string> tokens;
@@ -105,6 +108,10 @@ void ResourceManager::loadMeshObj(std::string& fileName, std::vector<Vertex>& ve
 			{
 				vertices.push_back(Vertex(glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str()))));
 			}
+			else if (tokens[0] == "vt")
+			{
+				uvs.push_back(glm::vec2(atof(tokens[1].c_str()), atof(tokens[2].c_str())));
+			}
 			else if (tokens[0] == "f")
 			{
 				// Basic triangulation
@@ -113,11 +120,18 @@ void ResourceManager::loadMeshObj(std::string& fileName, std::vector<Vertex>& ve
 
 				// Store vertex index
 				std::vector<int> vert_indices;
+				std::vector<int> uv_indices;
 				vert_indices.reserve(total_num_indices);
+				uv_indices.reserve(total_num_indices);
 				for (int i = 1; i <= total_num_indices; i++)
 				{
 					vert_indices.push_back(atoi(tokens[i].substr(0, tokens[i].find("/")).c_str()) - 1);
 					tokens[i].erase(0, tokens[i].find("/") + 1);
+					uv_indices.push_back(atoi(tokens[i].substr(0, tokens[i].find("/")).c_str()) - 1);
+					tokens[i].erase(0, tokens[i].find("/") + 1);
+
+					// Update textures
+					vertices[vert_indices[i - 1]].setTex(glm::vec2(uvs[uv_indices[i - 1]].x, uvs[uv_indices[i - 1]].y));
 				}
 
 				while (index < total_num_indices)

@@ -21,7 +21,7 @@ BasicShader::~BasicShader()
 {
 }
 
-void BasicShader::updateUniforms(const glm::mat4& world, const glm::mat4& projection)
+void BasicShader::updateUniforms(const glm::mat4& world, const glm::mat4& projection, Material& material)
 {
 	setUniform("transform", projection);
 }
