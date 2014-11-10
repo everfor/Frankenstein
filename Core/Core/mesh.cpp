@@ -35,14 +35,14 @@ void Mesh::addVertices(Vertex *vertices, int num_vert, unsigned short *indices, 
 	glBufferData(GL_ARRAY_BUFFER, num_vert * sizeof(positions[0]), &positions[0], GL_STATIC_DRAW);
 	// Bind VBO
 	glEnableVertexAttribArray(POSITION_VB);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(POSITION_VB, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// VBO for textures
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[TEXCOORD_VB]);
 	glBufferData(GL_ARRAY_BUFFER, num_vert * sizeof(textures[0]), &textures[0], GL_STATIC_DRAW);
 	// Bind VBO
 	glEnableVertexAttribArray(TEXCOORD_VB);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(TEXCOORD_VB, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// Bind IBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDEX_VB]);

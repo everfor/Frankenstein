@@ -131,7 +131,7 @@ void ResourceManager::loadMeshObj(std::string& fileName, std::vector<Vertex>& ve
 					tokens[i].erase(0, tokens[i].find("/") + 1);
 
 					// Update textures
-					vertices[vert_indices[i - 1]].setTex(glm::vec2(uvs[uv_indices[i - 1]].x, uvs[uv_indices[i - 1]].y));
+					vertices[vert_indices[i - 1]].setTex(uvs[uv_indices[i - 1]]);
 				}
 
 				while (index < total_num_indices)

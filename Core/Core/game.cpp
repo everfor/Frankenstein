@@ -9,20 +9,20 @@
 #include <iostream>
 
 Game::Game() :
-		mesh(Mesh()), shader(PhongShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), material(Material(Texture(), glm::vec3(0.2, 0.5, 0.5)))
+		mesh(Mesh()), shader(PhongShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), material(Material(Texture(), glm::vec3(1, 1, 1)))
 {
 	Input::Initialize();
 
 	// TEST MESH
-	//Vertex vertices[] = { Vertex(glm::vec3(-1.0f, -1.0f, 0.0f)), Vertex(glm::vec3(0.0f, 1.0f, 0.0f)), Vertex(glm::vec3(1.0f, -1.0f, 0)), Vertex(glm::vec3(0.0f, -1.0f, 1.0f)) };
-	//unsigned short indices[] = { 0, 1, 3, 3, 1, 2, 3, 2, 1, 0, 2, 3 };
-	//mesh.addVertices(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), mesh);
 
 	// TEST TEXTURE
 	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
 	texture = material.getTexture();
 	material.getTexture().setTexture("./res/textures/bricks.jpg");
+
+	// Set lighting
+	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
 }
 
 Game::~Game()

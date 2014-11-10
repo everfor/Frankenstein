@@ -3,6 +3,7 @@
 
 std::unique_ptr<PhongShader> PhongShader::_basic_shader;
 bool PhongShader::_is_initialized = false;
+glm::vec3 PhongShader::_ambient_light;
 
 PhongShader::PhongShader() : Shader()
 {
@@ -15,7 +16,8 @@ PhongShader::PhongShader() : Shader()
 	compileAllShaders();
 
 	addUniform("transform");
-	addUniform("color");
+	addUniform("baseColor");
+	addUniform("ambientLight");
 }
 
 PhongShader::~PhongShader()
@@ -30,7 +32,8 @@ void PhongShader::updateUniforms(const glm::mat4& world, const glm::mat4& projec
 	}
 
 	setUniform("transform", projection);
-	setUniform("color", material.getColor());
+	setUniform("baseColor", material.getColor());
+	setUniform("ambientLight", _ambient_light);
 }
 
 PhongShader* PhongShader::GetShader()
