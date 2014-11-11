@@ -4,12 +4,14 @@
 #include "base_light.h"
 #include "directional_light.h"
 #include "point_light.h"
+#include "spot_light.h"
 
 #include <memory>
 #include <vector>
 #include <glm/glm.hpp>
 
 #define MAX_POINT_LIGHTS		4
+#define MAX_SPOT_LIGHTS			4
 
 class PhongShader : public Shader
 {
@@ -24,9 +26,13 @@ class PhongShader : public Shader
 		static std::vector<PointLight>& getPointLights() { return _point_lights; };
 		static void setPointLights(std::vector<PointLight> new_points) { _point_lights = new_points; };
 		static void addPointLight(PointLight& new_point) { _point_lights.push_back(new_point); };
+		static std::vector<SpotLight>& getSpotLights() { return _spot_lights; };
+		static void setSpotLights(std::vector<SpotLight> new_spots) { _spot_lights = new_spots; };
+		static void addSpotLight(SpotLight& new_spot) { _spot_lights.push_back(new_spot); };
 		void setLightUniform(const std::string& uniform, BaseLight& baseLight);
 		void setLightUniform(const std::string& uniform, DirectionalLight& directionalLight);
 		void setLightUniform(const std::string& uniform, PointLight& pointLight);
+		void setLightUniform(const std::string& uniform, SpotLight& spotLight);
 		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
 	private:
 		PhongShader();
@@ -35,5 +41,6 @@ class PhongShader : public Shader
 		static glm::vec3 _ambient_light;
 		static DirectionalLight _directional_light;
 		static std::vector<PointLight> _point_lights;
+		static std::vector<SpotLight> _spot_lights;
 };
 

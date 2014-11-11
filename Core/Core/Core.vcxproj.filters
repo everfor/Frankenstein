@@ -93,6 +93,9 @@
     <ClCompile Include="material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="spot_light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="point_light.h">
       <Filter>Header Files\Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="spot_light.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
