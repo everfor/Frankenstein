@@ -21,9 +21,9 @@ BasicShader::~BasicShader()
 {
 }
 
-void BasicShader::updateUniforms(const glm::mat4& world, const glm::mat4& projection, Material& material)
+void BasicShader::updateUniforms(Transform& transform, Camera& camera, Material& material)
 {
-	setUniform("transform", projection);
+	setUniform("transform", camera.getCameraProjection() * transform.getTransformation());
 }
 
 BasicShader* BasicShader::GetShader()

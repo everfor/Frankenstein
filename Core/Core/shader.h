@@ -1,6 +1,8 @@
 #pragma once
 
 #include "material.h"
+#include "transform.h"
+#include "camera.h"
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -22,7 +24,7 @@ class Shader
 		void setUniformf(const std::string& uniform, const GLfloat value);
 		void setUniform(const std::string& uniform, const glm::vec3& value);
 		void setUniform(const std::string& uniform, const glm::mat4& value);
-		virtual void updateUniforms(const glm::mat4& world, const glm::mat4& projection, Material& material);
+		virtual void updateUniforms(Transform& transform, Camera& camera, Material& material);
 		void bind();
 	protected:
 		Shader();

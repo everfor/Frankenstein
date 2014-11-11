@@ -19,7 +19,7 @@ class PhongShader : public Shader
 		static void setDirectionalLight(const DirectionalLight& new_dir_light) { _directional_light = new_dir_light; };
 		void setLightUniform(const std::string& uniform, BaseLight& baseLight);
 		void setLightUniform(const std::string& uniform, DirectionalLight& directionalLight);
-		void updateUniforms(const glm::mat4& world, const glm::mat4& projection, Material& material) override;
+		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
 	private:
 		PhongShader();
 		static std::unique_ptr<PhongShader> _basic_shader;

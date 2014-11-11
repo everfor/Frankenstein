@@ -19,7 +19,10 @@ PhongShader::PhongShader() : Shader()
 	addUniform("transform");
 	addUniform("projection");
 	addUniform("baseColor");
+	addUniform("eyePos");
 	addUniform("ambientLight");
+	addUniform("specularIntensity");
+	addUniform("specularExponent");
 	addUniform("directionalLight.base.color");
 	addUniform("directionalLight.base.intensity");
 	addUniform("directionalLight.direction");
@@ -29,18 +32,25 @@ PhongShader::~PhongShader()
 {
 }
 
-void PhongShader::updateUniforms(const glm::mat4& world, const glm::mat4& projection, Material& material)
+void PhongShader::updateUniforms(Transform& transform, Camera& camera, Material& material)
 {
 	if (material.haveTexture())
 	{
 		material.getTexture().bind();
 	}
 
-	setUniform("transform", world);
-	setUniform("projection", projection);
+	setUniform("transform", transform.getTransformation());
+	setUniform("projection", camera.getCameraProjection() * transform.getTransformation());
 	setUniform("baseColor", material.getColor());
+
+	// Lighting
 	setUniform("ambientLight", _ambient_light);
 	setLightUniform("directionalLight", _directional_light);
+
+	// Specular Reflection
+	setUniform("eyePos", camera.getPos());
+	setUniformf("specularIntensity", material.getSpecularIntensity());
+	setUniformf("specularExponent", material.getSpecularExponent());
 }
 
 PhongShader* PhongShader::GetShader()

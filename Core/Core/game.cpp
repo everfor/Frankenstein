@@ -22,11 +22,13 @@ Game::Game() :
 	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
 	texture = material.getTexture();
 	material.getTexture().setTexture("./res/textures/shaft.jpg");
+	material.setSpecularIntensity(3);
+	material.setSpecularExponent(16);
 
 	// Set lighting
 	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
 	// Lighting on x direction is reversed
-	PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.8f), glm::vec3(1, 1, 0)));
+	PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.9f), glm::vec3(1, 1, 0)));
 }
 
 Game::~Game()
@@ -78,7 +80,7 @@ void Game::update()
 void Game::render()
 {
 	shader->bind();
-	shader->updateUniforms(transform.getTransformation(), camera.getCameraProjection() * transform.getTransformation(), material);
+	shader->updateUniforms(transform, camera, material);
 	// material.getTexture().bind();
 	mesh.draw();
 }
