@@ -3,10 +3,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+// Z is positive pointing out of the screen!!!
+
 class Camera
 {
 	public:
-		Camera(float init_fov, float init_asp, float init_znear, float init_zfar, glm::vec3& init_pos = glm::vec3(0, 0, -2), glm::quat& init_orient = glm::quat(1, 0, 0, 0));
+		Camera(float init_fov, float init_asp, float init_znear, float init_zfar, glm::vec3& init_pos = glm::vec3(0, 0, 2), glm::quat& init_orient = glm::quat(1, 0, 0, 0));
 		virtual ~Camera();
 		// Position
 		glm::vec3& getPos() { return position; };

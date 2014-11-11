@@ -7,6 +7,7 @@
 #include "phong_shader.h"
 #include "directional_light.h"
 #include "base_light.h"
+#include "point_light.h"
 
 #include <iostream>
 
@@ -23,12 +24,15 @@ Game::Game() :
 	texture = material.getTexture();
 	material.getTexture().setTexture("./res/textures/shaft.jpg");
 	material.setSpecularIntensity(3);
-	material.setSpecularExponent(16);
+	material.setSpecularExponent(64);
 
 	// Set lighting
 	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
-	// Lighting on x direction is reversed
-	PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.9f), glm::vec3(1, 1, 0)));
+	// Directional Light
+	PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.9f), glm::vec3(1, -0.5, 0.3)));
+	// Point Light
+	PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(1, 0, 0), 0.8f), glm::vec3(-2, 0, 1), 0, 0, 1));
+	PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.8f), glm::vec3(2, 0, 1), 0, 0, 1));
 }
 
 Game::~Game()

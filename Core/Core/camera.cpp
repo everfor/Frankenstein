@@ -5,7 +5,7 @@
 const glm::vec3 Camera::_X_AXIS = glm::vec3(1, 0, 0);
 const glm::vec3 Camera::_Y_AXIS = glm::vec3(0, 1, 0);
 const glm::vec3 Camera::_Z_AXIS = glm::vec3(0, 0, 1);
-const glm::vec3 Camera::_FORWARD_DIR = glm::vec3(0, 0, 1);
+const glm::vec3 Camera::_FORWARD_DIR = glm::vec3(0, 0, -1);
 const glm::vec3 Camera::_UP_DIR = glm::vec3(0, 1, 0);
 
 Camera::Camera(float init_fov, float init_asp, float init_znear, float init_zfar, glm::vec3& init_pos, glm::quat& init_orient) :

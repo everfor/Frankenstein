@@ -158,5 +158,8 @@
     <ClInclude Include="directional_light.h">
       <Filter>Header Files\Rendering\Lighting</Filter>
     </ClInclude>
+    <ClInclude Include="point_light.h">
+      <Filter>Header Files\Rendering\Lighting</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
