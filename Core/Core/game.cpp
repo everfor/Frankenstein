@@ -23,8 +23,8 @@ Game::Game() :
 	// TEST TEXTURE
 	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
 	texture = material.getTexture();
-	material.getTexture().setTexture("./res/textures/shaft.jpg");
-	material.setSpecularIntensity(3);
+	material.getTexture().setTexture("./res/textures/wood.png");
+	material.setSpecularIntensity(0.13);
 	material.setSpecularExponent(64);
 
 	// Set lighting
@@ -35,7 +35,7 @@ Game::Game() :
 	PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(1, 0, 0), 0.8f), glm::vec3(-1.5, 0, 1), 0, 0, 1, 10));
 	PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.8f), glm::vec3(1.5, 0, 1), 0, 0, 1, 10));
 	// Spot Light
-	PhongShader::addSpotLight(SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.8f), glm::vec3(0, 2, 0), 0, 0, 0.5, 10), glm::vec3(0, -1, 0), 0.8));
+	PhongShader::addSpotLight(SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.8f), glm::vec3(0, 3, 0), 0, 0, 0.5, 10), glm::vec3(0, -1, 0), 0.8));
 }
 
 Game::~Game()
