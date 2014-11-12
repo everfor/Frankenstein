@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <SDL/SDL.h>
 #include <string>
+#include <memory>
 
 #include "display.h"
 #include "game.h"
@@ -15,6 +16,7 @@ class Core
 	public:
 		Core(int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT, std::string& title = std::string(DEFAULT_TITLE), int frame_rate = FRAME_CAP);
 		virtual ~Core();
+		void setGame(Game *new_game);
 		void start();
 		void stop();
 	private:
@@ -23,6 +25,6 @@ class Core
 		Display window;
 		bool is_running;
 		unsigned int frame_rate;
-		Game game;
+		std::unique_ptr<Game> game;
 };
 

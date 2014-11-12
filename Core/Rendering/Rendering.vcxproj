@@ -10,13 +10,41 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="basic_shader.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="display.cpp" />
+    <ClCompile Include="material.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="phong_shader.cpp" />
+    <ClCompile Include="render.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="vertex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="base_light.h" />
+    <ClInclude Include="basic_shader.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="directional_light.h" />
+    <ClInclude Include="display.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="mesh.h" />
+    <ClInclude Include="phong_shader.h" />
+    <ClInclude Include="point_light.h" />
+    <ClInclude Include="render.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="spot_light.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="vertex.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{72AC07EA-1C68-49E4-B9CE-35978CA7AA23}</ProjectGuid>
-    <RootNamespace>Core</RootNamespace>
+    <ProjectGuid>{13D1D2E1-577C-4EA7-99C2-641344C1B7DB}</ProjectGuid>
+    <RootNamespace>Rendering</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -44,14 +72,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Rendering;..\include;..\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Core;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -68,33 +93,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="core.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="resource_manager.cpp" />
-    <ClCompile Include="stb_image.c" />
-    <ClCompile Include="timer.cpp" />
-    <ClCompile Include="transform.cpp" />
-    <ClCompile Include="utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="core.h" />
-    <ClInclude Include="exceptions.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="resource_manager.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="transform.h" />
-    <ClInclude Include="utils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Rendering\Rendering.vcxproj">
-      <Project>{13d1d2e1-577c-4ea7-99c2-641344c1b7db}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

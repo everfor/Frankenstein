@@ -13,26 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Rendering">
-      <UniqueIdentifier>{517fb6e6-a428-48e7-a7cf-a3fa1b09e0c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Rendering">
-      <UniqueIdentifier>{5769ad4b-36cd-42ca-8c23-5e6b59fe2a12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{7971e5ce-63c9-45ce-aee1-6f89bfe5bf92}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{00d4f0a6-049b-4d40-bd2e-9751c80f2525}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Demo">
-      <UniqueIdentifier>{5e56dbc3-9038-408c-bd49-5438acd488e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Demo">
-      <UniqueIdentifier>{467d8b91-33bd-4103-81da-da9225403981}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Rendering\Lighting">
-      <UniqueIdentifier>{94e793f0-ef7d-405d-bfe0-757d4baa7527}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,21 +26,6 @@
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="display.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="render.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="resource_manager.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -66,34 +36,16 @@
     <ClCompile Include="transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.c">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="game.cpp">
-      <Filter>Source Files\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="basic_shader.cpp">
-      <Filter>Source Files\Demo</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="phong_shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="spot_light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -103,21 +55,6 @@
     </ClInclude>
     <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="display.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="render.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="resource_manager.h">
       <Filter>Header Files\Utils</Filter>
@@ -131,40 +68,13 @@
     <ClInclude Include="transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>Header Files\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="basic_shader.h">
-      <Filter>Header Files\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="phong_shader.h">
-      <Filter>Header Files\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="base_light.h">
-      <Filter>Header Files\Rendering\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="directional_light.h">
-      <Filter>Header Files\Rendering\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="point_light.h">
-      <Filter>Header Files\Rendering\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="spot_light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

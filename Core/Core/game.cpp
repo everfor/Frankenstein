@@ -23,9 +23,9 @@ Game::Game() :
 	// TEST TEXTURE
 	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
 	texture = material.getTexture();
-	material.getTexture().setTexture("./res/textures/wood.png");
-	material.setSpecularIntensity(0.13);
-	material.setSpecularExponent(64);
+	material.getTexture().setTexture("./res/textures/metal.png");
+	material.setSpecularIntensity(0.8);
+	material.setSpecularExponent(4);
 
 	// Set lighting
 	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));

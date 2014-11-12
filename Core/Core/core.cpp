@@ -12,13 +12,18 @@
 #include <iostream>
 
 Core::Core(int width, int height, std::string& title, int init_frame_rate) :
-			window(Display(width, height, title)), is_running(false), frame_rate(init_frame_rate), game(Game())
+		window(Display(width, height, title)), is_running(false), frame_rate(init_frame_rate)
 {
 	Render::InitGraphics();
 }
 
 Core::~Core()
 {
+}
+
+void Core::setGame(Game *new_game)
+{
+	game.reset(new_game);
 }
 
 void Core::start()
@@ -66,8 +71,8 @@ void Core::run()
 			}
 
 			// TODO: Update the game
-			game.input();
-			game.update();
+			game.get()->input();
+			game.get()->update();
 
 			if (frame_counter >= MILLISEC_IN_SEC)
 			{
@@ -103,6 +108,6 @@ void Core::stop()
 void Core::render()
 {
 	Render::ClearScreen();
-	game.render();
+	game.get()->render();
 	this->window.update();
 }

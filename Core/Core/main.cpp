@@ -10,7 +10,9 @@
 int main(int argc, char *argv[])
 {
 	Core core;
+	Game game;
 
+	core.setGame(&game);
 	core.start();
 	
 	return 0;
