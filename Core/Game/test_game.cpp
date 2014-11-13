@@ -72,8 +72,6 @@ static float cos_var = 0.0f;
 
 void TestGame::update()
 {
-	Input::Update();
-
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += Timer::getDelta() / 1000.0;

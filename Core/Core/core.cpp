@@ -1,6 +1,7 @@
 #include "core.h"
 #include "timer.h"
 #include "render.h"
+#include "input.h"
 
 // Platform dependent include for sleep function
 #ifdef _WIN32
@@ -70,7 +71,9 @@ void Core::run()
 				break;
 			}
 
-			// TODO: Update the game
+			// Update inputs
+			Input::Update();
+			// Update the game
 			game.get()->input();
 			game.get()->update();
 
