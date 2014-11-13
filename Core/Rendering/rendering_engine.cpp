@@ -1,9 +1,10 @@
 #include "rendering_engine.h"
 #include "forward_ambientshader.h"
 #include "forward_directionalshader.h"
+#include "forward_pointshader.h"
 
-RenderingEngine::RenderingEngine(Camera& init_camera, glm::vec3& init_ambient, DirectionalLight& init_dir) :
-					mainCamera(init_camera), ambientLight(init_ambient), directionalLight(init_dir)
+RenderingEngine::RenderingEngine(Camera& init_camera) :
+					mainCamera(init_camera)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -29,14 +30,15 @@ void RenderingEngine::clearScreen()
 void RenderingEngine::render(Object& object)
 {
 	clearScreen();
-	object.render(ForwardAmbientShader::GetShader(ambientLight), &getMainCamera());
+	object.render(ForwardAmbientShader::GetShader(glm::vec3(0.2, 0.2, 0.2)), &getMainCamera());
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 	glDepthMask(GL_FALSE);
 	glDepthFunc(GL_EQUAL);
 
-	object.render(ForwardDirectionalShader::GetShader(directionalLight), &getMainCamera());
+	object.render(ForwardDirectionalShader::GetShader(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.8f), glm::vec3(1, -1, 0))), &getMainCamera());
+	object.render(ForwardPointShader::GetShader(PointLight(BaseLight(glm::vec3(0, 1, 0), 0.5f), glm::vec3(-1, 1, 1), 0, 0, 1)), &getMainCamera());
 
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);

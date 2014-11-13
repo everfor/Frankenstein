@@ -14,7 +14,7 @@ class ForwardDirectionalShader : public Shader
 		DirectionalLight& getLight() { return directionalLight; };
 		void setLight(DirectionalLight& new_light) { directionalLight = new_light; };
 		// Singleton
-		static ForwardDirectionalShader* GetShader(DirectionalLight& light = DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.8f), glm::vec3(1, -1, 0)));
+		static ForwardDirectionalShader* GetShader(DirectionalLight& light = DirectionalLight());
 	private:
 		ForwardDirectionalShader();
 		void setLightUniform(const std::string& uniform, BaseLight& base);

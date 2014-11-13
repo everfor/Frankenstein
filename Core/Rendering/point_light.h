@@ -7,7 +7,7 @@
 class PointLight : public BaseLight
 {
 	public:
-		PointLight(BaseLight& init_base, glm::vec3& init_pos, float init_constant = 0.0f, float init_linear = 0.0f, float init_exp = 0.0f, float init_range = 10.0f) :
+		PointLight(BaseLight& init_base = BaseLight(), glm::vec3& init_pos = glm::vec3(), float init_constant = 0.0f, float init_linear = 0.0f, float init_exp = 0.0f, float init_range = 10.0f) :
 			BaseLight(init_base), position(init_pos), constant(init_constant), linear(init_linear), exponent(init_exp), range(init_range) {};
 		virtual ~PointLight() {};
 		glm::vec3& getPos() { return position; };
