@@ -9,25 +9,28 @@
 #include "base_light.h"
 #include "point_light.h"
 #include "spot_light.h"
+#include "mesh_renderer.h"
 
 #include <iostream>
 #include <glm\glm.hpp>
 
 TestGame::TestGame() :
-		mesh(Mesh()), shader(PhongShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), material(Material(Texture(), glm::vec3(1, 1, 1)))
+		camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), root(Object())
 {
 	Input::Initialize();
 
-	// TEST MESH
-	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), mesh);
+	// TEST
+	Material *material = new Material(Texture(), glm::vec3(1, 1, 1));
+	Mesh *mesh = new Mesh();
 
-	// TEST TEXTURE
-	// Somehow opengl refuses to render texture if I dont get a reference for the texture object
-	texture = material.getTexture();
-	material.getTexture().setTexture("./res/textures/metal.png");
-	material.setSpecularIntensity(0.8);
-	material.setSpecularExponent(4);
+	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), *mesh);
+	material->getTexture().setTexture("./res/textures/metal.png");
+	material->setSpecularIntensity(0.8);
+	material->setSpecularExponent(4);
 
+	root.addComponent(new MeshRenderer(mesh, material));
+
+	// Lighting will be massively refactored
 	// Set lighting
 	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
 	// Directional Light
@@ -47,6 +50,7 @@ TestGame::~TestGame()
 static float move_amt = 0.05;
 void TestGame::input()
 {
+	root.input();
 	if (Input::GetKeyDown(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse down!" << std::endl;
@@ -72,6 +76,7 @@ static float cos_var = 0.0f;
 
 void TestGame::update()
 {
+	root.update();
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += Timer::getDelta() / 1000.0;
@@ -80,7 +85,7 @@ void TestGame::update()
 
 	// TEST TRANSFORMATION
 	// transform.setTranslation(sin_var, 0, 0);
-	transform.setRotation(0, sin_var * 180, 0);
+	root.getTransform().setRotation(0, sin_var * 180, 0);
 	// transform.setScale(0.5, 0.5, 0.5);
 
 	PhongShader::getPointLights()[0].setPos(glm::vec3(-1.5, 3 * sin_var, 1));
@@ -89,8 +94,5 @@ void TestGame::update()
 
 void TestGame::render()
 {
-	shader->bind();
-	shader->updateUniforms(transform, camera, material);
-	// material.getTexture().bind();
-	mesh.draw();
+	root.render(camera);
 }

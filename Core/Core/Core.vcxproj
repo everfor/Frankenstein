@@ -71,6 +71,8 @@
   <ItemGroup>
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="mesh_renderer.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="timer.cpp" />
@@ -78,10 +80,13 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="component.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="mesh_renderer.h" />
+    <ClInclude Include="object.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="timer.h" />

@@ -7,21 +7,18 @@
 #include "texture.h"
 #include "material.h"
 #include "game.h"
+#include "object.h"
 
 class TestGame : public Game
 {
-public:
-	TestGame();
-	virtual ~TestGame();
-	void input() override;
-	void update() override;
-	void render() override;
-private:
-	Mesh mesh;
-	Shader* shader;
-	Transform transform;
-	Camera camera;
-	Material material;
-	Texture texture;
+	public:
+		TestGame();
+		virtual ~TestGame();
+		void input() override;
+		void update() override;
+		void render() override;
+	private:
+		Camera camera;
+		Object root;
 };
 
