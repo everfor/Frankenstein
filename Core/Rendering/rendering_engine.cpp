@@ -39,6 +39,7 @@ void RenderingEngine::render(Object& object)
 
 	object.render(ForwardDirectionalShader::GetShader(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.8f), glm::vec3(1, -1, 0))), &getMainCamera());
 	object.render(ForwardPointShader::GetShader(PointLight(BaseLight(glm::vec3(0, 1, 0), 0.5f), glm::vec3(-1, 1, 1), 0, 0, 1)), &getMainCamera());
+	object.render(ForwardPointShader::GetShader(PointLight(BaseLight(glm::vec3(1, 0, 0), 0.5f), glm::vec3(1, 1, 1), 0, 0, 1)), &getMainCamera());
 
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
