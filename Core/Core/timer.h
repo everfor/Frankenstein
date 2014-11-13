@@ -11,10 +11,6 @@ class Timer
 	public:
 		Timer();
 		virtual ~Timer();
-		static long getCurrentTime();
-		static long getDelta();
-	private:
-		static long last;
-		static long current;
+		static double getCurrentTime();
 };
 

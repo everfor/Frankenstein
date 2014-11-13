@@ -8,8 +8,8 @@ class Component
 	public:
 		Component() {};
 		virtual ~Component() {};
-		virtual void input(Transform& transform) {};
-		virtual void update(Transform& transform) {};
+		virtual void input(Transform& transform, float delta) {};
+		virtual void update(Transform& transform, float delta) {};
 		virtual void render(Shader *shader, Transform *transform, Camera *camera) {};
 };
 

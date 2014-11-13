@@ -19,29 +19,29 @@ void Object::addComponent(Component *component)
 	components.push_back(std::unique_ptr<Component>(component));
 }
 
-void Object::input()
+void Object::input(float delta)
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->input(transform);
+		components[i].get()->input(transform, delta);
 	}
 
 	for (int i = 0; i < children.size(); i++)
 	{
-		children[i].get()->input();
+		children[i].get()->input(delta);
 	}
 }
 
-void Object::update()
+void Object::update(float delta)
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->update(transform);
+		components[i].get()->update(transform, delta);
 	}
 
 	for (int i = 0; i < children.size(); i++)
 	{
-		children[i].get()->update();
+		children[i].get()->update(delta);
 	}
 }
 

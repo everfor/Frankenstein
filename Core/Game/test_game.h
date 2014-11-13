@@ -14,7 +14,7 @@ class TestGame : public Game
 	public:
 		TestGame();
 		virtual ~TestGame();
-		void input() override;
-		void update() override;
+		void input(float delta) override;
+		void update(float delta) override;
 };
 

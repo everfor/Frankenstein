@@ -15,8 +15,8 @@ class Object
 		virtual ~Object();
 		void addChild(Object *child);
 		void addComponent(Component *component);
-		void input();
-		void update();
+		void input(float delta);
+		void update(float delta);
 		void render(Shader *shader, Camera *camera);
 		Transform& getTransform() { return transform; };
 	private:

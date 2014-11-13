@@ -8,6 +8,7 @@
 #include "display.h"
 #include "game.h"
 #include "rendering_engine.h"
+#include "camera.h"
 
 #define FRAME_CAP			1000
 #define MIN_SLEEP_TIME		1
@@ -15,7 +16,8 @@
 class CoreEngine
 {
 	public:
-		CoreEngine(int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT, std::string& title = std::string(DEFAULT_TITLE), int frame_rate = FRAME_CAP);
+		CoreEngine(int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT, std::string& title = std::string(DEFAULT_TITLE), int frame_rate = FRAME_CAP,
+					float camera_fov = 80.0f, float camera_z_near = 0.1f, float camera_z_far = 1000.0f, glm::vec3& camera_pos = glm::vec3(0, 0, 2));
 		virtual ~CoreEngine();
 		void setGame(Game *new_game);
 		void start();
@@ -23,7 +25,7 @@ class CoreEngine
 	private:
 		void run();
 		void render();
-		Display window;
+		Display *window;
 		bool is_running;
 		unsigned int frame_rate;
 		RenderingEngine renderingEngine;

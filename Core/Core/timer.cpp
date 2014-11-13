@@ -3,10 +3,6 @@
 #ifdef _WIN32
 #include <Windows.h>
 #endif
-
-long Timer::last = 0;
-long Timer::current = 0;
-
 Timer::Timer()
 {
 }
@@ -15,22 +11,14 @@ Timer::~Timer()
 {
 }
 
-// Get current time in milliseconds
-long Timer::getCurrentTime()
+// Get current time in seconds
+double Timer::getCurrentTime()
 {
 #ifdef _WIN32
 	SYSTEMTIME time;
 	GetSystemTime(&time);
-	return time.wSecond * 1000 + time.wMilliseconds;
+	return (time.wSecond * 1000 + time.wMilliseconds) / (double)MILLISEC_IN_SEC;
 #else
 	return 0;
 #endif
-}
-
-long Timer::getDelta()
-{
-	last = current;
-	current = getCurrentTime();
-
-	return current - last;
 }

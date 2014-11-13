@@ -29,9 +29,10 @@ TestGame::TestGame() :
 	material->setSpecularExponent(4);
 
 	// Object
-	Object *monkey = new Object();
-	monkey->addComponent(new MeshRenderer(mesh, material));
-	getRoot().addChild(monkey);
+	//Object *monkey = new Object();
+	//monkey->addComponent(new MeshRenderer(mesh, material));
+	//getRoot().addChild(monkey);
+	getRoot().addComponent(new MeshRenderer(mesh, material));
 
 	// Lighting will be massively refactored
 	// Set lighting
@@ -50,10 +51,9 @@ TestGame::~TestGame()
 	BasicShader::DestroyShader();
 }
 
-static float move_amt = 0.05;
-void TestGame::input()
+void TestGame::input(float delta)
 {
-	getRoot().input();
+	getRoot().input(delta);
 	if (Input::GetKeyDown(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse down!" << std::endl;
@@ -69,12 +69,12 @@ void TestGame::input()
 static float sin_var = 0.0f;
 static float cos_var = 0.0f;
 
-void TestGame::update()
+void TestGame::update(float delta)
 {
-	getRoot().update();
+	getRoot().update(delta);
 	// TEST uniform
 	static float temp = 0.0f;
-	temp += Timer::getDelta() / 1000.0;
+	temp += delta;
 	sin_var = sinf(temp);
 	cos_var = cosf(temp);
 

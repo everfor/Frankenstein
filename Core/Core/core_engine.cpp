@@ -11,8 +11,9 @@
 
 #include <iostream>
 
-CoreEngine::CoreEngine(int width, int height, std::string& title, int init_frame_rate) :
-				window(Display(width, height, title)), is_running(false), frame_rate(init_frame_rate), renderingEngine(RenderingEngine())
+CoreEngine::CoreEngine(int width, int height, std::string& title, int init_frame_rate, float camera_fov, float camera_z_near, float camera_z_far, glm::vec3& camera_pos) :
+			window(Display::GetDisplay(width, height, title)), is_running(false), frame_rate(init_frame_rate), 
+			renderingEngine(RenderingEngine(Camera(camera_fov, (float)width / (float)height, camera_z_near, camera_z_far, camera_pos)))
 {
 }
 
@@ -46,15 +47,15 @@ void CoreEngine::run()
 	const double frame_time = 1.0 / (double)frame_rate;
 
 	bool if_render = false;
-	long last_time = Timer::getCurrentTime();
-	long start_time = 0;
+	double last_time = Timer::getCurrentTime();
+	double start_time = 0;
 	double unprocessed_time = 0.0;
 
 	while (is_running)
 	{
 		if_render = false;
 		start_time = Timer::getCurrentTime();
-		unprocessed_time += (start_time - last_time) / (double)MILLISEC_IN_SEC;
+		unprocessed_time += (start_time - last_time);
 		frame_counter += start_time - last_time;
 		last_time = start_time;
 
@@ -63,7 +64,7 @@ void CoreEngine::run()
 			if_render = true;
 			unprocessed_time -= frame_time;
 
-			if (window.closed())
+			if (window->closed())
 			{
 				stop();
 				break;
@@ -72,10 +73,10 @@ void CoreEngine::run()
 			// Update inputs
 			Input::Update();
 			// Update the game
-			game.get()->input();
-			game.get()->update();
+			game.get()->input(frame_time);
+			game.get()->update(frame_time);
 
-			if (frame_counter >= MILLISEC_IN_SEC)
+			if (frame_counter >= 1.0)
 			{
 				frames = 0;
 				frame_counter = 0;
@@ -110,5 +111,5 @@ void CoreEngine::render()
 {
 	renderingEngine.clearScreen();
 	renderingEngine.render(game->getRoot());
-	window.update();
+	window->update();
 }
