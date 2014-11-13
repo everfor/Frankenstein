@@ -1,8 +1,8 @@
 #include "rendering_engine.h"
-#include "phong_shader.h"
+#include "forward_ambientshader.h"
 
-RenderingEngine::RenderingEngine(Camera& init_camera) :
-					mainCamera(init_camera)
+RenderingEngine::RenderingEngine(Camera& init_camera, glm::vec3& init_ambient) :
+					mainCamera(init_camera), ambientLight(init_ambient)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -27,5 +27,6 @@ void RenderingEngine::clearScreen()
 
 void RenderingEngine::render(Object& object)
 {
-	object.render(PhongShader::GetShader(), &getMainCamera());
+	clearScreen();
+	object.render(ForwardAmbientShader::GetShader(ambientLight), &getMainCamera());
 }

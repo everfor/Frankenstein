@@ -26,6 +26,8 @@ class Shader
 		void setUniform(const std::string& uniform, const glm::mat4& value);
 		virtual void updateUniforms(Transform& transform, Camera& camera, Material& material);
 		void bind();
+		// Singleton
+		static Shader* GetShader() { return NULL; };
 	protected:
 		Shader();
 	private:

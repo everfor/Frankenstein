@@ -109,7 +109,6 @@ void CoreEngine::stop()
 
 void CoreEngine::render()
 {
-	renderingEngine.clearScreen();
 	renderingEngine.render(game->getRoot());
 	window->update();
 }

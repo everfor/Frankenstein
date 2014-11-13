@@ -36,14 +36,14 @@ TestGame::TestGame() :
 
 	// Lighting will be massively refactored
 	// Set lighting
-	PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
-	// Directional Light
-	PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f), glm::vec3(1, -0.8, -0.3)));
-	// Point Light
-	PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(1, 0, 0), 0.8f), glm::vec3(-1.5, 0, 1), 0, 0, 1, 10));
-	PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.8f), glm::vec3(1.5, 0, 1), 0, 0, 1, 10));
-	// Spot Light
-	PhongShader::addSpotLight(SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.8f), glm::vec3(0, 3, 0), 0, 0, 0.5, 10), glm::vec3(0, -1, 0), 0.8));
+	//PhongShader::setAmbientLight(glm::vec3(0.1, 0.1, 0.1));
+	//// Directional Light
+	//PhongShader::setDirectionalLight(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f), glm::vec3(1, -0.8, -0.3)));
+	//// Point Light
+	//PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(1, 0, 0), 0.8f), glm::vec3(-1.5, 0, 1), 0, 0, 1, 10));
+	//PhongShader::addPointLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.8f), glm::vec3(1.5, 0, 1), 0, 0, 1, 10));
+	//// Spot Light
+	//PhongShader::addSpotLight(SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.8f), glm::vec3(0, 3, 0), 0, 0, 0.5, 10), glm::vec3(0, -1, 0), 0.8));
 }
 
 TestGame::~TestGame()
@@ -83,6 +83,6 @@ void TestGame::update(float delta)
 	getRoot().getTransform().setRotation(0, sin_var * 180, 0);
 	// transform.setScale(0.5, 0.5, 0.5);
 
-	PhongShader::getPointLights()[0].setPos(glm::vec3(-1.5, 3 * sin_var, 1));
-	PhongShader::getPointLights()[1].setPos(glm::vec3(1.5, 3 * cos_var, 1));
+	//PhongShader::getPointLights()[0].setPos(glm::vec3(-1.5, 3 * sin_var, 1));
+	//PhongShader::getPointLights()[1].setPos(glm::vec3(1.5, 3 * cos_var, 1));
 }
