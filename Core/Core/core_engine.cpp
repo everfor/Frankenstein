@@ -1,6 +1,5 @@
-#include "core.h"
+#include "core_engine.h"
 #include "timer.h"
-#include "render.h"
 #include "input.h"
 
 // Platform dependent include for sleep function
@@ -12,22 +11,21 @@
 
 #include <iostream>
 
-Core::Core(int width, int height, std::string& title, int init_frame_rate) :
-		window(Display(width, height, title)), is_running(false), frame_rate(init_frame_rate)
-{
-	Render::InitGraphics();
-}
-
-Core::~Core()
+CoreEngine::CoreEngine(int width, int height, std::string& title, int init_frame_rate) :
+				window(Display(width, height, title)), is_running(false), frame_rate(init_frame_rate), renderingEngine(RenderingEngine())
 {
 }
 
-void Core::setGame(Game *new_game)
+CoreEngine::~CoreEngine()
+{
+}
+
+void CoreEngine::setGame(Game *new_game)
 {
 	game.reset(new_game);
 }
 
-void Core::start()
+void CoreEngine::start()
 {
 	if (is_running)
 	{
@@ -37,7 +35,7 @@ void Core::start()
 	run();
 }
 
-void Core::run()
+void CoreEngine::run()
 {
 	// For counting frames
 	int frames = 0;
@@ -98,7 +96,7 @@ void Core::run()
 	}
 }
 
-void Core::stop()
+void CoreEngine::stop()
 {
 	if (!is_running)
 	{
@@ -108,9 +106,9 @@ void Core::stop()
 	is_running = false;
 }
 
-void Core::render()
+void CoreEngine::render()
 {
-	Render::ClearScreen();
-	game.get()->render();
-	this->window.update();
+	renderingEngine.clearScreen();
+	renderingEngine.render(game->getRoot());
+	window.update();
 }

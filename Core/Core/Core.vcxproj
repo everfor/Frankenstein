@@ -69,7 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="core.cpp" />
+    <ClCompile Include="core_engine.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="mesh_renderer.cpp" />
     <ClCompile Include="object.cpp" />
@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component.h" />
-    <ClInclude Include="core.h" />
+    <ClInclude Include="core_engine.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />

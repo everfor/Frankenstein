@@ -7,15 +7,16 @@
 
 #include "display.h"
 #include "game.h"
+#include "rendering_engine.h"
 
 #define FRAME_CAP			1000
 #define MIN_SLEEP_TIME		1
 
-class Core
+class CoreEngine
 {
 	public:
-		Core(int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT, std::string& title = std::string(DEFAULT_TITLE), int frame_rate = FRAME_CAP);
-		virtual ~Core();
+		CoreEngine(int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT, std::string& title = std::string(DEFAULT_TITLE), int frame_rate = FRAME_CAP);
+		virtual ~CoreEngine();
 		void setGame(Game *new_game);
 		void start();
 		void stop();
@@ -25,6 +26,7 @@ class Core
 		Display window;
 		bool is_running;
 		unsigned int frame_rate;
+		RenderingEngine renderingEngine;
 		std::unique_ptr<Game> game;
 };
 

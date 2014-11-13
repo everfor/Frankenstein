@@ -3,6 +3,7 @@
 #include "component.h"
 #include "transform.h"
 #include "camera.h"
+#include "shader.h"
 
 #include <memory>
 #include <vector>
@@ -16,7 +17,7 @@ class Object
 		void addComponent(Component *component);
 		void input();
 		void update();
-		void render(Camera& camera);
+		void render(Shader *shader, Camera *camera);
 		Transform& getTransform() { return transform; };
 	private:
 		Transform transform;

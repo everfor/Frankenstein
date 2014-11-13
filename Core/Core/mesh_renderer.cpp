@@ -10,10 +10,9 @@ MeshRenderer::~MeshRenderer()
 {
 }
 
-void MeshRenderer::render(Transform& transform, Camera& camera)
+void MeshRenderer::render(Shader *shader, Transform *transform, Camera *camera)
 {
-	Shader *shader = PhongShader::GetShader();
 	shader->bind();
-	shader->updateUniforms(transform, camera, *(material.get()));
+	shader->updateUniforms(*transform, *camera, *(material.get()));
 	mesh.get()->draw();
 }

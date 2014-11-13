@@ -1,12 +1,16 @@
 #pragma once
 
+#include "object.h"
+
 class Game
 {
 	public:
-		Game() {};
+		Game() : root(Object()) {};
 		virtual ~Game() {};
-		virtual void input() {};
-		virtual void update() {};
-		virtual void render() {};
+		virtual void input() { getRoot().input(); };
+		virtual void update() { getRoot().update(); };
+		Object& getRoot() { return root; };
+	private:
+		Object root;
 };
 

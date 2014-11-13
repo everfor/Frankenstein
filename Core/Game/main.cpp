@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <SDL/SDL.h>
 
-#include "core.h"
+#include "core_engine.h"
 #include "test_game.h"
 
 // Safeguard for SDL when the Linker System is Console
@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-	Core core;
+	CoreEngine core;
 	TestGame game;
 
 	core.setGame(&game);

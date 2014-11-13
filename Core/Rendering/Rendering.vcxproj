@@ -17,7 +17,7 @@
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="phong_shader.cpp" />
-    <ClCompile Include="render.cpp" />
+    <ClCompile Include="rendering_engine.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="vertex.cpp" />
@@ -32,7 +32,7 @@
     <ClInclude Include="mesh.h" />
     <ClInclude Include="phong_shader.h" />
     <ClInclude Include="point_light.h" />
-    <ClInclude Include="render.h" />
+    <ClInclude Include="rendering_engine.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="spot_light.h" />
     <ClInclude Include="texture.h" />

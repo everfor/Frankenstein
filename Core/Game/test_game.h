@@ -16,9 +16,5 @@ class TestGame : public Game
 		virtual ~TestGame();
 		void input() override;
 		void update() override;
-		void render() override;
-	private:
-		Camera camera;
-		Object root;
 };
 

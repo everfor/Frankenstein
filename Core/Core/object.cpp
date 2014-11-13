@@ -45,15 +45,15 @@ void Object::update()
 	}
 }
 
-void Object::render(Camera& camera)
+void Object::render(Shader *shader, Camera *camera)
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->render(transform, camera);
+		components[i].get()->render(shader, &transform, camera);
 	}
 
 	for (int i = 0; i < children.size(); i++)
 	{
-		children[i].get()->render(camera);
+		children[i].get()->render(shader, camera);
 	}
 }

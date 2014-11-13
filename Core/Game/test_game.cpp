@@ -15,7 +15,7 @@
 #include <glm\glm.hpp>
 
 TestGame::TestGame() :
-		camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), root(Object())
+		Game()
 {
 	Input::Initialize();
 
@@ -28,7 +28,10 @@ TestGame::TestGame() :
 	material->setSpecularIntensity(0.8);
 	material->setSpecularExponent(4);
 
-	root.addComponent(new MeshRenderer(mesh, material));
+	// Object
+	Object *monkey = new Object();
+	monkey->addComponent(new MeshRenderer(mesh, material));
+	getRoot().addChild(monkey);
 
 	// Lighting will be massively refactored
 	// Set lighting
@@ -50,7 +53,7 @@ TestGame::~TestGame()
 static float move_amt = 0.05;
 void TestGame::input()
 {
-	root.input();
+	getRoot().input();
 	if (Input::GetKeyDown(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse down!" << std::endl;
@@ -61,14 +64,6 @@ void TestGame::input()
 		glm::vec2 cursor = Input::GetCursorPosition();
 		std::cout << "x: " << cursor.x << " y: " << cursor.y << std::endl;
 	}
-	if (Input::GetKeyDown(KEY_UP))
-	{
-		camera.moveY(move_amt);
-	}
-	if (Input::GetKeyDown(KEY_DOWN))
-	{
-		camera.moveY(0 - move_amt);
-	}
 }
 
 static float sin_var = 0.0f;
@@ -76,7 +71,7 @@ static float cos_var = 0.0f;
 
 void TestGame::update()
 {
-	root.update();
+	getRoot().update();
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += Timer::getDelta() / 1000.0;
@@ -85,14 +80,9 @@ void TestGame::update()
 
 	// TEST TRANSFORMATION
 	// transform.setTranslation(sin_var, 0, 0);
-	root.getTransform().setRotation(0, sin_var * 180, 0);
+	getRoot().getTransform().setRotation(0, sin_var * 180, 0);
 	// transform.setScale(0.5, 0.5, 0.5);
 
 	PhongShader::getPointLights()[0].setPos(glm::vec3(-1.5, 3 * sin_var, 1));
 	PhongShader::getPointLights()[1].setPos(glm::vec3(1.5, 3 * cos_var, 1));
-}
-
-void TestGame::render()
-{
-	root.render(camera);
 }
