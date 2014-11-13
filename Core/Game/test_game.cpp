@@ -1,4 +1,4 @@
-#include "game.h"
+#include "test_game.h"
 #include "input.h"
 #include "vertex.h"
 #include "resource_manager.h"
@@ -11,8 +11,9 @@
 #include "spot_light.h"
 
 #include <iostream>
+#include <glm\glm.hpp>
 
-Game::Game() :
+TestGame::TestGame() :
 		mesh(Mesh()), shader(PhongShader::GetShader()), transform(Transform()), camera(Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000)), material(Material(Texture(), glm::vec3(1, 1, 1)))
 {
 	Input::Initialize();
@@ -38,13 +39,13 @@ Game::Game() :
 	PhongShader::addSpotLight(SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.8f), glm::vec3(0, 3, 0), 0, 0, 0.5, 10), glm::vec3(0, -1, 0), 0.8));
 }
 
-Game::~Game()
+TestGame::~TestGame()
 {
 	BasicShader::DestroyShader();
 }
 
 static float move_amt = 0.05;
-void Game::input()
+void TestGame::input()
 {
 	if (Input::GetKeyDown(MOUSE_LEFT))
 	{
@@ -69,7 +70,7 @@ void Game::input()
 static float sin_var = 0.0f;
 static float cos_var = 0.0f;
 
-void Game::update()
+void TestGame::update()
 {
 	Input::Update();
 
@@ -88,7 +89,7 @@ void Game::update()
 	PhongShader::getPointLights()[1].setPos(glm::vec3(1.5, 3 * cos_var, 1));
 }
 
-void Game::render()
+void TestGame::render()
 {
 	shader->bind();
 	shader->updateUniforms(transform, camera, material);

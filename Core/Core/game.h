@@ -1,26 +1,12 @@
 #pragma once
 
-#include "mesh.h"
-#include "shader.h"
-#include "transform.h"
-#include "camera.h"
-#include "texture.h"
-#include "material.h"
-
 class Game
 {
 	public:
-		Game();
-		virtual ~Game();
-		void input();
-		void update();
-		void render();
-	private:
-		Mesh mesh;
-		Shader* shader;
-		Transform transform;
-		Camera camera;
-		Material material;
-		Texture texture;
+		Game() {};
+		virtual ~Game() {};
+		virtual void input() {};
+		virtual void update() {};
+		virtual void render() {};
 };
 
