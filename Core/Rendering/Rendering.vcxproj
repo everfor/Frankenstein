@@ -15,6 +15,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="forward_ambientshader.cpp" />
+    <ClCompile Include="forward_directionalshader.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="phong_shader.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="directional_light.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="forward_ambientshader.h" />
+    <ClInclude Include="forward_directionalshader.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="phong_shader.h" />

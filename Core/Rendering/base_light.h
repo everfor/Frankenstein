@@ -5,7 +5,7 @@
 class BaseLight
 {
 	public:
-		BaseLight(glm::vec3& init_color, float init_intensity) : color(init_color), intensity(init_intensity) {};
+		BaseLight(glm::vec3& init_color = glm::vec3(), float init_intensity = 0.0f) : color(init_color), intensity(init_intensity) {};
 		virtual ~BaseLight() {};
 		glm::vec3& getColor() { return color; };
 		void setColor(glm::vec3& new_color) { color = new_color; };

@@ -12,9 +12,9 @@ class ForwardAmbientShader : public Shader
 		void setColor(glm::vec3& new_color) { color = new_color; };
 		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
 		// Singleton
-		static ForwardAmbientShader* GetShader(glm::vec3& init_color = glm::vec3());
+		static ForwardAmbientShader* GetShader(glm::vec3& color = glm::vec3(0.2, 0.2, 0.2));
 	private:
-		ForwardAmbientShader(glm::vec3& init_color);
+		ForwardAmbientShader();
 		glm::vec3 color;
 		// Singleton
 		static std::unique_ptr<ForwardAmbientShader> _shader;

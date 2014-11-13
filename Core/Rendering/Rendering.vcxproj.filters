@@ -48,6 +48,9 @@
     <ClCompile Include="forward_ambientshader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="forward_directionalshader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_light.h">
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="forward_ambientshader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="forward_directionalshader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

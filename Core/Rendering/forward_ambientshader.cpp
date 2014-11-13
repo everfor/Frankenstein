@@ -4,7 +4,7 @@
 bool ForwardAmbientShader::_is_initialized = false;
 std::unique_ptr<ForwardAmbientShader> ForwardAmbientShader::_shader;
 
-ForwardAmbientShader::ForwardAmbientShader(glm::vec3& init_color) : Shader(), color(init_color)
+ForwardAmbientShader::ForwardAmbientShader() : Shader()
 {
 	std::string vertex_shader, fragment_shader;
 	ResourceManager::LoadShader("./res/shaders/forward-ambient.vs", vertex_shader);
@@ -33,13 +33,14 @@ void ForwardAmbientShader::updateUniforms(Transform& transform, Camera& camera, 
 	setUniform("ambientIntensity", color);
 }
 
-ForwardAmbientShader* ForwardAmbientShader::GetShader(glm::vec3& init_color)
+ForwardAmbientShader* ForwardAmbientShader::GetShader(glm::vec3& color)
 {
 	if (!_is_initialized)
 	{
-		_shader = std::unique_ptr<ForwardAmbientShader>(new ForwardAmbientShader(init_color));
+		_shader = std::unique_ptr<ForwardAmbientShader>(new ForwardAmbientShader());
 		_is_initialized = true;
 	}
 
+	_shader.get()->setColor(color);
 	return _shader.get();
 }
