@@ -5,7 +5,7 @@
 class SpotLight : public PointLight
 {
 	public:
-		SpotLight(PointLight& init_point, glm::vec3& init_dir, float init_cutoff = 0.5)
+		SpotLight(PointLight& init_point = PointLight(), glm::vec3& init_dir = glm::vec3(0, 0, -1), float init_cutoff = 0.5)
 			: PointLight(init_point), direction(glm::normalize(init_dir)), cutoff(init_cutoff) {};
 		virtual ~SpotLight() {};
 		glm::vec3& getDirection() { return direction; };

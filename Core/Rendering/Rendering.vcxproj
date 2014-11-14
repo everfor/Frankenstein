@@ -17,6 +17,7 @@
     <ClCompile Include="forward_ambientshader.cpp" />
     <ClCompile Include="forward_directionalshader.cpp" />
     <ClCompile Include="forward_pointshader.cpp" />
+    <ClCompile Include="forward_spotshader.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="phong_shader.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="forward_ambientshader.h" />
     <ClInclude Include="forward_directionalshader.h" />
     <ClInclude Include="forward_pointshader.h" />
+    <ClInclude Include="forward_spotshader.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="phong_shader.h" />

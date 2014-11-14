@@ -12,11 +12,11 @@ class ForwardPointShader : public Shader
 		virtual ~ForwardPointShader();
 		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
 		PointLight& getLight() { return pointLight; };
-		void setLight(PointLight& new_light) { pointLight = new_light; };
 		// Singleton
 		static ForwardPointShader* GetShader(PointLight& light = PointLight());
 	private:
 		ForwardPointShader();
+		void setLight(PointLight& new_light) { pointLight = new_light; };
 		void setLightUniform(const std::string& uniform, BaseLight& base);
 		void setLightUniform(const std::string& uniform, PointLight& pointLight);
 		PointLight pointLight;
