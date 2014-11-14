@@ -7,6 +7,10 @@
 
 #include <memory>
 #include <vector>
+#include <cstdarg>
+
+// Forward Declaration
+class RenderingEngine;
 
 class Object
 {
@@ -19,6 +23,8 @@ class Object
 		void update(float delta);
 		void render(Shader *shader, Camera *camera);
 		Transform& getTransform() { return transform; };
+		// Add necessary components to rendering engine
+		void addToRenderingEngine(RenderingEngine *engine);
 	private:
 		Transform transform;
 		std::vector<std::unique_ptr<Object>> children;

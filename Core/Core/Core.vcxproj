@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Rendering;..\include;..\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Rendering;..\include;..\Components;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -71,7 +71,6 @@
   <ItemGroup>
     <ClCompile Include="core_engine.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="mesh_renderer.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="stb_image.c" />
@@ -80,12 +79,10 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="component.h" />
     <ClInclude Include="core_engine.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
-    <ClInclude Include="mesh_renderer.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="stb_image.h" />

@@ -10,39 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="basic_shader.cpp" />
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="display.cpp" />
-    <ClCompile Include="forward_ambientshader.cpp" />
-    <ClCompile Include="forward_directionalshader.cpp" />
-    <ClCompile Include="forward_pointshader.cpp" />
-    <ClCompile Include="forward_spotshader.cpp" />
-    <ClCompile Include="material.cpp" />
-    <ClCompile Include="mesh.cpp" />
-    <ClCompile Include="rendering_engine.cpp" />
-    <ClCompile Include="shader.cpp" />
-    <ClCompile Include="texture.cpp" />
-    <ClCompile Include="vertex.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="basic_shader.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="display.h" />
-    <ClInclude Include="forward_ambientshader.h" />
-    <ClInclude Include="forward_directionalshader.h" />
-    <ClInclude Include="forward_pointshader.h" />
-    <ClInclude Include="forward_spotshader.h" />
-    <ClInclude Include="material.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="rendering_engine.h" />
-    <ClInclude Include="shader.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="vertex.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{13D1D2E1-577C-4EA7-99C2-641344C1B7DB}</ProjectGuid>
-    <RootNamespace>Rendering</RootNamespace>
+    <ProjectGuid>{E65D5575-0EE4-4416-A91A-224EC0FCA0A9}</ProjectGuid>
+    <RootNamespace>Components</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Core;..\include;..\Components;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\Rendering;..\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,6 +65,18 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="light.cpp" />
+    <ClCompile Include="mesh_renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="base_light.h" />
+    <ClInclude Include="component.h" />
+    <ClInclude Include="directional_light.h" />
+    <ClInclude Include="mesh_renderer.h" />
+    <ClInclude Include="point_light.h" />
+    <ClInclude Include="spot_light.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

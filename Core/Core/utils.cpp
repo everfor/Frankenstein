@@ -36,3 +36,8 @@ void _calculate_normals(std::vector<Vertex>& vertices, int num_vert, std::vector
 		vertices[i2].setNormal(normal);
 	}
 }
+
+float _max_component(glm::vec3& vec)
+{
+	return std::fmaxf(vec.x, fmaxf(vec.y, vec.z));
+}

@@ -1,7 +1,10 @@
 #pragma once
 
 #include "spot_light.h"
+#include "forward_pointshader.h"
 #include "shader.h"
+#include "base_light.h"
+#include "spot_light.h"
 
 #include <memory>
 

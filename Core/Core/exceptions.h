@@ -34,3 +34,9 @@ class ResourceException : public GenericException
 	public:
 		ResourceException(const std::string msg = std::string("")) throw() : GenericException(msg, "RESOURCE ERROR: ") {};
 };
+
+class LightException : public GenericException
+{
+	public:
+		LightException(const std::string msg = std::string("")) throw() : GenericException(msg, "LIGHT MODULE ERROR: ") {};
+};

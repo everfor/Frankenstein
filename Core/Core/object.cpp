@@ -1,5 +1,7 @@
 #include "object.h"
 
+#include "rendering_engine.h"
+
 Object::Object() :
 		transform(Transform())
 {
@@ -16,6 +18,8 @@ void Object::addChild(Object *child)
 
 void Object::addComponent(Component *component)
 {
+	// Components are supposed to be in the same position as the object that holds them
+	component->setTransform(&transform);
 	components.push_back(std::unique_ptr<Component>(component));
 }
 
@@ -49,11 +53,24 @@ void Object::render(Shader *shader, Camera *camera)
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->render(shader, &transform, camera);
+		components[i].get()->render(shader, camera);
 	}
 
 	for (int i = 0; i < children.size(); i++)
 	{
 		children[i].get()->render(shader, camera);
+	}
+}
+
+void Object::addToRenderingEngine(RenderingEngine *engine)
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i].get()->addToRenderingEngine(engine);
+	}
+
+	for (int i = 0; i < children.size(); i++)
+	{
+		children[i].get()->addToRenderingEngine(engine);
 	}
 }

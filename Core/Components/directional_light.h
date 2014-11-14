@@ -11,6 +11,7 @@ class DirectionalLight : public BaseLight
 		virtual ~DirectionalLight() {};
 		glm::vec3& getDirection() { return direction; }
 		void setDirection(glm::vec3& new_dir) { direction = glm::normalize(new_dir); };
+		Shader* getShader() override;
 	private:
 		glm::vec3 direction;
 };

@@ -4,7 +4,6 @@
 #include "resource_manager.h"
 #include "timer.h"
 #include "basic_shader.h"
-#include "phong_shader.h"
 #include "directional_light.h"
 #include "base_light.h"
 #include "point_light.h"
@@ -33,6 +32,16 @@ TestGame::TestGame() :
 	//monkey->addComponent(new MeshRenderer(mesh, material));
 	//getRoot().addChild(monkey);
 	getRoot().addComponent(new MeshRenderer(mesh, material));
+
+	Object *pointLight = new Object();
+	pointLight->addComponent(new PointLight(BaseLight(glm::vec3(0, 1, 0), 0.3f), 0, 0, 1));
+	pointLight->getTransform().setTranslation(glm::vec3(1, 0, 1));
+
+	Object *directionalLight = new Object();
+	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 0, 0), 0.4f), glm::vec3(1, -1, 0)));
+
+	getRoot().addChild(pointLight);
+	getRoot().addChild(directionalLight);
 }
 
 TestGame::~TestGame()

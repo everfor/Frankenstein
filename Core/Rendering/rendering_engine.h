@@ -1,12 +1,14 @@
 #pragma once
 
-#include "object.h"
 #include "camera.h"
 #include "base_light.h"
-#include "directional_light.h"
-#include "point_light.h"
 
 #include <glm/glm.hpp>
+#include <vector>
+#include <memory>
+
+// Forward Declaraion
+class Object;
 
 class RenderingEngine
 {
@@ -17,7 +19,10 @@ class RenderingEngine
 		void render(Object& object);
 		Camera& getMainCamera() { return mainCamera; };
 		void setMainCamera(Camera& new_camera) { mainCamera = new_camera; };
+		void addLight(BaseLight *light);
+		void clearLight();
 	private:
 		Camera mainCamera;
+		std::vector<BaseLight*> lights;
 };
 

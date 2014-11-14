@@ -1,17 +1,21 @@
 #pragma once
 
 #include "base_light.h"
+#include "utils.h"
 
 #include <glm/glm.hpp>
+
+#define COLOR_DEPTH			256
 
 class PointLight : public BaseLight
 {
 	public:
-		PointLight(BaseLight& init_base = BaseLight(), glm::vec3& init_pos = glm::vec3(), float init_constant = 0.0f, float init_linear = 0.0f, float init_exp = 0.0f, float init_range = 10.0f) :
-			BaseLight(init_base), position(init_pos), constant(init_constant), linear(init_linear), exponent(init_exp), range(init_range) {};
+		PointLight(BaseLight& init_base = BaseLight(), float init_constant = 0.0f, float init_linear = 0.0f, float init_exp = 1.0f) :
+			BaseLight(init_base), constant(init_constant), linear(init_linear), exponent(init_exp)
+		{
+			range = (-linear + sqrtf(linear * linear - 4.0 * exponent * (constant - (float)COLOR_DEPTH * getIntensity() * _max_component(getColor())))) / (2.0 * exponent);
+		};
 		virtual ~PointLight() {};
-		glm::vec3& getPos() { return position; };
-		void setPos(glm::vec3& new_pos) { position = new_pos; };
 		float getConstant() { return constant; };
 		void setConstant(float new_const) { constant = new_const; };
 		float getLinear() { return linear; };
@@ -20,8 +24,8 @@ class PointLight : public BaseLight
 		void setExponent(float new_exp) { exponent = new_exp; };
 		float getRange() { return range; };
 		void setRange(float new_range) { range = new_range; };
+		Shader* getShader() override;
 	private:
-		glm::vec3 position;
 		// Attenuation
 		float constant;
 		float linear;

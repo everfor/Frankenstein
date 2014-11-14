@@ -12,6 +12,7 @@ class SpotLight : public PointLight
 		void setDirection(glm::vec3& new_dir) { direction =glm::normalize(new_dir); };
 		float getCutOff() { return cutoff; };
 		void setCutOff(float new_cut) { cutoff = new_cut; };
+		Shader* getShader() override;
 	private:
 		glm::vec3 direction;
 		float cutoff;

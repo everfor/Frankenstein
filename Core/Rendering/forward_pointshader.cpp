@@ -47,7 +47,7 @@ void ForwardPointShader::updateUniforms(Transform& transform, Camera& camera, Ma
 void ForwardPointShader::setLightUniform(const std::string& uniform, PointLight& pointLight)
 {
 	setLightUniform(uniform + ".base", (BaseLight)pointLight);
-	setUniform(uniform + ".position", pointLight.getPos());
+	setUniform(uniform + ".position", pointLight.getTransform()->getTranslation());
 	setUniformf(uniform + ".atten.constant", pointLight.getConstant());
 	setUniformf(uniform + ".atten.linear", pointLight.getLinear());
 	setUniformf(uniform + ".atten.exponent", pointLight.getExponent());

@@ -4,6 +4,8 @@
 #include "forward_pointshader.h"
 #include "forward_spotshader.h"
 
+#include "object.h"
+
 RenderingEngine::RenderingEngine(Camera& init_camera) :
 					mainCamera(init_camera)
 {
@@ -30,6 +32,8 @@ void RenderingEngine::clearScreen()
 
 void RenderingEngine::render(Object& object)
 {
+	object.addToRenderingEngine(this);
+
 	clearScreen();
 	object.render(ForwardAmbientShader::GetShader(glm::vec3(0.2, 0.2, 0.2)), &getMainCamera());
 
@@ -38,12 +42,24 @@ void RenderingEngine::render(Object& object)
 	glDepthMask(GL_FALSE);
 	glDepthFunc(GL_EQUAL);
 
-	object.render(ForwardDirectionalShader::GetShader(DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.8f), glm::vec3(1, -1, 0))), &getMainCamera());
-	object.render(ForwardPointShader::GetShader(PointLight(BaseLight(glm::vec3(0, 1, 0), 0.5f), glm::vec3(-1, 1, 1), 0, 0, 1)), &getMainCamera());
-	object.render(ForwardPointShader::GetShader(PointLight(BaseLight(glm::vec3(1, 0, 0), 0.5f), glm::vec3(1, 1, 1), 0, 0, 1)), &getMainCamera());
-	object.render(ForwardSpotShader::GetShader(SpotLight(PointLight(BaseLight(glm::vec3(1, 0, 1), 0.4f), glm::vec3(0, 1, 1), 0, 0, 1), glm::vec3(0, -1, -1))), &getMainCamera());
+	for (int i = 0; i < lights.size(); i++)
+	{
+		object.render(lights[i]->getShader(), &getMainCamera());
+	}
 
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	glDisable(GL_BLEND);
+
+	clearLight();
+}
+
+void RenderingEngine::addLight(BaseLight *light)
+{
+	lights.push_back(light);
+}
+
+void RenderingEngine::clearLight()
+{
+	lights.clear();
 }
