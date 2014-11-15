@@ -13,6 +13,7 @@ Object::~Object()
 
 void Object::addChild(Object *child)
 {
+	child->getTransform().setParent(&transform);
 	children.push_back(std::unique_ptr<Object>(child));
 }
 

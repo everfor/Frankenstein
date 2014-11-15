@@ -29,8 +29,19 @@ TestGame::TestGame() :
 	material->setSpecularIntensity(0.8);
 	material->setSpecularExponent(4);
 
+	// Monkeys
+	Object *monkey1 = new Object();
+	Object *monkey2 = new Object();
+	monkey2->addComponent(new MeshRenderer(mesh, material));
+	monkey2->getTransform().setTranslation(2.8, 0, 0);
+	monkey1->addComponent(new MeshRenderer(mesh, material));
+	monkey1->getTransform().setTranslation(0, 1.5, 1.5);
+	monkey1->addChild(monkey2);
+
 	// Object
 	getRoot().addComponent(new MeshRenderer(mesh, material));
+	getRoot().getTransform().setScale(0.3, 0.3, 0.3);
+	getRoot().addChild(monkey1);
 
 	Object *pointLight = new Object();
 	pointLight->addComponent(new PointLight(BaseLight(glm::vec3(0, 1, 0), 0.3f), 0, 0, 1));

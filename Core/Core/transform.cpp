@@ -3,8 +3,10 @@
 #include <glm/gtx/transform.hpp>
 
 Transform::Transform() :
-			translation(glm::vec3()), rotation(glm::quat()), scale(glm::vec3(1.0f, 1.0f, 1.0f))
+parent(NULL), translation(glm::vec3()), rotation(glm::quat()), scale(glm::vec3(1.0f, 1.0f, 1.0f)), isTransformationChanged(true)
 {
+	// Initialize a parent unit transform
+	parentTransformation = glm::translate(glm::vec3()) * glm::mat4_cast(glm::quat()) * glm::scale(glm::vec3(1, 1, 1));
 }
 
 Transform::~Transform()
@@ -13,9 +15,22 @@ Transform::~Transform()
 
 glm::mat4& Transform::getTransformation()
 {
-	transformation = glm::translate(translation)	// Translation
-		* glm::mat4_cast(rotation)					// Rotation
-		* glm::scale(scale);						// Scale
+	if (parent != NULL)
+	{
+		parentTransformation = parent->getTransformation();
+	}
+
+	if (isChanged())
+	{
+		transformation = parentTransformation			// Parent
+			* glm::translate(translation)				// Translation
+			* glm::mat4_cast(rotation)					// Rotation
+			* glm::scale(scale);						// Scale
+	}
+	else
+	{
+		transformation = parentTransformation * transformation;
+	}
 
 	return transformation;
 }

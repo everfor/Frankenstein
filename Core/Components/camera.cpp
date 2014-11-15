@@ -20,23 +20,23 @@ void Camera::move(const glm::vec3& dir, float amt)
 
 void Camera::moveX(float amt)
 {
-	move(X_AXIS, amt);
+	move(getTransform()->getRight(), amt);
 }
 
 void Camera::moveY(float amt)
 {
-	move(Y_AXIS, amt);
+	move(getTransform()->getUp(), amt);
 }
 
 void Camera::moveZ(float amt)
 {
-	move(Z_AXIS, amt);
+	move(getTransform()->getBackward(), amt);
 }
 
 glm::mat4& Camera::getCameraProjection()
 {
 	glm::vec3 forward = glm::normalize(getTransform()->getForward());
-	projection = glm::perspective(fov, aspect, zNear, zFar) * glm::lookAt(getPosition(), getPosition() + forward, UP_DIR);
+	projection = glm::perspective(fov, aspect, zNear, zFar) * glm::lookAt(getTransform()->getTranslation(), getTransform()->getTranslation() + forward, UP_DIR);
 
 	return projection;
 }

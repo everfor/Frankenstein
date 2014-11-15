@@ -33,7 +33,7 @@ void ForwardDirectionalShader::updateUniforms(Transform *transform, Camera *came
 {
 	setUniform("model", transform->getTransformation());
 	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
-	setUniform("eyePos", camera->getPosition());
+	setUniform("eyePos", camera->getTransform()->getTranslation());
 
 	setUniformf("specularIntensity", material->getSpecularIntensity());
 	setUniformf("specularExponent", material->getSpecularExponent());
