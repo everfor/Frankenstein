@@ -16,5 +16,8 @@ class TestGame : public Game
 		virtual ~TestGame();
 		void input(float delta) override;
 		void update(float delta) override;
+	private:
+		Object *monkey;
+		Object *camera;
 };
 

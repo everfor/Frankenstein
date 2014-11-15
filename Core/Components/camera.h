@@ -13,10 +13,6 @@ class Camera : public Component
 	public:
 		Camera(float init_fov, float init_asp, float init_znear, float init_zfar);
 		virtual ~Camera();
-		void move(const glm::vec3& dir, float amt);
-		void moveX(float amt);
-		void moveY(float amt);
-		void moveZ(float amt);
 		// Other things
 		float getFov() { return fov; };
 		void setFov(float new_fov) { fov = new_fov; };

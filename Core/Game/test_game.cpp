@@ -38,24 +38,29 @@ TestGame::TestGame() :
 	monkey1->getTransform().setTranslation(0, 1.5, 1.5);
 	monkey1->addChild(monkey2);
 
+	monkey = new Object();
+	monkey->addComponent(new MeshRenderer(mesh, material));
+	monkey->addChild(monkey1);
+	monkey->getTransform().setScale(0.3, 0.3, 0.3);
+
 	// Object
-	getRoot().addComponent(new MeshRenderer(mesh, material));
-	getRoot().getTransform().setScale(0.3, 0.3, 0.3);
-	getRoot().addChild(monkey1);
+	getRoot().addChild(monkey);
 
 	Object *pointLight = new Object();
 	pointLight->addComponent(new PointLight(BaseLight(glm::vec3(0, 1, 0), 0.3f), 0, 0, 1));
 	pointLight->getTransform().setTranslation(glm::vec3(1, 0, 1));
 
 	Object *directionalLight = new Object();
-	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 0, 0), 0.4f), glm::vec3(1, -1, 0)));
+	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 0, 0), 0.4f)));
+	directionalLight->getTransform().rotateY(-90);
+	directionalLight->getTransform().rotateZ(-45);
 
 	Object *spotLight = new Object();
 	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
 	spotLight->getTransform().setTranslation(0, -1, 0);
 	spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
 
-	Object *camera = new Object();
+	camera = new Object();
 	camera->addComponent(new Camera(80.0f, 800.0 / 600.0, 0.1, 10000));
 	camera->getTransform().setTranslation(0, 0, 2);
 
@@ -99,6 +104,7 @@ void TestGame::update(float delta)
 
 	// TEST TRANSFORMATION
 	// transform.setTranslation(sin_var, 0, 0);
-	getRoot().getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
+	monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
+	camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);
 	// transform.setScale(0.5, 0.5, 0.5);
 }

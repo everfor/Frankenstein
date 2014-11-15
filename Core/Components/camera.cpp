@@ -13,30 +13,10 @@ Camera::~Camera()
 {
 }
 
-void Camera::move(const glm::vec3& dir, float amt)
-{
-	getTransform()->setTranslation(getTransform()->getTranslation() + amt * glm::normalize(dir));
-}
-
-void Camera::moveX(float amt)
-{
-	move(getTransform()->getRight(), amt);
-}
-
-void Camera::moveY(float amt)
-{
-	move(getTransform()->getUp(), amt);
-}
-
-void Camera::moveZ(float amt)
-{
-	move(getTransform()->getBackward(), amt);
-}
-
 glm::mat4& Camera::getCameraProjection()
 {
-	glm::vec3 forward = glm::normalize(getTransform()->getForward());
-	projection = glm::perspective(fov, aspect, zNear, zFar) * glm::lookAt(getTransform()->getTranslation(), getTransform()->getTranslation() + forward, UP_DIR);
+	glm::vec3 forward = glm::normalize(getTransform()->getTransformedForward());
+	projection = glm::perspective(fov, aspect, zNear, zFar) * glm::lookAt(getTransform()->getTransformedTranslation(), getTransform()->getTransformedTranslation() + forward, UP_DIR);
 
 	return projection;
 }

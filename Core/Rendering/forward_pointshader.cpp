@@ -37,7 +37,7 @@ void ForwardPointShader::updateUniforms(Transform *transform, Camera *camera, Ma
 {
 	setUniform("model", transform->getTransformation());
 	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
-	setUniform("eyePos", camera->getTransform()->getTranslation());
+	setUniform("eyePos", camera->getTransform()->getTransformedTranslation());
 
 	setUniformf("specularIntensity", material->getSpecularIntensity());
 	setUniformf("specularExponent", material->getSpecularExponent());
@@ -48,7 +48,7 @@ void ForwardPointShader::updateUniforms(Transform *transform, Camera *camera, Ma
 void ForwardPointShader::setLightUniform(const std::string& uniform, PointLight& pointLight)
 {
 	setLightUniform(uniform + ".base", (BaseLight)pointLight);
-	setUniform(uniform + ".position", pointLight.getTransform()->getTranslation());
+	setUniform(uniform + ".position", pointLight.getTransform()->getTransformedTranslation());
 	setUniformf(uniform + ".atten.constant", pointLight.getConstant());
 	setUniformf(uniform + ".atten.linear", pointLight.getLinear());
 	setUniformf(uniform + ".atten.exponent", pointLight.getExponent());
