@@ -99,7 +99,7 @@ vec4 calcualteSpotLight(SpotLight spotLight, vec3 normal)
 	float spotFactor = dot(lightDirection, spotLight.direction);
 
 	vec4 color = vec4(0, 0, 0, 0);
-
+	
 	if (spotFactor > spotLight.cutoff)
 	{
 		color = calculatePointLight(spotLight.pointLight, normal)

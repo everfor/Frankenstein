@@ -5,16 +5,15 @@
 class SpotLight : public PointLight
 {
 	public:
-		SpotLight(PointLight& init_point = PointLight(), glm::vec3& init_dir = glm::vec3(0, 0, -1), float init_cutoff = 0.5)
-			: PointLight(init_point), direction(glm::normalize(init_dir)), cutoff(init_cutoff) {};
+		SpotLight(PointLight& init_point = PointLight(), float init_cutoff = 0.5)
+			: PointLight(init_point), cutoff(init_cutoff) {};
 		virtual ~SpotLight() {};
-		glm::vec3& getDirection() { return direction; };
-		void setDirection(glm::vec3& new_dir) { direction =glm::normalize(new_dir); };
+		glm::vec3& getDirection() { direction = glm::normalize(glm::mat3_cast(getTransform()->getRotation()) * FORWARD_DIR); return direction; };
 		float getCutOff() { return cutoff; };
 		void setCutOff(float new_cut) { cutoff = new_cut; };
 		Shader* getShader() override;
 	private:
-		glm::vec3 direction;
 		float cutoff;
+		glm::vec3 direction;
 };
 

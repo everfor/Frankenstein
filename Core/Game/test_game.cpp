@@ -11,7 +11,8 @@
 #include "mesh_renderer.h"
 
 #include <iostream>
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 TestGame::TestGame() :
 		Game()
@@ -28,9 +29,6 @@ TestGame::TestGame() :
 	material->setSpecularExponent(4);
 
 	// Object
-	//Object *monkey = new Object();
-	//monkey->addComponent(new MeshRenderer(mesh, material));
-	//getRoot().addChild(monkey);
 	getRoot().addComponent(new MeshRenderer(mesh, material));
 
 	Object *pointLight = new Object();
@@ -40,8 +38,14 @@ TestGame::TestGame() :
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 0, 0), 0.4f), glm::vec3(1, -1, 0)));
 
+	Object *spotLight = new Object();
+	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
+	spotLight->getTransform().setTranslation(0, -1, 0);
+	 spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
+
 	getRoot().addChild(pointLight);
 	getRoot().addChild(directionalLight);
+	getRoot().addChild(spotLight);
 }
 
 TestGame::~TestGame()
@@ -78,6 +82,6 @@ void TestGame::update(float delta)
 
 	// TEST TRANSFORMATION
 	// transform.setTranslation(sin_var, 0, 0);
-	getRoot().getTransform().setRotation(0, sin_var * 180, 0);
+	getRoot().getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
 	// transform.setScale(0.5, 0.5, 0.5);
 }

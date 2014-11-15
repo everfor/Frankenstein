@@ -44,10 +44,5 @@ class Camera
 		float zNear;
 		float zFar;
 		glm::mat4 projection;
-		static const glm::vec3 _X_AXIS;
-		static const glm::vec3 _Y_AXIS;
-		static const glm::vec3 _Z_AXIS;
-		static const glm::vec3 _FORWARD_DIR;
-		static const glm::vec3 _UP_DIR;
 };
 
