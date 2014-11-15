@@ -6,11 +6,14 @@
 
 #include <memory>
 
+// Forward declaration
+class Camera;
+
 class ForwardPointShader : public Shader
 {
 	public:
 		virtual ~ForwardPointShader();
-		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
+		void updateUniforms(Transform *transform, Camera *camera, Material *material) override;
 		PointLight& getLight() { return pointLight; };
 		// Singleton
 		static ForwardPointShader* GetShader(PointLight& light = PointLight());

@@ -2,12 +2,14 @@
 
 #include "material.h"
 #include "transform.h"
-#include "camera.h"
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <map>
+
+// Forward declaration
+class Camera;
 
 class Shader
 {
@@ -24,7 +26,7 @@ class Shader
 		void setUniformf(const std::string& uniform, const GLfloat value);
 		void setUniform(const std::string& uniform, const glm::vec3& value);
 		void setUniform(const std::string& uniform, const glm::mat4& value);
-		virtual void updateUniforms(Transform& transform, Camera& camera, Material& material);
+		virtual void updateUniforms(Transform *transform, Camera *camera, Material *material);
 		void bind();
 		// Singleton
 		static Shader* GetShader() { return NULL; };

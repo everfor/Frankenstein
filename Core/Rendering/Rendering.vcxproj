@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basic_shader.cpp" />
-    <ClCompile Include="camera.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="forward_ambientshader.cpp" />
     <ClCompile Include="forward_directionalshader.cpp" />
@@ -27,7 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic_shader.h" />
-    <ClInclude Include="camera.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="forward_ambientshader.h" />
     <ClInclude Include="forward_directionalshader.h" />

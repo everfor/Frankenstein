@@ -113,7 +113,7 @@ void Shader::setUniform(const std::string& uniform, const glm::mat4& value)
 	glUniformMatrix4fv(uniforms.at(uniform), 1, GL_FALSE, glm::value_ptr(value)); 
 }
 
-void Shader::updateUniforms(Transform& transform, Camera& camera, Material& material)
+void Shader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
 
 }

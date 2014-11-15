@@ -9,6 +9,7 @@
 #include "point_light.h"
 #include "spot_light.h"
 #include "mesh_renderer.h"
+#include "camera.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -41,11 +42,16 @@ TestGame::TestGame() :
 	Object *spotLight = new Object();
 	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
 	spotLight->getTransform().setTranslation(0, -1, 0);
-	 spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
+	spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
+
+	Object *camera = new Object();
+	camera->addComponent(new Camera(80.0f, 800.0 / 600.0, 0.1, 10000));
+	camera->getTransform().setTranslation(0, 0, 2);
 
 	getRoot().addChild(pointLight);
 	getRoot().addChild(directionalLight);
 	getRoot().addChild(spotLight);
+	getRoot().addChild(camera);
 }
 
 TestGame::~TestGame()

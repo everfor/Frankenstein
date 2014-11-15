@@ -1,5 +1,6 @@
 #include "forward_directionalshader.h"
 #include "resource_manager.h"
+#include "camera.h"
 
 bool ForwardDirectionalShader::_is_initialized = false;
 std::unique_ptr<ForwardDirectionalShader> ForwardDirectionalShader::_shader;
@@ -28,14 +29,14 @@ ForwardDirectionalShader::~ForwardDirectionalShader()
 {
 }
 
-void ForwardDirectionalShader::updateUniforms(Transform& transform, Camera& camera, Material& material)
+void ForwardDirectionalShader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
-	setUniform("model", transform.getTransformation());
-	setUniform("MVP", camera.getCameraProjection() * transform.getTransformation());
-	setUniform("eyePos", camera.getPos());
+	setUniform("model", transform->getTransformation());
+	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
+	setUniform("eyePos", camera->getPosition());
 
-	setUniformf("specularIntensity", material.getSpecularIntensity());
-	setUniformf("specularExponent", material.getSpecularExponent());
+	setUniformf("specularIntensity", material->getSpecularIntensity());
+	setUniformf("specularExponent", material->getSpecularExponent());
 
 	setLightUniform("directionalLight", directionalLight);
 }

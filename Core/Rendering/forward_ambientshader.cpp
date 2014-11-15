@@ -1,5 +1,6 @@
 #include "forward_ambientshader.h"
 #include "resource_manager.h"
+#include "camera.h"
 
 bool ForwardAmbientShader::_is_initialized = false;
 std::unique_ptr<ForwardAmbientShader> ForwardAmbientShader::_shader;
@@ -22,14 +23,14 @@ ForwardAmbientShader::~ForwardAmbientShader()
 {
 }
 
-void ForwardAmbientShader::updateUniforms(Transform& transform, Camera& camera, Material& material)
+void ForwardAmbientShader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
-	if (material.haveTexture())
+	if (material->haveTexture())
 	{
-		material.getTexture().bind();
+		material->getTexture().bind();
 	}
 
-	setUniform("MVP", camera.getCameraProjection() * transform.getTransformation());
+	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
 	setUniform("ambientIntensity", color);
 }
 

@@ -13,7 +13,7 @@ class BasicShader : public Shader
 		virtual ~BasicShader();
 		static BasicShader* GetShader();
 		static void DestroyShader();
-		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
+		void updateUniforms(Transform *transform, Camera *camera, Material *material) override;
 	private:
 		BasicShader();
 		static std::unique_ptr<BasicShader> _basic_shader;

@@ -1,30 +1,24 @@
 #pragma once
 
+#include "component.h"
+#include "transform.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-// Z is positive pointing out of the screen!!!
+class RenderingEngine;
 
-class Camera
+class Camera : public Component
 {
 	public:
-		Camera(float init_fov, float init_asp, float init_znear, float init_zfar, glm::vec3& init_pos = glm::vec3(0, 0, 2), glm::quat& init_orient = glm::quat(1, 0, 0, 0));
+		Camera(float init_fov, float init_asp, float init_znear, float init_zfar);
 		virtual ~Camera();
 		// Position
-		glm::vec3& getPos() { return position; };
-		void setPos(glm::vec3& new_pos) { position = new_pos; };
+		glm::vec3 getPosition() { return getTransform()->getTranslation(); };
 		void move(const glm::vec3& dir, float amt);
 		void moveX(float amt);
 		void moveY(float amt);
 		void moveZ(float amt);
-		// Orientation
-		glm::quat& getOrient() { return orientation; };
-		void setOrient(glm::quat& new_orient) { orientation = new_orient; };
-		// Angle in degrees
-		void rotate(const glm::vec3& axis, float angle);
-		void rotateX(float angle);
-		void rotateY(float angle);
-		void rotateZ(float angle);
 		// Other things
 		float getFov() { return fov; };
 		void setFov(float new_fov) { fov = new_fov; };
@@ -36,9 +30,9 @@ class Camera
 		void setZFar(float new_zfar) { zFar = new_zfar; };
 		// Projection
 		glm::mat4& getCameraProjection();
+		// Override
+		void addToRenderingEngine(RenderingEngine *engine) override;
 	private:
-		glm::vec3 position;
-		glm::quat orientation;
 		float fov;
 		float aspect;
 		float zNear;

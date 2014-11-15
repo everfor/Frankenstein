@@ -6,11 +6,14 @@
 
 #include <memory>
 
+// Forward declaration
+class Camera;
+
 class ForwardDirectionalShader : public Shader
 {
 	public:
 		virtual ~ForwardDirectionalShader();
-		void updateUniforms(Transform& transform, Camera& camera, Material& material) override;
+		void updateUniforms(Transform *transform, Camera *camera, Material *material) override;
 		DirectionalLight& getLight() { return directionalLight; };
 		void setLight(DirectionalLight& new_light) { directionalLight = new_light; };
 		// Singleton

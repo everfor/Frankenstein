@@ -6,8 +6,7 @@
 
 #include "object.h"
 
-RenderingEngine::RenderingEngine(Camera& init_camera) :
-					mainCamera(init_camera)
+RenderingEngine::RenderingEngine()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -35,7 +34,7 @@ void RenderingEngine::render(Object& object)
 	object.addToRenderingEngine(this);
 
 	clearScreen();
-	object.render(ForwardAmbientShader::GetShader(glm::vec3(0.2, 0.2, 0.2)), &getMainCamera());
+	object.render(ForwardAmbientShader::GetShader(glm::vec3(0.2, 0.2, 0.2)), getMainCamera());
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
@@ -44,7 +43,7 @@ void RenderingEngine::render(Object& object)
 
 	for (int i = 0; i < lights.size(); i++)
 	{
-		object.render(lights[i]->getShader(), &getMainCamera());
+		object.render(lights[i]->getShader(), getMainCamera());
 	}
 
 	glDepthFunc(GL_LESS);
@@ -62,4 +61,9 @@ void RenderingEngine::addLight(BaseLight *light)
 void RenderingEngine::clearLight()
 {
 	lights.clear();
+}
+
+void RenderingEngine::addCamera(Camera* camera)
+{
+	mainCamera = camera;
 }

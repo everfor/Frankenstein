@@ -13,7 +13,7 @@
 
 CoreEngine::CoreEngine(int width, int height, std::string& title, int init_frame_rate, float camera_fov, float camera_z_near, float camera_z_far, glm::vec3& camera_pos) :
 			window(Display::GetDisplay(width, height, title)), is_running(false), frame_rate(init_frame_rate), 
-			renderingEngine(RenderingEngine(Camera(camera_fov, (float)width / (float)height, camera_z_near, camera_z_far, camera_pos)))
+			renderingEngine(RenderingEngine())
 {
 }
 

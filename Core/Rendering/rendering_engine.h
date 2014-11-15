@@ -13,16 +13,16 @@ class Object;
 class RenderingEngine
 {
 	public:
-		RenderingEngine(Camera& init_camera = Camera(80.0f, 800.0f / 600.0f, 0.1f, 1000));
+		RenderingEngine();
 		virtual ~RenderingEngine();
 		void clearScreen();
 		void render(Object& object);
-		Camera& getMainCamera() { return mainCamera; };
-		void setMainCamera(Camera& new_camera) { mainCamera = new_camera; };
+		Camera* getMainCamera() { return mainCamera; };
 		void addLight(BaseLight *light);
+		void addCamera(Camera *camera);
 		void clearLight();
 	private:
-		Camera mainCamera;
+		Camera *mainCamera;
 		std::vector<BaseLight*> lights;
 };
 

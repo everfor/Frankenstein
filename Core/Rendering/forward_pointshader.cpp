@@ -1,5 +1,6 @@
 #include "forward_pointshader.h"
 #include "resource_manager.h"
+#include "camera.h"
 
 bool ForwardPointShader::_is_initialized = false;
 std::unique_ptr<ForwardPointShader> ForwardPointShader::_shader;
@@ -32,14 +33,14 @@ ForwardPointShader::~ForwardPointShader()
 {
 }
 
-void ForwardPointShader::updateUniforms(Transform& transform, Camera& camera, Material& material)
+void ForwardPointShader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
-	setUniform("model", transform.getTransformation());
-	setUniform("MVP", camera.getCameraProjection() * transform.getTransformation());
-	setUniform("eyePos", camera.getPos());
+	setUniform("model", transform->getTransformation());
+	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
+	setUniform("eyePos", camera->getPosition());
 
-	setUniformf("specularIntensity", material.getSpecularIntensity());
-	setUniformf("specularExponent", material.getSpecularExponent());
+	setUniformf("specularIntensity", material->getSpecularIntensity());
+	setUniformf("specularExponent", material->getSpecularExponent());
 
 	setLightUniform("pointLight", pointLight);
 }

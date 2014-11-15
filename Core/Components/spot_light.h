@@ -8,7 +8,7 @@ class SpotLight : public PointLight
 		SpotLight(PointLight& init_point = PointLight(), float init_cutoff = 0.5)
 			: PointLight(init_point), cutoff(init_cutoff) {};
 		virtual ~SpotLight() {};
-		glm::vec3& getDirection() { direction = glm::normalize(glm::mat3_cast(getTransform()->getRotation()) * FORWARD_DIR); return direction; };
+		glm::vec3& getDirection() { return getTransform()->getForward(); };
 		float getCutOff() { return cutoff; };
 		void setCutOff(float new_cut) { cutoff = new_cut; };
 		Shader* getShader() override;

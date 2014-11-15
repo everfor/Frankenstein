@@ -1,5 +1,6 @@
 #include "basic_shader.h"
 #include "resource_manager.h"
+#include "camera.h"
 
 std::unique_ptr<BasicShader> BasicShader::_basic_shader;
 bool BasicShader::_is_initialized = false;
@@ -21,9 +22,9 @@ BasicShader::~BasicShader()
 {
 }
 
-void BasicShader::updateUniforms(Transform& transform, Camera& camera, Material& material)
+void BasicShader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
-	setUniform("transform", camera.getCameraProjection() * transform.getTransformation());
+	setUniform("transform", camera->getCameraProjection() * transform->getTransformation());
 }
 
 BasicShader* BasicShader::GetShader()

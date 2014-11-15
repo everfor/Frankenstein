@@ -1,12 +1,13 @@
 #pragma once
 
 #include "transform.h"
-#include "shader.h"
-
 #include <cstdarg>
 
 // Forward Declaration
 class RenderingEngine;
+class Camera;
+class Shader;
+class Transform;
 
 class Component
 {
