@@ -41,8 +41,8 @@ void ForwardSpotShader::updateUniforms(Transform *transform, Camera *camera, Mat
 	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
 	setUniform("eyePos", camera->getTransform()->getTransformedTranslation());
 
-	setUniformf("specularIntensity", material->getSpecularIntensity());
-	setUniformf("specularExponent", material->getSpecularExponent());
+	setUniformf("specularIntensity", material->getFloat(MATERIAL_SPECULAR_INTENSITY));
+	setUniformf("specularExponent", material->getFloat(MATERIAL_SPECULAR_EXPONENT));
 
 	setLightUniform("spotLight", spotLight);
 }

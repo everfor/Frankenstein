@@ -4,27 +4,26 @@
 
 #include <glm/glm.hpp>
 #include <string>
+#include <map>
+
+#define MATERIAL_DIFFUSE_TEXTURE			"diffuse_texture"
+#define MATERIAL_SPECULAR_INTENSITY			"specular_intensity"
+#define MATERIAL_SPECULAR_EXPONENT			"specular_exponent"
 
 class Material
 {
 	public:
-		Material(const Texture& init_texture, const glm::vec3& init_color, float init_specular_intensity = 2.0f, float init_specular_exp = 32.0f);
+		Material();
 		virtual ~Material();
-		Texture& getTexture() { return texture; };
-		void setTexture(const Texture& new_texture) { texture = new_texture; hasTexture = true; };
-		void setTexture(const std::string& fileName) { texture.setTexture(fileName); hasTexture = true; };
-		glm::vec3& getColor() { return color; };
-		void setColor(const glm::vec3& new_color) { color = new_color; };
-		float getSpecularIntensity() { return specularIntensity; };
-		void setSpecularIntensity(float new_intensity) { specularIntensity = new_intensity; };
-		float getSpecularExponent() { return specularExponent; };
-		void setSpecularExponent(float new_exp) { specularExponent = new_exp; };
-		bool haveTexture() { return hasTexture; };
+		void addTexture(const std::string& key, const Texture& value) { textureMap.insert(std::pair<std::string, Texture>(key, value)); };
+		void addVector(const std::string& key, const glm::vec3& value) { vectorMap.insert(std::pair<std::string, glm::vec3>(key, value)); };
+		void addFloat(const std::string& key, const float value) { floatMap.insert(std::pair<std::string, float>(key, value)); };
+		Texture& getTexture(const std::string& key);
+		glm::vec3& getVector(const std::string& key);
+		float getFloat(const std::string& key);
 	private:
-		Texture texture;
-		glm::vec3 color;
-		bool hasTexture;
-		float specularIntensity;
-		float specularExponent;
+		std::map<std::string, Texture> textureMap;
+		std::map<std::string, glm::vec3> vectorMap;
+		std::map<std::string, float> floatMap;
 };
 

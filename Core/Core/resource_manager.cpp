@@ -53,8 +53,9 @@ void ResourceManager::LoadMesh(std::string& fileName, Mesh& mesh)
 	}
 }
 
-void ResourceManager::LoadTexture(const std::string& fileName, GLenum textureType)
+void ResourceManager::LoadTexture(const std::string& fileName, GLuint texture)
 {
+	glBindTexture(GL_TEXTURE_2D, texture);
 	int width, height, num;
 	unsigned char* imageData = stbi_load(fileName.c_str(), &width, &height, &num, 4);
 

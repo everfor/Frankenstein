@@ -18,7 +18,7 @@ class ResourceManager
 		// Parse a mesh file and store the corresponding data in Mesh object
 		static void LoadMesh(std::string& fileName, Mesh& mesh);
 		// Parse an image file for texture
-		static void LoadTexture(const std::string& fileName, GLenum textureType);
+		static void LoadTexture(const std::string& fileName, GLuint texture);
 	private:
 		ResourceManager();
 		// Mesh parsing specifically for ".obj" files

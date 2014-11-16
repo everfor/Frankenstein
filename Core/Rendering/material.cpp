@@ -1,11 +1,29 @@
 #include "material.h"
 
-
-Material::Material(const Texture& init_texture, const glm::vec3& init_color, float init_specular_intensity, float init_specular_exp) :
-			texture(init_texture), color(init_color), hasTexture(false), specularIntensity(init_specular_intensity), specularExponent(init_specular_exp)
+Material::Material()
 {
 }
 
 Material::~Material()
 {
+}
+
+Texture& Material::getTexture(const std::string& key)
+{
+	return textureMap.at(key);
+}
+
+glm::vec3& Material::getVector(const std::string& key)
+{
+	return vectorMap.at(key);
+}
+
+float Material::getFloat(const std::string& key)
+{
+	if (floatMap.find(key) != floatMap.end())
+	{
+		return floatMap.at(key);
+	}
+
+	return 0.0f;
 }

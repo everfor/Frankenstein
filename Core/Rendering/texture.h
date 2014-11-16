@@ -12,5 +12,7 @@ class Texture
 		void bind();
 	private:
 		GLuint texture;
+		unsigned int activeTextureID;
+		static unsigned int _active_textures;
 };
 

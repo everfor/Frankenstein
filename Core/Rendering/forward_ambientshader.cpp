@@ -25,10 +25,7 @@ ForwardAmbientShader::~ForwardAmbientShader()
 
 void ForwardAmbientShader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
-	if (material->haveTexture())
-	{
-		material->getTexture().bind();
-	}
+	material->getTexture(MATERIAL_DIFFUSE_TEXTURE).bind();
 
 	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
 	setUniform("ambientIntensity", color);

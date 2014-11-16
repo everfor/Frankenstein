@@ -20,13 +20,17 @@ TestGame::TestGame() :
 	Input::Initialize();
 
 	// TEST
-	Material *material = new Material(Texture(), glm::vec3(1, 1, 1));
+	Material *material = new Material();
 	Mesh *mesh = new Mesh();
 
 	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), *mesh);
-	material->getTexture().setTexture("./res/textures/metal.png");
-	material->setSpecularIntensity(0.8);
-	material->setSpecularExponent(4);
+	
+	texture = new Texture();
+	texture->setTexture("./res/textures/metal.png");
+
+	material->addTexture(MATERIAL_DIFFUSE_TEXTURE, *texture);
+	material->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.8);
+	material->addFloat(MATERIAL_SPECULAR_EXPONENT, 4);
 
 	// Monkeys
 	Object *monkey1 = new Object();

@@ -19,5 +19,6 @@ class TestGame : public Game
 	private:
 		Object *monkey;
 		Object *camera;
+		Texture *texture;
 };
 

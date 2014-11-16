@@ -35,8 +35,8 @@ void ForwardDirectionalShader::updateUniforms(Transform *transform, Camera *came
 	setUniform("MVP", camera->getCameraProjection() * transform->getTransformation());
 	setUniform("eyePos", camera->getTransform()->getTranslation());
 
-	setUniformf("specularIntensity", material->getSpecularIntensity());
-	setUniformf("specularExponent", material->getSpecularExponent());
+	setUniformf("specularIntensity", material->getFloat(MATERIAL_SPECULAR_INTENSITY));
+	setUniformf("specularExponent", material->getFloat(MATERIAL_SPECULAR_EXPONENT));
 
 	setLightUniform("directionalLight", directionalLight);
 }
