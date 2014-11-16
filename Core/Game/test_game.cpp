@@ -3,7 +3,6 @@
 #include "vertex.h"
 #include "resource_manager.h"
 #include "timer.h"
-#include "basic_shader.h"
 #include "directional_light.h"
 #include "base_light.h"
 #include "point_light.h"
@@ -44,7 +43,7 @@ TestGame::TestGame() :
 	monkey->getTransform().setScale(0.3, 0.3, 0.3);
 
 	// Object
-	getRoot().addChild(monkey);
+	addObject(monkey);
 
 	Object *pointLight = new Object();
 	pointLight->addComponent(new PointLight(BaseLight(glm::vec3(0, 1, 0), 0.3f), 0, 0, 1));
@@ -64,20 +63,20 @@ TestGame::TestGame() :
 	camera->addComponent(new Camera(80.0f, 800.0 / 600.0, 0.1, 10000));
 	camera->getTransform().setTranslation(0, 0, 2);
 
-	getRoot().addChild(pointLight);
-	getRoot().addChild(directionalLight);
-	getRoot().addChild(spotLight);
-	getRoot().addChild(camera);
+	addObject(pointLight);
+	addObject(directionalLight);
+	addObject(spotLight);
+	addObject(camera);
 }
 
 TestGame::~TestGame()
 {
-	BasicShader::DestroyShader();
 }
 
 void TestGame::input(float delta)
 {
-	getRoot().input(delta);
+	Game::input(delta);
+
 	if (Input::GetKeyDown(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse down!" << std::endl;
@@ -95,7 +94,8 @@ static float cos_var = 0.0f;
 
 void TestGame::update(float delta)
 {
-	getRoot().update(delta);
+	Game::update(delta);
+
 	// TEST uniform
 	static float temp = 0.0f;
 	temp += delta;

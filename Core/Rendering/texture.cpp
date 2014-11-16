@@ -4,7 +4,6 @@
 Texture::Texture()
 {
 	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 Texture::~Texture()
