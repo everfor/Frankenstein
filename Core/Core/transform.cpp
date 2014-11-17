@@ -127,17 +127,17 @@ void Transform::move(const glm::vec3& dir, float amt)
 
 void Transform::moveX(float amt)
 {
-	move(getTransformedRight(), amt);
+	move(getRight(), amt);
 }
 
 void Transform::moveY(float amt)
 {
-	move(getTransformedUp(), amt);
+	move(getUp(), amt);
 }
 
 void Transform::moveZ(float amt)
 {
-	move(getTransformedBackward(), amt);
+	move(getBackward(), amt);
 }
 
 void Transform::rotate(const glm::vec3& axis, float angle)
@@ -147,15 +147,15 @@ void Transform::rotate(const glm::vec3& axis, float angle)
 
 void Transform::rotateX(float angle)
 {
-	rotate(getTransformedRight(), angle);
+	rotate(getRight(), angle);
 }
 
 void Transform::rotateY(float angle)
 {
-	rotate(getTransformedUp(), angle);
+	rotate(getUp(), angle);
 }
 
 void Transform::rotateZ(float angle)
 {
-	rotate(getTransformedForward(), angle);
+	rotate(getForward(), angle);
 }

@@ -95,6 +95,7 @@ void TestGame::input(float delta)
 
 static float sin_var = 0.0f;
 static float cos_var = 0.0f;
+static float last_sin = 0.0f;
 
 void TestGame::update(float delta)
 {
@@ -108,7 +109,10 @@ void TestGame::update(float delta)
 
 	// TEST TRANSFORMATION
 	// transform.setTranslation(sin_var, 0, 0);
-	monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
+	// monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
+	monkey->getTransform().rotateY((sin_var - last_sin) * 180);
 	camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);
+	last_sin = sin_var;
+	// camera->getTransform().rotateY(sin_var);
 	// transform.setScale(0.5, 0.5, 0.5);
 }
