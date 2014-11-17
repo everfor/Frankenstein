@@ -24,17 +24,11 @@
     <ClCompile Include="input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resource_manager.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="timer.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="transform.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.c">
-      <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -53,9 +47,6 @@
     <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource_manager.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="timer.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
@@ -64,9 +55,6 @@
     </ClInclude>
     <ClInclude Include="transform.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Header Files\Utils</Filter>

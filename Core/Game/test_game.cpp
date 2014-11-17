@@ -33,18 +33,20 @@ TestGame::TestGame() :
 	material->addFloat(MATERIAL_SPECULAR_EXPONENT, 4);
 
 	// Monkeys
-	Object *monkey1 = new Object();
-	Object *monkey2 = new Object();
+	monkey1 = new Object();
+	monkey2 = new Object();
 	monkey2->addComponent(new MeshRenderer(mesh, material));
-	monkey2->getTransform().setTranslation(2.8, 0, 0);
+	monkey2->getTransform().setTranslation(2, 0, 0);
+	monkey2->getTransform().setScale(0.6, 0.6, 0.6);
 	monkey1->addComponent(new MeshRenderer(mesh, material));
-	monkey1->getTransform().setTranslation(0, 1.5, 1.5);
+	monkey1->getTransform().setTranslation(3, 0, 0);
+	monkey1->getTransform().setScale(0.7, 0.7, 0.7);
 	monkey1->addChild(monkey2);
 
 	monkey = new Object();
 	monkey->addComponent(new MeshRenderer(mesh, material));
 	monkey->addChild(monkey1);
-	monkey->getTransform().setScale(0.3, 0.3, 0.3);
+	monkey->getTransform().setScale(0.5, 0.5, 0.5);
 
 	// Object
 	addObject(monkey);
@@ -111,7 +113,9 @@ void TestGame::update(float delta)
 	// transform.setTranslation(sin_var, 0, 0);
 	// monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
 	monkey->getTransform().rotateY((sin_var - last_sin) * 180);
-	camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);
+	monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
+	monkey2->getTransform().rotateY((sin_var - last_sin) * 180);
+	// camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);
 	last_sin = sin_var;
 	// camera->getTransform().rotateY(sin_var);
 	// transform.setScale(0.5, 0.5, 0.5);

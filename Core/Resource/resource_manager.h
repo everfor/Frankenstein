@@ -21,6 +21,4 @@ class ResourceManager
 		static void LoadTexture(const std::string& fileName, GLuint texture);
 	private:
 		ResourceManager();
-		// Mesh parsing specifically for ".obj" files
-		static void loadMeshObj(std::string& string, std::vector<Vertex>& vertices, std::vector<unsigned short>& indices);
 };

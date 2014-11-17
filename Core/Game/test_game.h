@@ -18,6 +18,8 @@ class TestGame : public Game
 		void update(float delta) override;
 	private:
 		Object *monkey;
+		Object *monkey1;
+		Object *monkey2;
 		Object *camera;
 		Texture *texture;
 };
