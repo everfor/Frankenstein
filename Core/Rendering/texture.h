@@ -16,6 +16,5 @@ class Texture
 	private:
 		std::string fileName;
 		TextureResource *resource;
-		static std::map<std::string, TextureResource*> _resources;
 };
 

@@ -1,14 +1,12 @@
 #include "texture_resource.h"
 #include "resource_manager.h"
+#include "exceptions.h"
 
-std::vector<std::string> TextureResource::_resource_files;
-std::vector<GLuint*> TextureResource::_texture_ids;
+std::map<std::string, std::unique_ptr<TextureResource>> TextureResource::_resources;
 
-TextureResource::TextureResource(const std::string& fileName) : Resource()
+TextureResource::TextureResource() : Resource()
 {
 	increaseRefCout();
-	_resource_files.push_back(fileName);
-	_texture_ids.push_back(&id);
 }
 
 TextureResource::~TextureResource()
@@ -17,34 +15,58 @@ TextureResource::~TextureResource()
 
 void TextureResource::_load_all()
 {
-	GLuint *ids = (GLuint*)malloc(_texture_ids.size() * sizeof(GLuint));
-	glGenTextures(_texture_ids.size(), ids);
+	// Generate textures
+	GLuint *ids = (GLuint*)malloc(_resources.size() * sizeof(GLuint));
+	glGenTextures(_resources.size(), ids);
 
-	// Generate texture ids
-	for (int i = 0; i < _texture_ids.size(); i++)
-	{
-		*_texture_ids[i] = ids[i];
+	int index = 0;
+	for (std::map<std::string, std::unique_ptr<TextureResource>>::iterator it = _resources.begin();
+		it != _resources.end();
+		it++)
+	{	
+		// Store texture IDs
+		it->second.get()->setTextureID(ids[index++]);
+		// Bind resources
+		ResourceManager::LoadTexture(it->first, it->second.get()->getTextureID());
 	}
 
 	free(ids);
-
-	// Bind resources
-	for (int i = 0; i < _texture_ids.size(); i++)
-	{
-		ResourceManager::LoadTexture(_resource_files[i], *_texture_ids[i]);
-	}
 }
 
 void TextureResource::_clear()
 {
-	GLuint *ids = (GLuint*)malloc(_texture_ids.size() * sizeof(GLuint));
-	for (int i = 0; i < _texture_ids.size(); i++)
+	GLuint *ids = (GLuint*)malloc(_resources.size() * sizeof(GLuint));
+	int index = 0;
+	for (std::map<std::string, std::unique_ptr<TextureResource>>::iterator it = _resources.begin();
+		it != _resources.end();
+		it++)
 	{
-		ids[i] = *_texture_ids[i];
+		ids[index++] = it->second.get()->getTextureID();
 	}
 
-	glDeleteTextures(_texture_ids.size(), ids);
+	glDeleteTextures(_resources.size(), ids);
 
-	_texture_ids.clear();
-	_resource_files.clear();
+	_resources.clear();
+}
+
+TextureResource* TextureResource::_get_resource(const std::string& fileName)
+{
+	if (_resources.find(fileName) != _resources.end())
+	{
+		_resources.at(fileName).get()->increaseRefCout();
+		return _resources.at(fileName).get();
+	}
+
+	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource())));
+	return _resources.at(fileName).get();
+}
+
+void TextureResource::_remove_resource(const std::string& fileName)
+{
+	if (_resources.find(fileName) == _resources.end())
+	{
+		throw ResourceException("No texture resource named " + fileName + " found.");
+	}
+
+	_resources.at(fileName).get()->decreaseRefCout();
 }

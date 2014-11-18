@@ -1,20 +1,9 @@
 #include "mesh.h"
 #include "resource_manager.h"
 
-std::map<std::string, std::unique_ptr<MeshResource>> Mesh::_resources;
-
 Mesh::Mesh(const std::string& init_fileName) : fileName(init_fileName)
 {
-	if (_resources.find(fileName) == _resources.end())
-	{
-		resource = new MeshResource();
-		_resources.insert(std::pair<std::string, std::unique_ptr<MeshResource>>(fileName, std::unique_ptr<MeshResource>(resource)));
-	}
-	else
-	{
-		resource = _resources.at(fileName).get();
-		resource->increaseRefCout();
-	}
+	resource = MeshResource::_get_resource(fileName);
 
 	if (fileName != "")
 	{
@@ -25,11 +14,7 @@ Mesh::Mesh(const std::string& init_fileName) : fileName(init_fileName)
 
 Mesh::~Mesh()
 {
-	resource->decreaseRefCout();
-	if (resource->hasNoReference())
-	{
-		_resources.erase(fileName);
-	}
+	MeshResource::_remove_resource(fileName);
 }
 
 void Mesh::addVertices(Vertex *vertices, int num_vert, unsigned short *indices, int num_index)

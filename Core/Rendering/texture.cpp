@@ -1,25 +1,15 @@
 #include "texture.h"
+#include "texture_resource.h"
 #include "resource_manager.h"
-
-std::map<std::string, TextureResource*> Texture::_resources;
 
 Texture::Texture(const std::string& init_fileName) : fileName(init_fileName)
 {
-	if (_resources.find(fileName) != _resources.end())
-	{
-		resource = _resources.at(fileName);
-		resource->increaseRefCout();
-	}
-	else
-	{
-		resource = new TextureResource(fileName);
-		_resources.insert(std::pair<std::string, TextureResource*>(fileName, resource));
-	}
+	resource = TextureResource::_get_resource(fileName);
 }
 
 Texture::~Texture()
 {
-	resource->decreaseRefCout();
+	TextureResource::_remove_resource(fileName);
 }
 
 void Texture::bind()

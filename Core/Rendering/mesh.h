@@ -19,6 +19,5 @@ class Mesh
 	private:
 		std::string fileName;
 		MeshResource *resource;
-		static std::map<std::string, std::unique_ptr<MeshResource>> _resources;
 };
 
