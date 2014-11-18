@@ -1,6 +1,6 @@
 #include "mesh_resource.h"
 
-MeshResource::MeshResource() : size(0)
+MeshResource::MeshResource() : Resource(), size(0)
 {
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);

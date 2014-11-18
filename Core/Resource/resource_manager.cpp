@@ -56,7 +56,6 @@ void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 
 void ResourceManager::LoadTexture(const std::string& fileName, GLuint texture)
 {
-	glBindTexture(GL_TEXTURE_2D, texture);
 	int width, height, num;
 	unsigned char* imageData = stbi_load(fileName.c_str(), &width, &height, &num, 4);
 
@@ -65,6 +64,7 @@ void ResourceManager::LoadTexture(const std::string& fileName, GLuint texture)
 		throw ResourceException("Failed to load texture file: " + fileName);
 	}
 
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

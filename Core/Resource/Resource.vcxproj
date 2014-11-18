@@ -70,13 +70,16 @@
     <ClCompile Include="obj_model.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="stb_image.c" />
+    <ClCompile Include="texture_resource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="indexed_model.h" />
     <ClInclude Include="mesh_resource.h" />
     <ClInclude Include="obj_model.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="texture_resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

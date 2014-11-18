@@ -39,39 +39,41 @@ void Object::input(float delta)
 
 void Object::update(float delta)
 {
-	for (int i = 0; i < components.size(); i++)
-	{
-		components[i].get()->update(transform, delta);
-	}
-
 	for (int i = 0; i < children.size(); i++)
 	{
 		children[i].get()->update(delta);
+	}
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i].get()->update(transform, delta);
 	}
 }
 
 void Object::render(Shader *shader, Camera *camera)
 {
-	for (int i = 0; i < components.size(); i++)
-	{
-		components[i].get()->render(shader, camera);
-	}
-
+	// Somehow children needs to be rendered first
+	// In order to avoid weird texture overlapping issues
 	for (int i = 0; i < children.size(); i++)
 	{
 		children[i].get()->render(shader, camera);
+	}
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i].get()->render(shader, camera);
 	}
 }
 
 void Object::addToRenderingEngine(RenderingEngine *engine)
 {
-	for (int i = 0; i < components.size(); i++)
-	{
-		components[i].get()->addToRenderingEngine(engine);
-	}
-
 	for (int i = 0; i < children.size(); i++)
 	{
 		children[i].get()->addToRenderingEngine(engine);
+	}
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i].get()->addToRenderingEngine(engine);
 	}
 }

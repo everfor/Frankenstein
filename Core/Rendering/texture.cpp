@@ -1,27 +1,29 @@
 #include "texture.h"
 #include "resource_manager.h"
 
-unsigned int Texture::_active_textures = 0;
+std::map<std::string, TextureResource*> Texture::_resources;
 
-Texture::Texture()
+Texture::Texture(const std::string& init_fileName) : fileName(init_fileName)
 {
-	activeTextureID = 0;
-	glGenTextures(1, &texture);
+	if (_resources.find(fileName) != _resources.end())
+	{
+		resource = _resources.at(fileName);
+		resource->increaseRefCout();
+	}
+	else
+	{
+		resource = new TextureResource(fileName);
+		_resources.insert(std::pair<std::string, TextureResource*>(fileName, resource));
+	}
 }
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &texture);
-}
-
-void Texture::setTexture(const std::string& fileName)
-{
-	ResourceManager::LoadTexture(fileName, GL_TEXTURE_2D);
-	activeTextureID = ++_active_textures;
+	resource->decreaseRefCout();
 }
 
 void Texture::bind()
 {
-	glActiveTexture(GL_TEXTURE0 + activeTextureID);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, resource->getTextureID());
 }

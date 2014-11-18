@@ -1,18 +1,21 @@
 #pragma once
 
+#include "texture_resource.h"
+
 #include <gl/glew.h>
 #include <string>
+#include <map>
 
 class Texture
 {
 	public:
-		Texture();
+		Texture(const std::string& fileName);
 		virtual ~Texture();
 		void setTexture(const std::string& fileName);
 		void bind();
 	private:
-		GLuint texture;
-		unsigned int activeTextureID;
-		static unsigned int _active_textures;
+		std::string fileName;
+		TextureResource *resource;
+		static std::map<std::string, TextureResource*> _resources;
 };
 

@@ -25,13 +25,19 @@ TestGame::TestGame() :
 
 	// TEST
 	Material *metal = new Material();
+	Material *wood = new Material();
 	
-	Texture *metalTex = new Texture();
-	metalTex->setTexture("./res/textures/metal.png");
+	Texture *metalTex = new Texture("./res/textures/metal.png");
+	Texture *woodTex = new Texture("./res/textures/wood.png");
+	TextureResource::_load_all();
 
 	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
 	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.8);
 	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 4);
+
+	wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *woodTex);
+	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
+	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
 
 	// Monkeys
 	monkey1 = new Object();
@@ -39,7 +45,7 @@ TestGame::TestGame() :
 	monkey2->addComponent(new MeshRenderer(mesh, metal));
 	monkey2->getTransform().setTranslation(2, 0, 0);
 	monkey2->getTransform().setScale(0.6, 0.6, 0.6);
-	monkey1->addComponent(new MeshRenderer(mesh, metal));
+	monkey1->addComponent(new MeshRenderer(mesh, wood));
 	monkey1->getTransform().setTranslation(3, 0, 0);
 	monkey1->getTransform().setScale(0.7, 0.7, 0.7);
 	monkey1->addChild(monkey2);
