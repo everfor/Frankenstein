@@ -16,7 +16,7 @@ class ResourceManager
 		// Returns the file content of a shader
 		static void LoadShader(const std::string& fileName, std::string& shader_string);
 		// Parse a mesh file and store the corresponding data in Mesh object
-		static void LoadMesh(std::string& fileName, Mesh& mesh);
+		static void LoadMesh(const std::string& fileName, Mesh& mesh);
 		// Parse an image file for texture
 		static void LoadTexture(const std::string& fileName, GLuint texture);
 	private:

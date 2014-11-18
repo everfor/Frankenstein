@@ -21,6 +21,5 @@ class TestGame : public Game
 		Object *monkey1;
 		Object *monkey2;
 		Object *camera;
-		Texture *texture;
 };
 

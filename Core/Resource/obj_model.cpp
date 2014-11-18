@@ -7,7 +7,7 @@
 #include <fstream>
 #include <algorithm>
 
-ObjModel::ObjModel(std::string& fileName) :
+ObjModel::ObjModel(const std::string& fileName) :
 		hasTexture(true), hasNormal(true)
 {
 	std::ifstream file;

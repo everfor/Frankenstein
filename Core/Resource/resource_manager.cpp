@@ -33,7 +33,7 @@ void ResourceManager::LoadShader(const std::string& fileName, std::string& shade
 	}
 }
 
-void ResourceManager::LoadMesh(std::string& fileName, Mesh& mesh)
+void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 {
 	std::vector<std::string> splits;
 	int split_length = 0;
@@ -45,13 +45,6 @@ void ResourceManager::LoadMesh(std::string& fileName, Mesh& mesh)
 	{
 		model = new ObjModel(fileName);
 		model->loadToMesh(&mesh);
-		//std::vector<Vertex> vertices;
-		//std::vector<unsigned short> indices;
-
-		//loadMeshObj(fileName, vertices, indices);
-		//_calculate_normals(vertices, vertices.size(), indices, indices.size());
-
-		//mesh.addVertices(vertices, vertices.size(), indices, indices.size());
 
 		free(model);
 	}

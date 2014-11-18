@@ -66,12 +66,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="mesh_resource.cpp" />
     <ClCompile Include="obj_model.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="stb_image.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="indexed_model.h" />
+    <ClInclude Include="mesh_resource.h" />
     <ClInclude Include="obj_model.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="stb_image.h" />

@@ -19,32 +19,33 @@ TestGame::TestGame() :
 {
 	Input::Initialize();
 
+	// Common mesh
+	Mesh *mesh = new Mesh("./res/models/monkey.obj");
+	Mesh *mesh2 = new Mesh("./res/models/plane.obj");
+
 	// TEST
-	Material *material = new Material();
-	Mesh *mesh = new Mesh();
-
-	ResourceManager::LoadMesh(std::string("./res/models/monkey.obj"), *mesh);
+	Material *metal = new Material();
 	
-	texture = new Texture();
-	texture->setTexture("./res/textures/metal.png");
+	Texture *metalTex = new Texture();
+	metalTex->setTexture("./res/textures/metal.png");
 
-	material->addTexture(MATERIAL_DIFFUSE_TEXTURE, *texture);
-	material->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.8);
-	material->addFloat(MATERIAL_SPECULAR_EXPONENT, 4);
+	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
+	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.8);
+	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 4);
 
 	// Monkeys
 	monkey1 = new Object();
 	monkey2 = new Object();
-	monkey2->addComponent(new MeshRenderer(mesh, material));
+	monkey2->addComponent(new MeshRenderer(mesh, metal));
 	monkey2->getTransform().setTranslation(2, 0, 0);
 	monkey2->getTransform().setScale(0.6, 0.6, 0.6);
-	monkey1->addComponent(new MeshRenderer(mesh, material));
+	monkey1->addComponent(new MeshRenderer(mesh, metal));
 	monkey1->getTransform().setTranslation(3, 0, 0);
 	monkey1->getTransform().setScale(0.7, 0.7, 0.7);
 	monkey1->addChild(monkey2);
 
 	monkey = new Object();
-	monkey->addComponent(new MeshRenderer(mesh, material));
+	monkey->addComponent(new MeshRenderer(mesh, metal));
 	monkey->addChild(monkey1);
 	monkey->getTransform().setScale(0.5, 0.5, 0.5);
 

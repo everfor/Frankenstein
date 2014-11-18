@@ -22,7 +22,7 @@ class ObjIndex
 class ObjModel : public IndexedModel
 {
 	public:
-		ObjModel(std::string& fileName);
+		ObjModel(const std::string& fileName);
 		virtual ~ObjModel();
 		std::vector<glm::vec3>& getPositions() { return positions; };
 		std::vector<glm::vec2>& gettexCoords() { return texCoords; };
