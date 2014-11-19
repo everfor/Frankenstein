@@ -7,6 +7,8 @@
 #include <string>
 #include <exception>
 #include <vector>
+
+#define INCLUDE_KEYWORD			"#include"
 /*
 * This class is supposed to serve as a general resource manager (loading files etc.)
 */

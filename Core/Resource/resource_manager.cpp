@@ -14,6 +14,10 @@ void ResourceManager::LoadShader(const std::string& fileName, std::string& shade
 {
 	shader_string.clear();
 
+	// Find path of the file - for later use
+	std::string path;
+	_get_path(fileName, path);
+
 	std::ifstream file;
 	file.open(fileName.c_str());
 
@@ -24,7 +28,21 @@ void ResourceManager::LoadShader(const std::string& fileName, std::string& shade
 		while (file.good())
 		{
 			std::getline(file, line);
-			shader_string.append(line + "\n");
+			if (line.find(INCLUDE_KEYWORD) != std::string::npos)
+			{
+				// Parse included files
+				std::vector<std::string> include_file;
+				_split_string(line, " ", include_file);
+
+				std::string included_file_string;
+				LoadShader(path + include_file[1].substr(1, include_file[1].length() - 2), included_file_string);
+
+				shader_string.append(included_file_string + "\n");
+			}
+			else
+			{
+				shader_string.append(line + "\n");
+			}
 		}
 	}
 	else

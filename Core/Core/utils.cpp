@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-int _split_string(std::string original, std::string& delimiter, std::vector<std::string>& split_strings)
+int _split_string(std::string original, const std::string& delimiter, std::vector<std::string>& split_strings)
 {
 	size_t pos = 0;
 	int count = 0;
@@ -25,4 +25,15 @@ int _split_string(std::string original, std::string& delimiter, std::vector<std:
 float _max_component(glm::vec3& vec)
 {
 	return std::fmaxf(vec.x, fmaxf(vec.y, vec.z));
+}
+
+void _get_path(const std::string& fileName, std::string& path)
+{
+	int pos = 0, cursor = 0;
+	while ((cursor = fileName.find('/', pos + 1)) != std::string::npos)
+	{
+		pos = cursor;
+	}
+
+	path = fileName.substr(0, pos + 1);
 }
