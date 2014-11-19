@@ -11,7 +11,6 @@ Mesh::Mesh(const std::string& init_fileName) : fileName(init_fileName)
 	}
 }
 
-
 Mesh::~Mesh()
 {
 	MeshResource::_remove_resource(fileName);

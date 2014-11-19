@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Mesh">
       <UniqueIdentifier>{a56da744-fce8-47f4-a63f-8cab2eda6269}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{de9c2398-44f1-4258-8b35-d1d4e2fc9ff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{9c3f820e-c5dd-4f5b-8c05-8bf881a0d00a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stb_image.c">
@@ -31,10 +37,10 @@
       <Filter>Source Files\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="mesh_resource.cpp">
-      <Filter>Source Files\Mesh</Filter>
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="texture_resource.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,13 +57,13 @@
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="mesh_resource.h">
-      <Filter>Header Files\Mesh</Filter>
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="texture_resource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
