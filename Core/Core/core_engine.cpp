@@ -109,6 +109,6 @@ void CoreEngine::stop()
 
 void CoreEngine::render()
 {
-	game->render(&renderingEngine);
+	game->render();
 	window->update();
 }

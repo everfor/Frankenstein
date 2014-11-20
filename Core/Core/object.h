@@ -10,7 +10,7 @@
 #include <cstdarg>
 
 // Forward Declaration
-class RenderingEngine;
+class CoreEngine;
 
 class Object
 {
@@ -24,7 +24,9 @@ class Object
 		void render(Shader *shader, Camera *camera);
 		Transform& getTransform() { return transform; };
 		// Add necessary components to rendering engine
-		void addToRenderingEngine(RenderingEngine *engine);
+		void setEngine(CoreEngine *engine);
+	protected:
+		CoreEngine *engine;
 	private:
 		Transform transform;
 		std::vector<std::unique_ptr<Object>> children;

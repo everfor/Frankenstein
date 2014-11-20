@@ -22,6 +22,7 @@ class CoreEngine
 		void setGame(Game *new_game);
 		void start();
 		void stop();
+		RenderingEngine* getRenderingEngine() { return &renderingEngine; };
 	private:
 		void run();
 		void render();

@@ -11,7 +11,7 @@
 int main(int argc, char *argv[])
 {
 	CoreEngine core;
-	TestGame game;
+	TestGame game(&core);
 
 	core.setGame(&game);
 	core.start();

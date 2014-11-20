@@ -4,7 +4,7 @@
 #include <cstdarg>
 
 // Forward Declaration
-class RenderingEngine;
+class CoreEngine;
 class Camera;
 class Shader;
 class Transform;
@@ -19,7 +19,10 @@ class Component
 		virtual void render(Shader *shader, Camera *camera) {};
 		void setTransform(Transform* new_trans) { transform = new_trans; };
 		Transform* getTransform() { return transform; };
-		virtual void addToRenderingEngine(RenderingEngine *engine) {};
+		void setEngine(CoreEngine *engine) { addToEngine(engine); };
+		virtual void addToEngine(CoreEngine *engine) {};
+	protected:
+		CoreEngine *engine;
 	private:
 		Transform *transform;
 };

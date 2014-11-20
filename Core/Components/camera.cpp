@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "transform.h"
+#include "core_engine.h"
 #include "rendering_engine.h"
 
 #include <glm/gtx/transform.hpp>
@@ -21,7 +22,7 @@ glm::mat4& Camera::getCameraProjection()
 	return projection;
 }
 
-void Camera::addToRenderingEngine(RenderingEngine *engine)
+void Camera::addToEngine(CoreEngine *engine)
 {
-	engine->addCamera(this);
+	engine->getRenderingEngine()->addCamera(this);
 }

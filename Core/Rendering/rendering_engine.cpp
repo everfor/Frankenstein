@@ -29,8 +29,6 @@ void RenderingEngine::clearScreen()
 
 void RenderingEngine::render(Object& object)
 {
-	object.addToRenderingEngine(this);
-
 	clearScreen();
 	BaseLight light(glm::vec3(0.2, 0.2, 0.2));
 	object.render(Shader::GetShader(Shader::_shader_type::AMBIENT_LIGHT, &light), getMainCamera());
@@ -48,8 +46,6 @@ void RenderingEngine::render(Object& object)
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	glDisable(GL_BLEND);
-
-	clearLight();
 }
 
 void RenderingEngine::addLight(BaseLight *light)

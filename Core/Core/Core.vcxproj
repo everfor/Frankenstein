@@ -70,7 +70,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core_engine.cpp" />
-    <ClCompile Include="gamecpp.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="timer.cpp" />

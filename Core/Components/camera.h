@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-class RenderingEngine;
+class CoreEngine;
 
 class Camera : public Component
 {
@@ -25,7 +25,7 @@ class Camera : public Component
 		// Projection
 		glm::mat4& getCameraProjection();
 		// Override
-		void addToRenderingEngine(RenderingEngine *engine) override;
+		void addToEngine(CoreEngine *engine) override;
 	private:
 		float fov;
 		float aspect;

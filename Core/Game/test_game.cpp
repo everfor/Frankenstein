@@ -9,13 +9,14 @@
 #include "spot_light.h"
 #include "mesh_renderer.h"
 #include "camera.h"
+#include "core_engine.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-TestGame::TestGame() :
-		Game()
+TestGame::TestGame(CoreEngine *core) :
+		Game(core)
 {
 	Input::Initialize();
 

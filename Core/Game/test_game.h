@@ -9,10 +9,12 @@
 #include "game.h"
 #include "object.h"
 
+class CoreEngine;
+
 class TestGame : public Game
 {
 	public:
-		TestGame();
+		TestGame(CoreEngine *core);
 		virtual ~TestGame();
 		void input(float delta) override;
 		void update(float delta) override;

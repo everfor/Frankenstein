@@ -4,11 +4,12 @@
 #include "spot_light.h"
 
 #include "rendering_engine.h"
+#include "core_engine.h"
 #include "shader.h"
 
-void BaseLight::addToRenderingEngine(RenderingEngine *engine)
+void BaseLight::addToEngine(CoreEngine *engine)
 {
-	engine->addLight(this);
+	engine->getRenderingEngine()->addLight(this);
 }
 
 Shader* DirectionalLight::getShader()

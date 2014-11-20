@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 
 // Forward Declaration
-class RenderingEngine;
+class CoreEngine;
 
 class BaseLight : public Component
 {
@@ -18,7 +18,7 @@ class BaseLight : public Component
 		float getIntensity() { return intensity; };
 		void setIntensity(float new_intensity) { intensity = new_intensity; };
 		// Engine Specific stuff
-		void addToRenderingEngine(RenderingEngine *engine) override;
+		void addToEngine(CoreEngine *engine) override;
 		virtual Shader* getShader() { throw LightException("Base light does not have a real shader"); };
 	private:
 		glm::vec3 color;
