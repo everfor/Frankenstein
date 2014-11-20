@@ -1,8 +1,6 @@
 #include "rendering_engine.h"
-#include "forward_ambientshader.h"
-#include "forward_directionalshader.h"
-#include "forward_pointshader.h"
-#include "forward_spotshader.h"
+#include "shader.h"
+#include "base_light.h"
 
 #include "object.h"
 
@@ -34,7 +32,8 @@ void RenderingEngine::render(Object& object)
 	object.addToRenderingEngine(this);
 
 	clearScreen();
-	object.render(ForwardAmbientShader::GetShader(glm::vec3(0.2, 0.2, 0.2)), getMainCamera());
+	BaseLight light(glm::vec3(0.2, 0.2, 0.2));
+	object.render(Shader::GetShader(Shader::_shader_type::AMBIENT_LIGHT, &light), getMainCamera());
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);

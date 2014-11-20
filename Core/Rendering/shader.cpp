@@ -2,14 +2,22 @@
 #include "exceptions.h"
 #include "utils.h"
 #include "resource_manager.h"
+#include "camera.h"
+#include "material.h"
+//	Lightings
+#include "base_light.h"
+#include "directional_light.h"
+#include "point_light.h"
+#include "spot_light.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <algorithm>
 
 std::map<std::string, std::multimap<std::string, std::string>> Shader::_uniform_structs;
+std::map<Shader::_shader_type, std::unique_ptr<Shader>> Shader::_shaders;
 
-Shader::Shader(const std::string& vertex_shader, const std::string& fragment_shader)
+Shader::Shader(_shader_type shader_type, const std::string& vertex_shader, const std::string& fragment_shader) : type(shader_type)
 {
 	program = glCreateProgram();
 
@@ -117,7 +125,7 @@ void Shader::addAllUniforms(const std::string& text)
 	}
 }
 
-void Shader::addUniform(const std::string& uniform)
+void Shader::addUniform(const std::string& uniform, const std::string& type)
 {
 	GLuint uniform_loc = glGetUniformLocation(program, uniform.c_str());
 
@@ -126,32 +134,105 @@ void Shader::addUniform(const std::string& uniform)
 		throw ShaderException("Could not find uniform" + uniform);
 	}
 
-	uniforms.insert(std::pair<std::string, GLuint>(uniform, uniform_loc));
+	uniforms.insert(std::pair<std::string, std::pair<std::string, GLuint>>(uniform, std::pair<std::string, GLuint>(type, uniform_loc)));
 }
 
 void Shader::setUniformi(const std::string& uniform, const GLint value)
 {
-	glUniform1i(uniforms.at(uniform), value);
+	glUniform1i(uniforms.at(uniform).second, value);
 }
 
 void Shader::setUniformf(const std::string& uniform, const GLfloat value)
 {
-	glUniform1f(uniforms.at(uniform), value);
+	glUniform1f(uniforms.at(uniform).second, value);
 }
 
 void Shader::setUniform(const std::string& uniform, const glm::vec3& value)
 {
-	glUniform3f(uniforms.at(uniform), value.x, value.y, value.z);
+	glUniform3f(uniforms.at(uniform).second, value.x, value.y, value.z);
 }
 
 void Shader::setUniform(const std::string& uniform, const glm::mat4& value)
 {
-	glUniformMatrix4fv(uniforms.at(uniform), 1, GL_FALSE, glm::value_ptr(value)); 
+	glUniformMatrix4fv(uniforms.at(uniform).second, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Shader::setUniform(const std::string& uniform, BaseLight& base)
+{
+	setUniform(uniform + ".color", base.getColor());
+	setUniformf(uniform + ".intensity", base.getIntensity());
+}
+
+void Shader::setUniform(const std::string& uniform, DirectionalLight& directionalLight)
+{
+	setUniform(uniform + ".base", (BaseLight)directionalLight);
+	setUniform(uniform + ".direction", directionalLight.getDirection());
+}
+
+void Shader::setUniform(const std::string& uniform, PointLight& pointLight)
+{
+	setUniform(uniform + ".base", (BaseLight)pointLight);
+	setUniform(uniform + ".position", pointLight.getTransform()->getTransformedTranslation());
+	setUniformf(uniform + ".atten.constant", pointLight.getConstant());
+	setUniformf(uniform + ".atten.linear", pointLight.getLinear());
+	setUniformf(uniform + ".atten.exponent", pointLight.getExponent());
+	setUniformf(uniform + ".range", pointLight.getRange());
+}
+
+void Shader::setUniform(const std::string& uniform, SpotLight& spotLight)
+{
+	setUniform(uniform + ".pointLight", (PointLight)spotLight);
+	setUniform(uniform + ".direction", spotLight.getDirection());
+	setUniformf(uniform + ".cutoff", spotLight.getCutOff());
 }
 
 void Shader::updateUniforms(Transform *transform, Camera *camera, Material *material)
 {
+	for (std::map<std::string, std::pair<std::string, GLuint>>::iterator it = uniforms.begin();
+		it != uniforms.end();
+		it++)
+	{
+		if (it->first == UNIFORM_MODEL)
+		{
+			setUniform(it->first, transform->getTransformation());
+		}
+		else if (it->first == UNIFORM_MVP)
+		{
+			setUniform(it->first, camera->getCameraProjection() * transform->getTransformation());
+		}
+		else if (it->first == UNIFORM_EYE_POS)
+		{
+			setUniform(it->first, camera->getTransform()->getTranslation());
+		}
+		else if (it->first == UNIFORM_SPEC_INTENSITY)
+		{
+			setUniformf(it->first, material->getFloat(MATERIAL_SPECULAR_INTENSITY));
+		}
+		else if (it->first == UNIFORM_SPEC_EXP)
+		{
+			setUniformf(it->first, material->getFloat(MATERIAL_SPECULAR_EXPONENT));
+		}
+	}
 
+	// Set Light Uniforms
+	switch (type)
+	{
+		case Shader::AMBIENT_LIGHT:
+			material->getTexture(MATERIAL_DIFFUSE_TEXTURE).bind();
+			setUniform(UNIFORM_AMBIENT_LIGHT, light->getColor());
+			break;
+		case Shader::DIRECTIONAL_LIGHT:
+			setUniform(UNIFORM_DIRECTIONAL_LIGHT, (DirectionalLight)*light);
+			break;
+		case Shader::POINT_LIGHT:
+			setUniform(UNIFORM_POINT_LIGHT, (PointLight)*light);
+			break;
+		case Shader::SPOT_LIGHT:
+			setUniform(UNIFORM_SPOT_LIGHT, (SpotLight)((PointLight)*light));
+			break;
+		default:
+			break;
+	}
 }
 
 void Shader::addUniformWithType(const std::string& type, const std::string& name)
@@ -161,7 +242,7 @@ void Shader::addUniformWithType(const std::string& type, const std::string& name
 		if (type.find(VEC_TYPE) != std::string::npos || type.find(MAT_TYPE) != std::string::npos
 			|| type == FLOAT_TYPE || type == INT_TYPE)
 		{
-			addUniform(name);
+			addUniform(name, type);
 		}
 		else
 		{
@@ -185,6 +266,40 @@ void Shader::addUniformWithType(const std::string& type, const std::string& name
 void Shader::bind()
 {
 	glUseProgram(program);
+}
+
+Shader* Shader::GetShader(Shader::_shader_type type, BaseLight* light)
+{
+	if (_shaders.find(type) == _shaders.end())
+	{
+		switch (type)
+		{
+			case _shader_type::AMBIENT_LIGHT:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type, 
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/forward-ambient.vs",
+														"./res/shaders/forward-ambient.fs"))));
+				break;
+			case _shader_type::DIRECTIONAL_LIGHT:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/forward-directional.vs",
+														"./res/shaders/forward-directional.fs"))));
+				break;
+			case _shader_type::POINT_LIGHT:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/forward-point.vs",
+														"./res/shaders/forward-point.fs"))));
+				break;
+			case _shader_type::SPOT_LIGHT:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/forward-spot.vs",
+														"./res/shaders/forward-spot.fs"))));
+				break;
+		}
+	}
+
+	_shaders.at(type).get()->setLight(light);
+
+	return _shaders.at(type).get();
 }
 
 void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& error)

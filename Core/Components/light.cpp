@@ -4,9 +4,7 @@
 #include "spot_light.h"
 
 #include "rendering_engine.h"
-#include "forward_directionalshader.h"
-#include "forward_pointshader.h"
-#include "forward_spotshader.h"
+#include "shader.h"
 
 void BaseLight::addToRenderingEngine(RenderingEngine *engine)
 {
@@ -15,15 +13,15 @@ void BaseLight::addToRenderingEngine(RenderingEngine *engine)
 
 Shader* DirectionalLight::getShader()
 {
-	return ForwardDirectionalShader::GetShader(*this);
+	return Shader::GetShader(Shader::_shader_type::DIRECTIONAL_LIGHT, this);
 }
 
 Shader* PointLight::getShader()
 {
-	return ForwardPointShader::GetShader(*this);
+	return Shader::GetShader(Shader::_shader_type::POINT_LIGHT, this);
 }
 
 Shader* SpotLight::getShader()
 {
-	return ForwardSpotShader::GetShader(*this);
+	return Shader::GetShader(Shader::_shader_type::SPOT_LIGHT, this);
 }
