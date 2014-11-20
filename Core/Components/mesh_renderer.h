@@ -13,7 +13,7 @@ class MeshRenderer : public Component
 		virtual ~MeshRenderer();
 		void render(Shader *shader, Camera *camera) override;
 	private:
-		std::unique_ptr<Mesh> mesh;
-		std::unique_ptr<Material> material;
+		Mesh *mesh;
+		Material *material;
 };
 

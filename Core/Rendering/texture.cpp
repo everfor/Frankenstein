@@ -9,7 +9,7 @@ Texture::Texture(const std::string& init_fileName) : fileName(init_fileName)
 
 Texture::~Texture()
 {
-	TextureResource::_remove_resource(fileName);
+	// TextureResource::_remove_resource(fileName);
 }
 
 void Texture::bind()

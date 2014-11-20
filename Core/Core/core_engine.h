@@ -30,6 +30,6 @@ class CoreEngine
 		bool is_running;
 		unsigned int frame_rate;
 		RenderingEngine renderingEngine;
-		std::unique_ptr<Game> game;
+		Game *game;
 };
 

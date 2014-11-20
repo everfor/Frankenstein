@@ -23,7 +23,7 @@ CoreEngine::~CoreEngine()
 
 void CoreEngine::setGame(Game *new_game)
 {
-	game.reset(new_game);
+	game = new_game;
 }
 
 void CoreEngine::start()
@@ -73,8 +73,8 @@ void CoreEngine::run()
 			// Update inputs
 			Input::Update();
 			// Update the game
-			game.get()->input(frame_time);
-			game.get()->update(frame_time);
+			game->input(frame_time);
+			game->update(frame_time);
 
 			if (frame_counter >= 1.0)
 			{
