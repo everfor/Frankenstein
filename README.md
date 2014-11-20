@@ -12,7 +12,7 @@ Supported Platform
 TO-DOs
 ============
 - Free-moving Camera
-- Shadow Calculation
+- Normal Mapping
 - Physics Engine
 - Audio System
 - Cross Platform?
