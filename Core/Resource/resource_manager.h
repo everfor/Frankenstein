@@ -8,7 +8,9 @@
 #include <exception>
 #include <vector>
 
+// Shader related macros
 #define INCLUDE_KEYWORD			"#include"
+
 /*
 * This class is supposed to serve as a general resource manager (loading files etc.)
 */

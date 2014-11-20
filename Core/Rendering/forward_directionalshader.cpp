@@ -5,24 +5,8 @@
 bool ForwardDirectionalShader::_is_initialized = false;
 std::unique_ptr<ForwardDirectionalShader> ForwardDirectionalShader::_shader;
 
-ForwardDirectionalShader::ForwardDirectionalShader() : Shader()
+ForwardDirectionalShader::ForwardDirectionalShader() : Shader("./res/shaders/forward-directional.vs", "./res/shaders/forward-directional.fs")
 {
-	std::string vertex_shader, fragment_shader;
-	ResourceManager::LoadShader("./res/shaders/forward-directional.vs", vertex_shader);
-	ResourceManager::LoadShader("./res/shaders/forward-directional.fs", fragment_shader);
-	addVertexShader(vertex_shader);
-	addFragmentShader(fragment_shader);
-
-	compileAllShaders();
-
-	addUniform("model");
-	addUniform("MVP");
-	addUniform("eyePos");
-	addUniform("specularIntensity");
-	addUniform("specularExponent");
-	addUniform("directionalLight.base.color");
-	addUniform("directionalLight.base.intensity");
-	addUniform("directionalLight.direction");
 }
 
 ForwardDirectionalShader::~ForwardDirectionalShader()

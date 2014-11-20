@@ -5,28 +5,8 @@
 bool ForwardPointShader::_is_initialized = false;
 std::unique_ptr<ForwardPointShader> ForwardPointShader::_shader;
 
-ForwardPointShader::ForwardPointShader() : Shader()
+ForwardPointShader::ForwardPointShader() : Shader("./res/shaders/forward-point.vs", "./res/shaders/forward-point.fs")
 {
-	std::string vertex_shader, fragment_shader;
-	ResourceManager::LoadShader("./res/shaders/forward-point.vs", vertex_shader);
-	ResourceManager::LoadShader("./res/shaders/forward-point.fs", fragment_shader);
-	addVertexShader(vertex_shader);
-	addFragmentShader(fragment_shader);
-
-	compileAllShaders();
-
-	addUniform("model");
-	addUniform("MVP");
-	addUniform("eyePos");
-	addUniform("specularIntensity");
-	addUniform("specularExponent");
-	addUniform("pointLight.base.color");
-	addUniform("pointLight.base.intensity");
-	addUniform("pointLight.atten.constant");
-	addUniform("pointLight.atten.linear");
-	addUniform("pointLight.atten.exponent");
-	addUniform("pointLight.position");
-	addUniform("pointLight.range");
 }
 
 ForwardPointShader::~ForwardPointShader()

@@ -5,30 +5,8 @@
 bool ForwardSpotShader::_is_initialized = false;
 std::unique_ptr<ForwardSpotShader> ForwardSpotShader::_shader;
 
-ForwardSpotShader::ForwardSpotShader() : Shader()
+ForwardSpotShader::ForwardSpotShader() : Shader("./res/shaders/forward-spot.vs", "./res/shaders/forward-spot.fs")
 {
-	std::string vertex_shader, fragment_shader;
-	ResourceManager::LoadShader("./res/shaders/forward-spot.vs", vertex_shader);
-	ResourceManager::LoadShader("./res/shaders/forward-spot.fs", fragment_shader);
-	addVertexShader(vertex_shader);
-	addFragmentShader(fragment_shader);
-
-	compileAllShaders();
-
-	addUniform("model");
-	addUniform("MVP");
-	addUniform("eyePos");
-	addUniform("specularIntensity");
-	addUniform("specularExponent");
-	addUniform("spotLight.pointLight.base.color");
-	addUniform("spotLight.pointLight.base.intensity");
-	addUniform("spotLight.pointLight.atten.constant");
-	addUniform("spotLight.pointLight.atten.linear");
-	addUniform("spotLight.pointLight.atten.exponent");
-	addUniform("spotLight.pointLight.position");
-	addUniform("spotLight.pointLight.range");
-	addUniform("spotLight.direction");
-	addUniform("spotLight.cutoff");
 }
 
 ForwardSpotShader::~ForwardSpotShader()

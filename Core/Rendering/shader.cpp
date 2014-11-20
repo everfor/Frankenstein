@@ -1,11 +1,15 @@
 #include "shader.h"
 #include "exceptions.h"
+#include "utils.h"
+#include "resource_manager.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
+#include <algorithm>
 
-Shader::Shader() :
-			uniforms(std::map<std::string, GLuint>())
+std::map<std::string, std::multimap<std::string, std::string>> Shader::_uniform_structs;
+
+Shader::Shader(const std::string& vertex_shader, const std::string& fragment_shader)
 {
 	program = glCreateProgram();
 
@@ -15,6 +19,20 @@ Shader::Shader() :
 	}
 
 	shaderCount = 0;
+
+	std::string vertex_text, fragment_text;
+	ResourceManager::LoadShader(vertex_shader, vertex_text);
+	ResourceManager::LoadShader(fragment_shader, fragment_text);
+
+	addVertexShader(vertex_text);
+	addFragmentShader(fragment_text);
+	compileAllShaders();
+
+	_add_uniform_structs(vertex_text);
+	_add_uniform_structs(fragment_text);
+
+	addAllUniforms(vertex_text);
+	addAllUniforms(fragment_text);
 }
 
 Shader::~Shader()
@@ -81,6 +99,24 @@ void Shader::compileAllShaders()
 	checkShaderError(program, GL_VALIDATE_STATUS, true, "Program Validate Error: ");
 }
 
+void Shader::addAllUniforms(const std::string& text)
+{
+	int start = 0;
+	while ((start = text.find(UNIFORM_KEYWORD, start)) != std::string::npos)
+	{
+		int end = text.find(SEMICOLON_KEYWORD, start);
+		
+		// Get uniform declaration
+		std::string uniform = text.substr(start, end - start);
+		int first_space = uniform.find(SPACE_KEYWORD);
+		int second_space = uniform.find(SPACE_KEYWORD, first_space + 1);
+
+		addUniformWithType(uniform.substr(first_space + 1, second_space - first_space - 1), uniform.substr(second_space + 1));
+
+		start = end;
+	}
+}
+
 void Shader::addUniform(const std::string& uniform)
 {
 	GLuint uniform_loc = glGetUniformLocation(program, uniform.c_str());
@@ -118,6 +154,34 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 
 }
 
+void Shader::addUniformWithType(const std::string& type, const std::string& name)
+{
+	if (type != SAMPLER_TYPE)
+	{
+		if (type.find(VEC_TYPE) != std::string::npos || type.find(MAT_TYPE) != std::string::npos
+			|| type == FLOAT_TYPE || type == INT_TYPE)
+		{
+			addUniform(name);
+		}
+		else
+		{
+			// Not a basic type - must be a user defined one
+			if (_uniform_structs.find(type) == _uniform_structs.end())
+			{
+				throw ShaderException("Cannot find uniform of type: " + type);
+			}
+
+			// Add members as uniforms
+			for (std::multimap<std::string, std::string>::iterator it = _uniform_structs.at(type).begin();
+				it != _uniform_structs.at(type).end();
+				it++)
+			{
+				addUniformWithType(it->first, name + "." + it->second);
+			}
+		}
+	}
+}
+
 void Shader::bind()
 {
 	glUseProgram(program);
@@ -141,5 +205,42 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const 
 			glGetShaderInfoLog(shader, sizeof(error_msg), NULL, error_msg);
 
 		throw ShaderException(std::string(error + std::string(error_msg))); 
+	}
+}
+
+void Shader::_add_uniform_structs(const std::string& text)
+{
+	int start = 0;
+	while ((start = text.find(STRUCT_KEYWORD, start)) != std::string::npos)
+	{
+		int end = text.find(RIGHT_BRACKET_KEYWORD, start);
+
+		std::string struct_string = text.substr(start, end - start + 1);
+		// Remove newline characters
+		struct_string.erase(std::remove(struct_string.begin(), struct_string.end(), '\n'), struct_string.end());
+		struct_string.erase(std::remove(struct_string.begin(), struct_string.end(), '\t'), struct_string.end());
+		int left_bracket = struct_string.find(LEFT_BRACKET_KEYWORD);
+		int right_bracket = struct_string.find(RIGHT_BRACKET_KEYWORD);
+
+		// Get uniform name
+		std::string uniform_name = struct_string.substr(strlen(STRUCT_KEYWORD) + 1, left_bracket - (strlen(STRUCT_KEYWORD) + 1));
+		if (_uniform_structs.find(uniform_name) == _uniform_structs.end())
+		{
+			// New uniform
+			_uniform_structs.insert(std::pair<std::string, std::multimap<std::string, std::string>>(uniform_name, std::multimap<std::string, std::string>()));
+			
+			// Get members
+			std::string struct_content = struct_string.substr(left_bracket + 1, right_bracket - (left_bracket + 1));
+			std::vector<std::string> members;
+			_split_string(struct_content, SEMICOLON_KEYWORD, members);
+
+			for (int i = 0; i < members.size(); i++)
+			{
+				int space = members[i].find(SPACE_KEYWORD);
+				_uniform_structs.at(uniform_name).insert(std::pair<std::string, std::string>(members[i].substr(0, space), members[i].substr(space + 1, members[i].length() - space - 1)));
+			}
+		}
+
+		start = end;
 	}
 }

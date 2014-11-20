@@ -5,18 +5,8 @@
 bool ForwardAmbientShader::_is_initialized = false;
 std::unique_ptr<ForwardAmbientShader> ForwardAmbientShader::_shader;
 
-ForwardAmbientShader::ForwardAmbientShader() : Shader()
+ForwardAmbientShader::ForwardAmbientShader() : Shader("./res/shaders/forward-ambient.vs", "./res/shaders/forward-ambient.fs")
 {
-	std::string vertex_shader, fragment_shader;
-	ResourceManager::LoadShader("./res/shaders/forward-ambient.vs", vertex_shader);
-	ResourceManager::LoadShader("./res/shaders/forward-ambient.fs", fragment_shader);
-	addVertexShader(vertex_shader);
-	addFragmentShader(fragment_shader);
-
-	compileAllShaders();
-
-	addUniform("MVP");
-	addUniform("ambientIntensity");
 }
 
 ForwardAmbientShader::~ForwardAmbientShader()
