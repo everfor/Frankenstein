@@ -26,15 +26,15 @@ class ObjModel : public IndexedModel
 		virtual ~ObjModel();
 		std::vector<glm::vec3>& getPositions() { return positions; };
 		std::vector<glm::vec2>& gettexCoords() { return texCoords; };
-		std::vector<glm::vec3>& getNormals() { return normals; };
+		std::vector<glm::vec2>& getNormalCoords() { return normalCoords; };
 		void loadToMesh(Mesh *mesh) override;
 	private:
 		static void _calculate_normals(std::vector<Vertex>& vertices, int num_vert, std::vector<unsigned short>& indices, int num_index);
-		bool hasTexture;
-		bool hasNormal;
+		bool hasTextureCoord;
+		bool hasNormalCoord;
 		std::vector<glm::vec3> positions;
 		std::vector<glm::vec2> texCoords;
-		std::vector<glm::vec3> normals;
+		std::vector<glm::vec2> normalCoords;
 		std::vector<ObjIndex> indices;
 };
 

@@ -8,7 +8,7 @@
 #include <algorithm>
 
 ObjModel::ObjModel(const std::string& fileName) :
-		hasTexture(true), hasNormal(true)
+		hasTextureCoord(true), hasNormalCoord(true)
 {
 	std::ifstream file;
 	file.open(fileName.c_str());
@@ -51,7 +51,7 @@ ObjModel::ObjModel(const std::string& fileName) :
 			else if (tokens[0] == "vn")
 			{
 				// Vertex normal
-				normals.push_back(glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())));
+				normalCoords.push_back(glm::vec2(atof(tokens[1].c_str()), atof(tokens[2].c_str())));
 			}
 			else if (tokens[0] == "f")
 			{
@@ -63,29 +63,29 @@ ObjModel::ObjModel(const std::string& fileName) :
 					_split_string(tokens[i], std::string("/"), vtns);
 
 					// See if there are textures or normals
-					if (hasNormal && vtns.size() < 3)
+					if (hasNormalCoord && vtns.size() < 3)
 					{
-						hasNormal = false;
+						hasNormalCoord = false;
 					}
-					if (hasTexture)
+					if (hasTextureCoord)
 					{
 						if (vtns.size() < 2)
 						{
-							hasTexture = false;
+							hasTextureCoord = false;
 						}
 						else if (vtns[1].length() == 0)
 						{
-							hasTexture = false;
+							hasTextureCoord = false;
 						}
 					}
 
 					// Parse
 					index[i - 1].positionIndex = atof(vtns[0].c_str()) - 1;
-					if (hasTexture)
+					if (hasTextureCoord)
 					{
 						index[i - 1].texIndex = atof(vtns[1].c_str()) - 1;
 					}
-					if (hasNormal)
+					if (hasNormalCoord)
 					{
 						index[i - 1].normalIndex = atof(vtns[2].c_str()) - 1;
 					}
@@ -100,36 +100,36 @@ ObjModel::ObjModel(const std::string& fileName) :
 					_split_string(tokens[4], std::string("/"), vtns);
 
 					// See if there are textures or normals
-					if (hasNormal && vtns.size() < 3)
+					if (hasNormalCoord && vtns.size() < 3)
 					{
-						hasNormal = false;
+						hasNormalCoord = false;
 					}
-					if (hasTexture)
+					if (hasTextureCoord)
 					{
 						if (vtns.size() < 2)
 						{
-							hasTexture = false;
+							hasTextureCoord = false;
 						}
 						else if (vtns[1].length() == 0)
 						{
-							hasTexture = false;
+							hasTextureCoord = false;
 						}
 					}
 
 					// Parse
 					index[3].positionIndex = atof(vtns[0].c_str()) - 1;
-					if (hasTexture)
+					if (hasTextureCoord)
 					{
 						index[3].texIndex = atof(vtns[1].c_str()) - 1;
 					}
-					if (hasNormal)
+					if (hasNormalCoord)
 					{
 						index[3].normalIndex = atof(vtns[2].c_str()) - 1;
 					}
 
+					indices.push_back(index[0]);
 					indices.push_back(index[2]);
 					indices.push_back(index[3]);
-					indices.push_back(index[0]);
 				}
 			}
 		}
@@ -159,21 +159,21 @@ void ObjModel::loadToMesh(Mesh *mesh)
 	{
 		vert_indices.push_back(indices[i].positionIndex);
 
-		if (hasTexture)
+		if (hasTextureCoord)
 		{
 			vertices[indices[i].positionIndex].setTex(texCoords[indices[i].texIndex]);
+			// If object does not have normal coords, use texture coords instead
+			vertices[indices[i].positionIndex].setNormalCoord(texCoords[indices[i].texIndex]);
 		}
 
-		if (hasNormal)
+		if (hasNormalCoord)
 		{
-			vertices[indices[i].positionIndex].setNormal(normals[indices[i].normalIndex]);
+			// If object has normal coords, override texture coords
+			vertices[indices[i].positionIndex].setNormalCoord(normalCoords[indices[i].normalIndex]);
 		}
 	}
 
-	if (!hasNormal)
-	{
-		_calculate_normals(vertices, vertices.size(), vert_indices, vert_indices.size());
-	}
+	_calculate_normals(vertices, vertices.size(), vert_indices, vert_indices.size());
 
 	mesh->addVertices(vertices, vertices.size(), vert_indices, vert_indices.size());
 }
@@ -186,9 +186,27 @@ void ObjModel::_calculate_normals(std::vector<Vertex>& vertices, int num_vert, s
 		int i1 = indices[i + 1];
 		int i2 = indices[i + 2];
 
-		glm::vec3 normal = glm::normalize(glm::cross(vertices[i1].getPose() - vertices[i0].getPose(), vertices[i2].getPose() - vertices[i0].getPose()));
+		glm::vec3 deltaPos1 = vertices[i1].getPose() - vertices[i0].getPose();
+		glm::vec3 deltaPos2 = vertices[i2].getPose() - vertices[i0].getPose();
+
+		glm::vec2 deltaUV1 = vertices[i1].getNormalCoord() - vertices[i0].getNormalCoord();
+		glm::vec2 deltaUV2 = vertices[i2].getNormalCoord() - vertices[i0].getNormalCoord();
+
+		float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+
+		glm::vec3 normal = glm::normalize(glm::cross(deltaPos1, deltaPos2));
 		vertices[i0].setNormal(normal);
 		vertices[i1].setNormal(normal);
 		vertices[i2].setNormal(normal);
+
+		glm::vec3 tangent = glm::normalize((deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r);
+		vertices[i0].setTanget(tangent);
+		vertices[i1].setTanget(tangent);
+		vertices[i2].setTanget(tangent);
+
+		glm::vec3 bitangent = glm::normalize(glm::cross(normal, tangent));
+		vertices[i0].setBiTangent(bitangent);
+		vertices[i1].setBiTangent(bitangent);
+		vertices[i2].setBiTangent(bitangent);
 	}
 }

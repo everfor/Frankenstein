@@ -72,15 +72,22 @@ void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 	}
 }
 
-void ResourceManager::LoadTexture(const std::string& fileName, GLuint texture)
+void ResourceManager::LoadTexture(GLuint texture, const std::string& diffuse_texture)
 {
-	int width, height, num;
-	unsigned char* imageData = stbi_load(fileName.c_str(), &width, &height, &num, 4);
+	int diffuse_width, diffuse_height, diffuse_num;
+	unsigned char* diffuse = stbi_load(diffuse_texture.c_str(), &diffuse_width, &diffuse_height, &diffuse_num, 4);
 
-	if (imageData == NULL)
+	//int normal_width, normal_height, normal_num;
+	//unsigned char* normal = stbi_load(normal_texture.c_str(), &normal_width, &normal_height, &normal_num, 4);
+
+	if (diffuse == NULL)
 	{
-		throw ResourceException("Failed to load texture file: " + fileName);
+		throw ResourceException("Failed to load diffuse texture file: " + diffuse_texture);
 	}
+	//if (normal == NULL)
+	//{
+	//	throw ResourceException("Failed to load normal texture file: " + normal_texture);
+	//}
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -88,7 +95,9 @@ void ResourceManager::LoadTexture(const std::string& fileName, GLuint texture)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, diffuse_width, diffuse_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, diffuse);
+	//glTexImage2D(GL_TEXTURE_2D, 1, GL_RGBA, normal_width, normal_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, normal);
 
-	stbi_image_free(imageData);
+	//stbi_image_free(normal);
+	stbi_image_free(diffuse);
 }

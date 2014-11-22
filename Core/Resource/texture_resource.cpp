@@ -27,7 +27,7 @@ void TextureResource::_load_all()
 		// Store texture IDs
 		it->second.get()->setTextureID(ids[index++]);
 		// Bind resources
-		ResourceManager::LoadTexture(it->first, it->second.get()->getTextureID());
+		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first);
 	}
 
 	free(ids);

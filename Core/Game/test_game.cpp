@@ -29,38 +29,41 @@ TestGame::TestGame(CoreEngine *core) :
 	Material *wood = new Material();
 	Material *cave = new Material();
 	
-	Texture *metalTex = new Texture("./res/textures/metal.png");
-	Texture *woodTex = new Texture("./res/textures/wood.png");
-	Texture *caveTex = new Texture("./res/textures/cave.png");
-	TextureResource::_load_all();
+	Texture *metalTex = new Texture("./res/textures/brick.jpg");
+	//Texture *woodTex = new Texture("./res/textures/wood.png");
+	//Texture *caveTex = new Texture("./res/textures/cave.png");
+	//Texture *testNormal = new Texture("./res/textures/default_normal.jpg");
+	Texture *testNormal = new Texture("./res/textures/brick_normal.png");
 
 	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
-	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.8);
-	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 4);
+	metal->addTexture(MATERIAL_NORMAL_TEXTURE, *testNormal);
+	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.05);
+	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
 
-	wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *woodTex);
-	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
-	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
+	//wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *woodTex);
+	//wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
+	//wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
 
-	cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
-	cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
-	cave->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
+	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
+	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
+	//cave->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
 
 	// Monkeys
-	monkey1 = new Object();
-	monkey2 = new Object();
-	monkey2->addComponent(new MeshRenderer(mesh, metal));
-	monkey2->getTransform().setTranslation(2, 0, 0);
-	monkey2->getTransform().setScale(0.6, 0.6, 0.6);
-	monkey1->addComponent(new MeshRenderer(mesh, wood));
-	monkey1->getTransform().setTranslation(3, 0, 0);
-	monkey1->getTransform().setScale(0.7, 0.7, 0.7);
-	monkey1->addChild(monkey2);
+	//monkey1 = new Object();
+	//monkey2 = new Object();
+	//monkey2->addComponent(new MeshRenderer(mesh, metal));
+	//monkey2->getTransform().setTranslation(2, 0, 0);
+	//monkey2->getTransform().setScale(0.6, 0.6, 0.6);
+	//monkey1->addComponent(new MeshRenderer(mesh, wood));
+	//monkey1->getTransform().setTranslation(3, 0, 0);
+	//monkey1->getTransform().setScale(0.7, 0.7, 0.7);
+	//monkey1->addChild(monkey2);
 
 	monkey = new Object();
-	monkey->addComponent(new MeshRenderer(mesh, cave));
-	monkey->addChild(monkey1);
-	monkey->getTransform().setScale(0.5, 0.5, 0.5);
+	monkey->addComponent(new MeshRenderer(mesh, metal));
+	//monkey->addChild(monkey1);
+	//monkey->getTransform().setScale(0.5, 0.5, 0.5);
+	//monkey->getTransform().setTranslation(0, 0, -4);
 
 	// Object
 	addObject(monkey);
@@ -70,9 +73,9 @@ TestGame::TestGame(CoreEngine *core) :
 	pointLight->getTransform().setTranslation(glm::vec3(1, 0, 1));
 
 	Object *directionalLight = new Object();
-	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 0, 0), 0.4f)));
+	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
 	directionalLight->getTransform().rotateY(-90);
-	directionalLight->getTransform().rotateZ(-45);
+	//directionalLight->getTransform().rotateZ(-45);
 
 	Object *spotLight = new Object();
 	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
@@ -87,6 +90,8 @@ TestGame::TestGame(CoreEngine *core) :
 	addObject(directionalLight);
 	addObject(spotLight);
 	addObject(camera);
+
+	Material::_load_textures();
 }
 
 TestGame::~TestGame()
@@ -128,8 +133,8 @@ void TestGame::update(float delta)
 	// transform.setTranslation(sin_var, 0, 0);
 	// monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
 	monkey->getTransform().rotateY((sin_var - last_sin) * 180);
-	monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
-	monkey2->getTransform().rotateY((sin_var - last_sin) * 180);
+	// monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
+	//monkey2->getTransform().rotateY((sin_var - last_sin) * 180);
 	// camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);
 	last_sin = sin_var;
 	// camera->getTransform().rotateY(sin_var);
