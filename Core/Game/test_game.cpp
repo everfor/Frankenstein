@@ -21,74 +21,76 @@ TestGame::TestGame(CoreEngine *core) :
 	Input::Initialize();
 
 	// Common mesh
-	Mesh *mesh = new Mesh("./res/models/monkey.obj");
-	Mesh *mesh2 = new Mesh("./res/models/plane.obj");
+	Mesh *mesh = new Mesh("./res/models/cube.obj");
 
 	// TEST
 	Material *metal = new Material();
 	Material *wood = new Material();
 	Material *cave = new Material();
 	
-	Texture *metalTex = new Texture("./res/textures/brick.jpg");
+	Texture *metalTex = new Texture("./res/textures/bricks2.jpg");
 	//Texture *woodTex = new Texture("./res/textures/wood.png");
 	//Texture *caveTex = new Texture("./res/textures/cave.png");
-	//Texture *testNormal = new Texture("./res/textures/default_normal.jpg");
-	Texture *testNormal = new Texture("./res/textures/brick_normal.png");
+	//Texture *crystalNormal = new Texture("./res/textures/wood_normal.jpg");
+	Texture *testNormal = new Texture("./res/textures/bricks2_normal.jpg");
 
 	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
 	metal->addTexture(MATERIAL_NORMAL_TEXTURE, *testNormal);
-	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.05);
-	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
+	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 5);
+	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
 
-	//wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *woodTex);
-	//wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
-	//wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
+	wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
+	//wood->addTexture(MATERIAL_NORMAL_TEXTURE, *crystalNormal);
+	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 5);
+	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
 	//cave->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
 
 	// Monkeys
-	//monkey1 = new Object();
+	monkey1 = new Object();
 	//monkey2 = new Object();
 	//monkey2->addComponent(new MeshRenderer(mesh, metal));
 	//monkey2->getTransform().setTranslation(2, 0, 0);
 	//monkey2->getTransform().setScale(0.6, 0.6, 0.6);
-	//monkey1->addComponent(new MeshRenderer(mesh, wood));
-	//monkey1->getTransform().setTranslation(3, 0, 0);
-	//monkey1->getTransform().setScale(0.7, 0.7, 0.7);
+	monkey1->addComponent(new MeshRenderer(mesh, wood));
+	monkey1->getTransform().setTranslation(1, 0, 0);
+	monkey1->getTransform().setScale(0.5, 0.5, 0.5);
 	//monkey1->addChild(monkey2);
 
 	monkey = new Object();
 	monkey->addComponent(new MeshRenderer(mesh, metal));
 	//monkey->addChild(monkey1);
-	//monkey->getTransform().setScale(0.5, 0.5, 0.5);
-	//monkey->getTransform().setTranslation(0, 0, -4);
+	monkey->getTransform().setScale(0.5, 0.5, 0.5);
+	monkey->getTransform().setTranslation(-1, 0, 0);
 
 	// Object
 	addObject(monkey);
+	addObject(monkey1);
 
-	Object *pointLight = new Object();
-	pointLight->addComponent(new PointLight(BaseLight(glm::vec3(0, 1, 0), 0.3f), 0, 0, 1));
-	pointLight->getTransform().setTranslation(glm::vec3(1, 0, 1));
+	//Object *pointLight = new Object();
+	//pointLight->addComponent(new PointLight(BaseLight(glm::vec3(0, 1, 0), 0.3f), 0, 0, 1));
+	//pointLight->getTransform().setTranslation(glm::vec3(1, 0, 1));
 
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
-	directionalLight->getTransform().rotateY(-90);
+	//directionalLight->getTransform().rotateY(-90);
 	//directionalLight->getTransform().rotateZ(-45);
+	//directionalLight->getTransform().rotateX(-90);
 
-	Object *spotLight = new Object();
-	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
-	spotLight->getTransform().setTranslation(0, -1, 0);
-	spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
+	//Object *spotLight = new Object();
+	//spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
+	//spotLight->getTransform().setTranslation(0, -1, 0);
+	//spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
 
 	camera = new Object();
 	camera->addComponent(new Camera(80.0f, 800.0 / 600.0, 0.1, 10000));
 	camera->getTransform().setTranslation(0, 0, 2);
 
-	addObject(pointLight);
+	//addObject(pointLight);
 	addObject(directionalLight);
-	addObject(spotLight);
+	//addObject(spotLight);
 	addObject(camera);
 
 	Material::_load_textures();
@@ -133,6 +135,7 @@ void TestGame::update(float delta)
 	// transform.setTranslation(sin_var, 0, 0);
 	// monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
 	monkey->getTransform().rotateY((sin_var - last_sin) * 180);
+	monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
 	// monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
 	//monkey2->getTransform().rotateY((sin_var - last_sin) * 180);
 	// camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);

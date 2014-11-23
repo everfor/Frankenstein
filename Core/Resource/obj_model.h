@@ -1,6 +1,7 @@
 #pragma once
 
 #include "indexed_model.h"
+#include "vertex.h"
 
 #include <glm/glm.hpp>
 #include <vector>
@@ -24,17 +25,11 @@ class ObjModel : public IndexedModel
 	public:
 		ObjModel(const std::string& fileName);
 		virtual ~ObjModel();
-		std::vector<glm::vec3>& getPositions() { return positions; };
-		std::vector<glm::vec2>& gettexCoords() { return texCoords; };
-		std::vector<glm::vec2>& getNormalCoords() { return normalCoords; };
 		void loadToMesh(Mesh *mesh) override;
 	private:
-		static void _calculate_normals(std::vector<Vertex>& vertices, int num_vert, std::vector<unsigned short>& indices, int num_index);
 		bool hasTextureCoord;
 		bool hasNormalCoord;
-		std::vector<glm::vec3> positions;
-		std::vector<glm::vec2> texCoords;
-		std::vector<glm::vec2> normalCoords;
-		std::vector<ObjIndex> indices;
+		std::vector<Vertex> vertices;
+		std::vector<unsigned short> indices;
 };
 
