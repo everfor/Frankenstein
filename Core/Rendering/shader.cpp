@@ -212,13 +212,22 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		{
 			setUniformf(it->first, material->getFloat(MATERIAL_SPECULAR_EXPONENT));
 		}
+		else if (it->first == UNIFORM_DIFFUSE_SAMPLER)
+		{
+			setUniformi(it->first, DIFFUSE_TEXTEURE_SLOT);
+			material->getTexture(MATERIAL_DIFFUSE_TEXTURE).bind(DIFFUSE_TEXTEURE_SLOT);
+		}
+		else if (it->first == UNIFORM_NORMAL_SAMPLER)
+		{
+			setUniformi(it->first, NORMAL_TEXTURE_SLOT);
+			material->getTexture(MATERIAL_NORMAL_TEXTURE).bind(NORMAL_TEXTURE_SLOT);
+		}
 	}
 
 	// Set Light Uniforms
 	switch (type)
 	{
 		case Shader::AMBIENT_LIGHT:
-			material->getTexture(MATERIAL_DIFFUSE_TEXTURE).bind();
 			setUniform(UNIFORM_AMBIENT_LIGHT, light->getColor());
 			break;
 		case Shader::DIRECTIONAL_LIGHT:
@@ -237,28 +246,25 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 
 void Shader::addUniformWithType(const std::string& type, const std::string& name)
 {
-	if (type != SAMPLER_TYPE)
+	if (type.find(VEC_TYPE) != std::string::npos || type.find(MAT_TYPE) != std::string::npos
+		|| type == FLOAT_TYPE || type == INT_TYPE || type == SAMPLER_TYPE)
 	{
-		if (type.find(VEC_TYPE) != std::string::npos || type.find(MAT_TYPE) != std::string::npos
-			|| type == FLOAT_TYPE || type == INT_TYPE)
+		addUniform(name, type);
+	}
+	else
+	{
+		// Not a basic type - must be a user defined one
+		if (_uniform_structs.find(type) == _uniform_structs.end())
 		{
-			addUniform(name, type);
+			throw ShaderException("Cannot find uniform of type: " + type);
 		}
-		else
-		{
-			// Not a basic type - must be a user defined one
-			if (_uniform_structs.find(type) == _uniform_structs.end())
-			{
-				throw ShaderException("Cannot find uniform of type: " + type);
-			}
 
-			// Add members as uniforms
-			for (std::multimap<std::string, std::string>::iterator it = _uniform_structs.at(type).begin();
-				it != _uniform_structs.at(type).end();
-				it++)
-			{
-				addUniformWithType(it->first, name + "." + it->second);
-			}
+		// Add members as uniforms
+		for (std::multimap<std::string, std::string>::iterator it = _uniform_structs.at(type).begin();
+			it != _uniform_structs.at(type).end();
+			it++)
+		{
+			addUniformWithType(it->first, name + "." + it->second);
 		}
 	}
 }

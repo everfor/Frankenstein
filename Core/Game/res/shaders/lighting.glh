@@ -1,5 +1,6 @@
 uniform vec3 eyePos;
 uniform sampler2D diffuse;
+uniform sampler2D normalMap;
 
 uniform float specularIntensity;
 uniform float specularExponent;

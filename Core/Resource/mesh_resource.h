@@ -16,6 +16,8 @@ class MeshResource : public Resource
 			POSITION_VB,
 			TEXCOORD_VB,
 			NORMAL_VB,
+			TANGENT_VB,
+			BITANGENT_VB,
 			INDEX_VB,
 			NUM_BUFFERS
 		};

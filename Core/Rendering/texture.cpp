@@ -9,11 +9,11 @@ Texture::Texture(const std::string& init_fileName) : fileName(init_fileName)
 
 Texture::~Texture()
 {
-	TextureResource::_remove_resource(fileName);
 }
 
-void Texture::bind()
+void Texture::bind(int unit)
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	assert(unit >= 0 && unit <= 31);
+	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, resource->getTextureID());
 }
