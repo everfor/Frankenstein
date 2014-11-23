@@ -50,6 +50,12 @@ ObjModel::ObjModel(const std::string& fileName) :
 			indices.push_back(face->mIndices[1]);
 			indices.push_back(face->mIndices[2]);
 		}
+
+		importer.FreeScene();
+	}
+	else
+	{
+		throw ResourceException("Failed to laod model: " + fileName);
 	}
 }
 

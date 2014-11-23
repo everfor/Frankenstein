@@ -21,28 +21,28 @@ TestGame::TestGame(CoreEngine *core) :
 	Input::Initialize();
 
 	// Common mesh
-	Mesh *mesh = new Mesh("./res/models/cube.obj");
+	Mesh *mesh = new Mesh("./res/models/monkey.obj");
 
 	// TEST
 	Material *metal = new Material();
 	Material *wood = new Material();
 	Material *cave = new Material();
 	
-	Texture *metalTex = new Texture("./res/textures/bricks2.jpg");
+	Texture *metalTex = new Texture("./res/textures/bricks.jpg");
 	//Texture *woodTex = new Texture("./res/textures/wood.png");
 	//Texture *caveTex = new Texture("./res/textures/cave.png");
-	//Texture *crystalNormal = new Texture("./res/textures/wood_normal.jpg");
-	Texture *testNormal = new Texture("./res/textures/bricks2_normal.jpg");
+	Texture *crystalNormal = new Texture("./res/textures/wood_normal.jpg");
+	Texture *testNormal = new Texture("./res/textures/bricks_normal.jpg");
 
 	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
 	metal->addTexture(MATERIAL_NORMAL_TEXTURE, *testNormal);
-	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 5);
-	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
+	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
+	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
 
 	wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
 	//wood->addTexture(MATERIAL_NORMAL_TEXTURE, *crystalNormal);
-	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 5);
-	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
+	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
+	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
@@ -75,8 +75,8 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
-	//directionalLight->getTransform().rotateY(-90);
-	//directionalLight->getTransform().rotateZ(-45);
+	directionalLight->getTransform().rotateY(-90);
+	directionalLight->getTransform().rotateZ(-45);
 	//directionalLight->getTransform().rotateX(-90);
 
 	//Object *spotLight = new Object();
