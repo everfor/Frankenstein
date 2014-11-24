@@ -212,6 +212,14 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		{
 			setUniformf(it->first, material->getFloat(MATERIAL_SPECULAR_EXPONENT));
 		}
+		else if (it->first == UNIFORM_DISP_BIAS)
+		{
+			setUniformf(it->first, material->getFloat(MATERIAL_DISP_BIAS));
+		}
+		else if (it->first == UNIFORM_DISP_BIAS)
+		{
+			setUniformf(it->first, material->getFloat(MATERIAL_DISP_SCALE));
+		}
 		else if (it->first == UNIFORM_DIFFUSE_SAMPLER)
 		{
 			setUniformi(it->first, DIFFUSE_TEXTEURE_SLOT);
@@ -221,6 +229,11 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		{
 			setUniformi(it->first, NORMAL_TEXTURE_SLOT);
 			material->getTexture(MATERIAL_NORMAL_TEXTURE).bind(NORMAL_TEXTURE_SLOT);
+		}
+		else if (it->first == UNIFORM_DISP_SAMPLER)
+		{
+			setUniformi(it->first, DISP_TEXTURE_SLOT);
+			material->getTexture(MATERIAL_DISP_TEXTURE).bind(DISP_TEXTURE_SLOT);
 		}
 	}
 

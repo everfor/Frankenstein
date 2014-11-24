@@ -24,25 +24,8 @@ TestGame::TestGame(CoreEngine *core) :
 	Mesh *mesh = new Mesh("./res/models/monkey.obj");
 
 	// TEST
-	Material *metal = new Material();
-	Material *wood = new Material();
-	Material *cave = new Material();
-	
-	Texture *metalTex = new Texture("./res/textures/bricks.jpg");
-	//Texture *woodTex = new Texture("./res/textures/wood.png");
-	//Texture *caveTex = new Texture("./res/textures/cave.png");
-	Texture *crystalNormal = new Texture("./res/textures/wood_normal.jpg");
-	Texture *testNormal = new Texture("./res/textures/bricks_normal.jpg");
-
-	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
-	metal->addTexture(MATERIAL_NORMAL_TEXTURE, *testNormal);
-	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
-	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
-
-	wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
-	//wood->addTexture(MATERIAL_NORMAL_TEXTURE, *crystalNormal);
-	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
-	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
+	Material *metal = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.02f, -0.1f);
+	Material *wood = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg");
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);

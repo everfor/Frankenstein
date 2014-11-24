@@ -36,8 +36,11 @@
 #define UNIFORM_DIRECTIONAL_LIGHT	"directionalLight"
 #define UNIFORM_POINT_LIGHT			"pointLight"
 #define UNIFORM_SPOT_LIGHT			"spotLight"
+#define UNIFORM_DISP_SCALE			"dispScale"
+#define UNIFORM_DISP_BIAS			"dispBias"
 #define UNIFORM_DIFFUSE_SAMPLER		"diffuse"
 #define UNIFORM_NORMAL_SAMPLER		"normalMap"
+#define UNIFORM_DISP_SAMPLER		"dispMap"
 
 // Forward declaration
 class Camera;

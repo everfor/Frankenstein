@@ -6,5 +6,6 @@ uniform PointLight pointLight;
 
 void main()
 {
-	gl_FragColor = texture(diffuse, tex0.xy) * calculatePointLight(pointLight, getNormal(normalMap), worldPos0);
+	vec2 tex = getDispTexCoord(eyePos, dispMap, dispScale, dispBias);
+	gl_FragColor = texture(diffuse, tex) * calculatePointLight(pointLight, getNormal(normalMap, tex), worldPos0);
 }

@@ -6,5 +6,6 @@ uniform SpotLight spotLight;
 
 void main()
 {
-	gl_FragColor = texture(diffuse, tex0.xy) * calcualteSpotLight(spotLight, getNormal(normalMap), worldPos0);
+	vec2 tex = getDispTexCoord(eyePos, dispMap, dispScale, dispBias);
+	gl_FragColor = texture(diffuse, tex) * calcualteSpotLight(spotLight, getNormal(normalMap, tex), worldPos0);
 }
