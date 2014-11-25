@@ -32,6 +32,7 @@ class Display
 		static unsigned int GetHeight() { return _window.get()->getHeight(); };
 		static std::string GetTitle() { return _window.get()->getTitle(); };
 		static glm::vec2& GetCenter() { return _window.get()->getCenter(); };
+		static void BindAsRenderTarget();
 	private:
 		Display(unsigned int init_width = DEFAULT_WIDTH, unsigned int init_height = DEFAULT_HEIGHT, std::string& init_name = std::string(DEFAULT_TITLE));
 		std::string title;

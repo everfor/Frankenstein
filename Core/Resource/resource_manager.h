@@ -22,7 +22,7 @@ class ResourceManager
 		// Parse a mesh file and store the corresponding data in Mesh object
 		static void LoadMesh(const std::string& fileName, Mesh& mesh);
 		// Parse an image file for texture
-		static void LoadTexture(GLuint texture, const std::string& diffuse_texture);
+		static void LoadTexture(GLuint texture, const std::string& file, GLenum target, GLfloat filter);
 	private:
 		ResourceManager();
 };

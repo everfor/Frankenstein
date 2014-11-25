@@ -21,11 +21,11 @@ TestGame::TestGame(CoreEngine *core) :
 	Input::Initialize();
 
 	// Common mesh
-	Mesh *mesh = new Mesh("./res/models/monkey.obj");
+	Mesh *mesh = new Mesh("./res/models/cube.obj");
 
 	// TEST
-	Material *metal = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.02f, -0.1f);
-	Material *wood = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg");
+	Material *metal = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg");
+	Material *wood = new Material(0.1, 1024, "./res/textures/bricks.jpg");
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);

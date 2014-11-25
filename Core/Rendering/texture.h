@@ -14,14 +14,15 @@
 class Texture
 {
 	public:
-		Texture(const std::string& fileName);
+		Texture(const std::string& fileName, const GLenum target = GL_TEXTURE_2D, const GLfloat filter = GL_LINEAR, const GLenum attachments = GL_NONE);
+		Texture(const std::string *fileNames, const int num_textures, const GLenum *targets, const GLfloat *filters, const GLenum *attachments);
 		virtual ~Texture();
 		void setTexture(const std::string& fileName);
-		std::string& getTexture() { return fileName; };
-		TextureResource* getResource() { return resource; };
+		TextureResource* getResource() { return resources[0]; };
 		void bind(int unit);
+		void bindAsRenderTarget();
 	private:
-		std::string fileName;
-		TextureResource *resource;
+		int numTextures;
+		std::vector<TextureResource*> resources;
 };
 
