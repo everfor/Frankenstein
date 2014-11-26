@@ -76,17 +76,17 @@ void Object::update(float delta)
 	}
 }
 
-void Object::render(Shader *shader, Camera *camera)
+void Object::render(Shader *shader, RenderingEngine *rendering_engine)
 {
 	// Somehow children needs to be rendered first
 	// In order to avoid weird texture overlapping issues
 	for (int i = 0; i < children.size(); i++)
 	{
-		children[i].get()->render(shader, camera);
+		children[i].get()->render(shader, rendering_engine);
 	}
 
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->render(shader, camera);
+		components[i].get()->render(shader, rendering_engine);
 	}
 }

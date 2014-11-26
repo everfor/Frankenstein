@@ -43,6 +43,7 @@
 #define UNIFORM_DISP_SAMPLER		"dispMap"
 
 // Forward declaration
+class RenderingEngine;
 class Camera;
 class Material;
 class BaseLight;
@@ -66,7 +67,7 @@ class Shader
 		void addFragmentShader(const std::string& text);
 		void addGeometryShader(const std::string& text);
 		void compileAllShaders();
-		void updateUniforms(Transform *transform, Camera *camera, Material *material);
+		void updateUniforms(Transform *transform, RenderingEngine *rendering_engine, Material *material);
 		void bind();
 		// Lightings
 		void setLight(BaseLight* new_light) { light = new_light; };

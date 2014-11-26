@@ -47,7 +47,7 @@ void RenderingEngine::render(Object& object)
 
 	clearScreen();
 	BaseLight light(glm::vec3(0.2, 0.2, 0.2));
-	object.render(Shader::GetShader(Shader::_shader_type::AMBIENT_LIGHT, &light), getMainCamera());
+	object.render(Shader::GetShader(Shader::_shader_type::AMBIENT_LIGHT, &light), this);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
@@ -56,7 +56,7 @@ void RenderingEngine::render(Object& object)
 
 	for (int i = 0; i < lights.size(); i++)
 	{
-		object.render(lights[i]->getShader(), getMainCamera());
+		object.render(lights[i]->getShader(), this);
 	}
 
 	glDepthFunc(GL_LESS);

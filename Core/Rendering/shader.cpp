@@ -4,6 +4,7 @@
 #include "resource_manager.h"
 #include "camera.h"
 #include "material.h"
+#include "rendering_engine.h"
 //	Lightings
 #include "base_light.h"
 #include "directional_light.h"
@@ -186,7 +187,7 @@ void Shader::setUniform(const std::string& uniform, SpotLight& spotLight)
 	setUniformf(uniform + ".cutoff", spotLight.getCutOff());
 }
 
-void Shader::updateUniforms(Transform *transform, Camera *camera, Material *material)
+void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_engine, Material *material)
 {
 	for (std::map<std::string, std::pair<std::string, GLuint>>::iterator it = uniforms.begin();
 		it != uniforms.end();
@@ -198,11 +199,11 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		}
 		else if (it->first == UNIFORM_MVP)
 		{
-			setUniform(it->first, camera->getCameraProjection() * transform->getTransformation());
+			setUniform(it->first, rendering_engine->getMainCamera()->getCameraProjection() * transform->getTransformation());
 		}
 		else if (it->first == UNIFORM_EYE_POS)
 		{
-			setUniform(it->first, camera->getTransform()->getTranslation());
+			setUniform(it->first, rendering_engine->getMainCamera()->getTransform()->getTranslation());
 		}
 		else if (it->first == UNIFORM_SPEC_INTENSITY)
 		{

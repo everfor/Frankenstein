@@ -5,7 +5,7 @@
 
 // Forward Declaration
 class CoreEngine;
-class Camera;
+class RenderingEngine;
 class Shader;
 class Transform;
 
@@ -16,7 +16,7 @@ class Component
 		virtual ~Component() {};
 		virtual void input(Transform& transform, float delta) {};
 		virtual void update(Transform& transform, float delta) {};
-		virtual void render(Shader *shader, Camera *camera) {};
+		virtual void render(Shader *shader, RenderingEngine *redering_engine) {};
 		void setTransform(Transform* new_trans) { transform = new_trans; };
 		Transform* getTransform() { return transform; };
 		void setEngine(CoreEngine *engine) { addToEngine(engine); };
