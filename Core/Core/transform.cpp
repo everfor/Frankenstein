@@ -1,6 +1,9 @@
 #include "transform.h"
 
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+#include <iostream>
 
 Transform::Transform() :
 parent(NULL), translation(glm::vec3()), rotation(glm::quat()), scale(glm::vec3(1.0f, 1.0f, 1.0f)), isTransformationChanged(true)
@@ -137,25 +140,62 @@ void Transform::moveY(float amt)
 
 void Transform::moveZ(float amt)
 {
-	move(getBackward(), amt);
+	move(getForward(), amt);
 }
 
 void Transform::rotate(const glm::vec3& axis, float angle)
 {
-	setRotation(glm::rotate(rotation, angle, glm::normalize(axis)));
+	setRotation(rotation * glm::angleAxis(angle, axis));
 }
 
 void Transform::rotateX(float angle)
 {
-	rotate(getRight(), angle);
+	if (parent == NULL)
+	{
+		rotate(RIGHT_DIR, angle);
+	}
+	else
+	{
+		rotate(glm::normalize(parent->getRotation() * RIGHT_DIR), angle);
+	}
 }
 
 void Transform::rotateY(float angle)
 {
-	rotate(getUp(), angle);
+	if (parent == NULL)
+	{
+		rotate(UP_DIR, angle);
+	}
+	else
+	{
+		rotate(glm::normalize(parent->getRotation() * UP_DIR), angle);
+	}
 }
 
 void Transform::rotateZ(float angle)
 {
-	rotate(getForward(), angle);
+	if (parent == NULL)
+	{
+		rotate(FORWARD_DIR, angle);
+	}
+	else
+	{
+		rotate(glm::normalize(parent->getRotation() * FORWARD_DIR), angle);
+	}
+}
+
+void Transform::compositeRotate(float x_angle, float y_anlge, float z_angle)
+{
+	if (parent == NULL)
+	{
+		setRotation(rotation * glm::angleAxis(x_angle, RIGHT_DIR)
+			* glm::angleAxis(y_anlge, UP_DIR)
+			* glm::angleAxis(z_angle, FORWARD_DIR));
+	}
+	else
+	{
+		setRotation(rotation * glm::angleAxis(x_angle, glm::normalize(parent->getRotation() * RIGHT_DIR))
+			* glm::angleAxis(y_anlge, glm::normalize(parent->getRotation() * UP_DIR))
+			* glm::angleAxis(z_angle, glm::normalize(parent->getRotation() * FORWARD_DIR)));
+	}
 }

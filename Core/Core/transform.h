@@ -55,6 +55,7 @@ class Transform
 		void rotateX(float angle);
 		void rotateY(float angle);
 		void rotateZ(float angle);
+		void compositeRotate(float x_angle, float y_anlge, float z_angle);
 	private:
 		void updateParentTransform();
 		Transform *parent;

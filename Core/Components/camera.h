@@ -11,7 +11,7 @@ class CoreEngine;
 class Camera : public Component
 {
 	public:
-		Camera(float init_fov, float init_asp, float init_znear, float init_zfar);
+		Camera(float init_fov, float init_asp, float init_znear, float init_zfar, float init_move_sensitivity = 1.5f, float init_rotate_sensitivity = 7.0f);
 		virtual ~Camera();
 		// Other things
 		float getFov() { return fov; };
@@ -26,11 +26,14 @@ class Camera : public Component
 		glm::mat4& getCameraProjection();
 		// Override
 		void addToEngine(CoreEngine *engine) override;
+		void input(float delta) override;
 	private:
 		float fov;
 		float aspect;
 		float zNear;
 		float zFar;
+		float move_sensitivity;
+		float rotate_sensitivity;
 		glm::mat4 projection;
 };
 

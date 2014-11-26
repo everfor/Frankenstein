@@ -95,7 +95,7 @@ void TestGame::input(float delta)
 	if (Input::GetKeyUp(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse up!" << std::endl;
-		glm::vec2 cursor = Input::GetCursorPosition();
+		glm::vec2 cursor = Input::GetCurrentCursor();
 		std::cout << "x: " << cursor.x << " y: " << cursor.y << std::endl;
 	}
 }

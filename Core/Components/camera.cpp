@@ -2,11 +2,12 @@
 #include "transform.h"
 #include "core_engine.h"
 #include "rendering_engine.h"
+#include "movement.h"
 
 #include <glm/gtx/transform.hpp>
 
-Camera::Camera(float init_fov, float init_asp, float init_znear, float init_zfar) :
-			fov(init_fov), aspect(init_asp), zNear(init_znear), zFar(init_zfar)
+Camera::Camera(float init_fov, float init_asp, float init_znear, float init_zfar, float init_move_sensitivity, float init_rotate_sensitivity) :
+fov(init_fov), aspect(init_asp), zNear(init_znear), zFar(init_zfar), move_sensitivity(init_move_sensitivity), rotate_sensitivity(init_rotate_sensitivity)
 {
 }
 
@@ -25,4 +26,10 @@ glm::mat4& Camera::getCameraProjection()
 void Camera::addToEngine(CoreEngine *engine)
 {
 	engine->getRenderingEngine()->addCamera(this);
+}
+
+void Camera::input(float delta)
+{
+	Movement::FreeRotate(delta, rotate_sensitivity, getTransform());
+	Movement::FreeMove(delta, move_sensitivity, getTransform());
 }

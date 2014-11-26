@@ -6,13 +6,15 @@
 #ifdef _WIN32
 #include <Windows.h>
 // Key States
-#define UP_UNTOGGELED		0x0000
-#define UP_TOGGLED			0x0001
-#define DONW_UNTOGGLED		0x8000
-#define DOWN_TOGGLED		0x8001
+#define UP_UNTOGGELED				0x0000
+#define UP_TOGGLED					0x0001
+#define DONW_UNTOGGLED				0x8000
+#define DOWN_TOGGLED				0x8001
 // Key State Change Detection
-#define KEY_DOWN_MASK		0x8001
-#define KEY_UP_MASK			0x8000
+#define KEY_TOGGLE_DOWN_MASK		0x8001
+#define KEY_TOGGLE_UP_MASK			0x8000
+// Key State Static Detection
+#define KEY_DOWN_MASK				0x8000
 // Key Codes - Generic ones so they are platform-independent
 // Format:
 // KEY_ : Keys in main keyboard
@@ -41,7 +43,7 @@
 #define KEY_LEFT			VK_LEFT
 #define KEY_UP				VK_UP
 #define KEY_DOWN			VK_DOWN
-#define KEY_LEFT			VK_LEFT
+#define KEY_RIGHT			VK_RIGHT
 #define KEY_SELECT			VK_SELECT
 #define KEY_PRINT			VK_PRINT
 #define KEY_EXEC			VK_EXECUTE
@@ -160,14 +162,18 @@ class Input
 	public:
 		static void Initialize();
 		static void Update();
+		static short CheckKey(int keyCode);
 		static bool GetKeyDown(int keyCode);
 		static bool GetKeyUp(int keyCode);
-		static glm::vec2 GetCursorPosition();
+		static glm::vec2 GetCurrentCursor() { return _current_cursor_pos; };
+		static glm::vec2 GetLastCursor() { return _last_cursor_pos; };
 	private:
 		Input();
 		~Input();
+		static glm::vec2 GetCursorPosition();
 		static std::vector<int> _KEYS;
 		static std::vector<int>	_UP_KEYS;
 		static std::vector<int> _DOWN_KEYS;
-		static short CheckKey(int keyCode);
+		static glm::vec2 _last_cursor_pos;
+		static glm::vec2 _current_cursor_pos;
 };
