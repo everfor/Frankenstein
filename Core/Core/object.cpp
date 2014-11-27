@@ -54,7 +54,7 @@ void Object::input(float delta)
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->input(delta);
+		components[i].get()->input(&transform, delta);
 	}
 
 	for (int i = 0; i < children.size(); i++)
@@ -72,7 +72,7 @@ void Object::update(float delta)
 
 	for (int i = 0; i < components.size(); i++)
 	{
-		components[i].get()->update(delta);
+		components[i].get()->update(&transform ,delta);
 	}
 }
 

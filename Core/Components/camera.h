@@ -26,7 +26,6 @@ class Camera : public Component
 		glm::mat4& getCameraProjection();
 		// Override
 		void addToEngine(CoreEngine *engine) override;
-		void input(float delta) override;
 	private:
 		float fov;
 		float aspect;

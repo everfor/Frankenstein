@@ -10,6 +10,8 @@
 #include "mesh_renderer.h"
 #include "camera.h"
 #include "core_engine.h"
+#include "movement.h"
+#include "rotation.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -21,7 +23,7 @@ TestGame::TestGame(CoreEngine *core) :
 	Input::Initialize();
 
 	// Common mesh
-	Mesh *mesh = new Mesh("./res/models/cube.obj");
+	Mesh *mesh = new Mesh("./res/models/monkey.obj");
 
 	// TEST
 	Material *metal = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg");
@@ -58,9 +60,10 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
-	directionalLight->getTransform().rotateY(-90);
-	directionalLight->getTransform().rotateZ(-45);
+	//directionalLight->getTransform().rotateY(-90);
+	//directionalLight->getTransform().rotateZ(-45);
 	//directionalLight->getTransform().rotateX(-90);
+	directionalLight->getTransform().compositeRotate(-90, -45, 0);
 
 	//Object *spotLight = new Object();
 	//spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
@@ -69,6 +72,8 @@ TestGame::TestGame(CoreEngine *core) :
 
 	camera = new Object();
 	camera->addComponent(new Camera(80.0f, 800.0 / 600.0, 0.1, 10000));
+	camera->addComponent(new Movement());
+	camera->addComponent(new Rotation());
 	camera->getTransform().setTranslation(0, 0, 2);
 
 	//addObject(pointLight);

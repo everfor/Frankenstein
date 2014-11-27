@@ -14,8 +14,8 @@ class Component
 	public:
 		Component() {};
 		virtual ~Component() {};
-		virtual void input(float delta) {};
-		virtual void update(float delta) {};
+		virtual void input(Transform *transform, float delta) {};
+		virtual void update(Transform *transform, float delta) {};
 		virtual void render(Shader *shader, RenderingEngine *redering_engine) {};
 		void setTransform(Transform* new_trans) { transform = new_trans; };
 		Transform* getTransform() { return transform; };

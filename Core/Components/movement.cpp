@@ -7,7 +7,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <cmath>
 
-void Movement::FreeMove(float delta, float sensitivity, Transform* transform)
+void Movement::input(Transform *transform, float delta)
 {
 	if (Input::CheckKey(KEY_DOWN) >> 15 != 0)
 	{
@@ -25,18 +25,4 @@ void Movement::FreeMove(float delta, float sensitivity, Transform* transform)
 	{
 		transform->moveX(delta * sensitivity);
 	}
-}
-
-void Movement::FreeRotate(float delta, float sensitivity, Transform* transform)
-{
-	glm::vec2 cursor_diff = Input::GetCurrentCursor() - Input::GetLastCursor();
-
-	if (glm::length(cursor_diff) >= MAX_MOUSE_SHOOT)
-	{
-		return;
-	}
-
-	transform->compositeRotate(delta * (float)pow(2, sensitivity) * cursor_diff.y * -1,
-								delta * (float)pow(2, sensitivity) * cursor_diff.x * -1,
-								0);
 }

@@ -27,9 +27,3 @@ void Camera::addToEngine(CoreEngine *engine)
 {
 	engine->getRenderingEngine()->addCamera(this);
 }
-
-void Camera::input(float delta)
-{
-	Movement::FreeRotate(delta, rotate_sensitivity, getTransform());
-	Movement::FreeMove(delta, move_sensitivity, getTransform());
-}

@@ -1,17 +1,15 @@
 #pragma once
 
-// Max mouse cursor shoot between frames
-#define MAX_MOUSE_SHOOT			200
+#include "component.h"
 
 class Transform;
-
-class Movement
+class Movement : public Component
 {
 	public:
-		static void FreeMove(float delta, float sensitivity, Transform* transform);
-		static void FreeRotate(float delta, float sensitivity, Transform* transform);
-	private:
-		Movement() {};
+		Movement(float init_sensitivity = 1.5f) : sensitivity(init_sensitivity) {};
 		virtual ~Movement() {};
+		void input(Transform* transform, float delta) override;
+	private:
+		float sensitivity;
 };
 
