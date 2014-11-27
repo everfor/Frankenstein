@@ -4,6 +4,7 @@
 #include "stb_image.h"
 #include "indexed_model.h"
 #include "obj_model.h"
+#include "display.h"
 
 #include <glm/glm.hpp>
 #include <fstream>
@@ -72,32 +73,36 @@ void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 	}
 }
 
-void ResourceManager::LoadTexture(GLuint texture, const std::string& diffuse_texture)
+void ResourceManager::LoadTexture(GLuint texture, const std::string& file, GLenum target, GLfloat filter)
 {
-	int diffuse_width, diffuse_height, diffuse_num;
-	unsigned char* diffuse = stbi_load(diffuse_texture.c_str(), &diffuse_width, &diffuse_height, &diffuse_num, 4);
-
-	//int normal_width, normal_height, normal_num;
-	//unsigned char* normal = stbi_load(normal_texture.c_str(), &normal_width, &normal_height, &normal_num, 4);
-
-	if (diffuse == NULL)
+	if (file == "")
 	{
-		throw ResourceException("Failed to load diffuse texture file: " + diffuse_texture);
+		glBindTexture(target, texture);
+		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, filter);
+		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, filter);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Display::GetWidth(), Display::GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	}
-	//if (normal == NULL)
-	//{
-	//	throw ResourceException("Failed to load normal texture file: " + normal_texture);
-	//}
+	else
+	{
+		int width, height, num;
+		unsigned char* data = stbi_load(file.c_str(), &width, &height, &num, 4);
 
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		if (data == NULL)
+		{
+			throw ResourceException("Failed to load diffuse texture file: " + file);
+		}
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, diffuse_width, diffuse_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, diffuse);
-	//glTexImage2D(GL_TEXTURE_2D, 1, GL_RGBA, normal_width, normal_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, normal);
+		glBindTexture(target, texture);
+		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, filter);
+		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, filter);
 
-	//stbi_image_free(normal);
-	stbi_image_free(diffuse);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+		stbi_image_free(data);
+	}
 }

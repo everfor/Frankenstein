@@ -2,7 +2,6 @@
 
 #include "component.h"
 #include "transform.h"
-#include "camera.h"
 #include "shader.h"
 
 #include <memory>
@@ -11,6 +10,7 @@
 
 // Forward Declaration
 class CoreEngine;
+class RenderingEngine;
 
 class Object
 {
@@ -21,7 +21,7 @@ class Object
 		void addComponent(Component *component);
 		void input(float delta);
 		void update(float delta);
-		void render(Shader *shader, Camera *camera);
+		void render(Shader *shader, RenderingEngine *rendering_engine);
 		Transform& getTransform() { return transform; };
 		// Add necessary components to rendering engine
 		void setEngine(CoreEngine *engine);

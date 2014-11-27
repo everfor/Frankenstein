@@ -10,6 +10,8 @@
 #include "mesh_renderer.h"
 #include "camera.h"
 #include "core_engine.h"
+#include "movement.h"
+#include "rotation.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -24,25 +26,8 @@ TestGame::TestGame(CoreEngine *core) :
 	Mesh *mesh = new Mesh("./res/models/monkey.obj");
 
 	// TEST
-	Material *metal = new Material();
-	Material *wood = new Material();
-	Material *cave = new Material();
-	
-	Texture *metalTex = new Texture("./res/textures/bricks.jpg");
-	//Texture *woodTex = new Texture("./res/textures/wood.png");
-	//Texture *caveTex = new Texture("./res/textures/cave.png");
-	Texture *crystalNormal = new Texture("./res/textures/wood_normal.jpg");
-	Texture *testNormal = new Texture("./res/textures/bricks_normal.jpg");
-
-	metal->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
-	metal->addTexture(MATERIAL_NORMAL_TEXTURE, *testNormal);
-	metal->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
-	metal->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
-
-	wood->addTexture(MATERIAL_DIFFUSE_TEXTURE, *metalTex);
-	//wood->addTexture(MATERIAL_NORMAL_TEXTURE, *crystalNormal);
-	wood->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.1);
-	wood->addFloat(MATERIAL_SPECULAR_EXPONENT, 1024);
+	Material *metal = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg");
+	Material *wood = new Material(0.1, 1024, "./res/textures/bricks.jpg");
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
@@ -75,9 +60,10 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
-	directionalLight->getTransform().rotateY(-90);
-	directionalLight->getTransform().rotateZ(-45);
+	//directionalLight->getTransform().rotateY(-90);
+	//directionalLight->getTransform().rotateZ(-45);
 	//directionalLight->getTransform().rotateX(-90);
+	directionalLight->getTransform().compositeRotate(-90, -45, 0);
 
 	//Object *spotLight = new Object();
 	//spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
@@ -86,6 +72,8 @@ TestGame::TestGame(CoreEngine *core) :
 
 	camera = new Object();
 	camera->addComponent(new Camera(80.0f, 800.0 / 600.0, 0.1, 10000));
+	camera->addComponent(new Movement());
+	camera->addComponent(new Rotation());
 	camera->getTransform().setTranslation(0, 0, 2);
 
 	//addObject(pointLight);
@@ -112,7 +100,7 @@ void TestGame::input(float delta)
 	if (Input::GetKeyUp(MOUSE_LEFT))
 	{
 		std::cout << "Left mouse up!" << std::endl;
-		glm::vec2 cursor = Input::GetCursorPosition();
+		glm::vec2 cursor = Input::GetCurrentCursor();
 		std::cout << "x: " << cursor.x << " y: " << cursor.y << std::endl;
 	}
 }

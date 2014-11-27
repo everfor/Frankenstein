@@ -4,6 +4,7 @@
 #include "resource_manager.h"
 #include "camera.h"
 #include "material.h"
+#include "rendering_engine.h"
 //	Lightings
 #include "base_light.h"
 #include "directional_light.h"
@@ -186,7 +187,7 @@ void Shader::setUniform(const std::string& uniform, SpotLight& spotLight)
 	setUniformf(uniform + ".cutoff", spotLight.getCutOff());
 }
 
-void Shader::updateUniforms(Transform *transform, Camera *camera, Material *material)
+void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_engine, Material *material)
 {
 	for (std::map<std::string, std::pair<std::string, GLuint>>::iterator it = uniforms.begin();
 		it != uniforms.end();
@@ -198,11 +199,11 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		}
 		else if (it->first == UNIFORM_MVP)
 		{
-			setUniform(it->first, camera->getCameraProjection() * transform->getTransformation());
+			setUniform(it->first, rendering_engine->getMainCamera()->getCameraProjection() * transform->getTransformation());
 		}
 		else if (it->first == UNIFORM_EYE_POS)
 		{
-			setUniform(it->first, camera->getTransform()->getTranslation());
+			setUniform(it->first, rendering_engine->getMainCamera()->getTransform()->getTranslation());
 		}
 		else if (it->first == UNIFORM_SPEC_INTENSITY)
 		{
@@ -211,6 +212,14 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		else if (it->first == UNIFORM_SPEC_EXP)
 		{
 			setUniformf(it->first, material->getFloat(MATERIAL_SPECULAR_EXPONENT));
+		}
+		else if (it->first == UNIFORM_DISP_BIAS)
+		{
+			setUniformf(it->first, material->getFloat(MATERIAL_DISP_BIAS));
+		}
+		else if (it->first == UNIFORM_DISP_BIAS)
+		{
+			setUniformf(it->first, material->getFloat(MATERIAL_DISP_SCALE));
 		}
 		else if (it->first == UNIFORM_DIFFUSE_SAMPLER)
 		{
@@ -221,6 +230,11 @@ void Shader::updateUniforms(Transform *transform, Camera *camera, Material *mate
 		{
 			setUniformi(it->first, NORMAL_TEXTURE_SLOT);
 			material->getTexture(MATERIAL_NORMAL_TEXTURE).bind(NORMAL_TEXTURE_SLOT);
+		}
+		else if (it->first == UNIFORM_DISP_SAMPLER)
+		{
+			setUniformi(it->first, DISP_TEXTURE_SLOT);
+			material->getTexture(MATERIAL_DISP_TEXTURE).bind(DISP_TEXTURE_SLOT);
 		}
 	}
 

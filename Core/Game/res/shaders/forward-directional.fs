@@ -6,5 +6,6 @@ uniform DirectionalLight directionalLight;
 
 void main()
 {
-	gl_FragColor = texture(diffuse, tex0.xy) * calculateDirectionalLight(directionalLight, getNormal(normalMap), worldPos0);
+	vec2 tex = getDispTexCoord(eyePos, dispMap, dispScale, dispBias);
+	gl_FragColor = texture(diffuse, tex) * calculateDirectionalLight(directionalLight, getNormal(normalMap, tex), worldPos0);
 }

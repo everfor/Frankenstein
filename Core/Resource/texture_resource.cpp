@@ -4,13 +4,20 @@
 
 std::map<std::string, std::unique_ptr<TextureResource>> TextureResource::_resources;
 
-TextureResource::TextureResource() : Resource()
+TextureResource::TextureResource(GLenum init_target, GLfloat init_filter, GLenum init_attachments) : 
+			Resource(), target(init_target), filter(init_filter), frame_buffer_id(0), attachments(init_attachments)
 {
 	increaseRefCout();
 }
 
 TextureResource::~TextureResource()
 {
+}
+
+void TextureResource::bindAsFrameBuffer(int width, int height)
+{
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frame_buffer_id);
+	glViewport(0, 0, width, height);
 }
 
 void TextureResource::_load_all()
@@ -20,16 +27,47 @@ void TextureResource::_load_all()
 	glGenTextures(_resources.size(), ids);
 
 	int index = 0;
+	int frame_buffer_count = 0;
+	// Used for setting draw buffers for frame buffers
+	GLenum *drawBuffers = (GLuint*)malloc(_resources.size() * sizeof(GLuint));
 	for (std::map<std::string, std::unique_ptr<TextureResource>>::iterator it = _resources.begin();
 		it != _resources.end();
 		it++)
 	{	
 		// Store texture IDs
-		it->second.get()->setTextureID(ids[index++]);
+		it->second.get()->setTextureID(ids[index]);
 		// Bind resources
-		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first);
+		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first, it->second.get()->getTarget(), it->second.get()->getFilter());
+
+		drawBuffers[index++] = it->second.get()->getAttachments() == GL_DEPTH_ATTACHMENT || it->second.get()->getAttachments() == GL_STENCIL_ATTACHMENT ?
+																					GL_NONE :
+																					it->second.get()->getAttachments();
+
+		if (it->second.get()->getAttachments() != GL_NONE)
+		{
+			++frame_buffer_count;
+
+			// Generate frame buffer
+			GLuint buffer;
+			glGenFramebuffers(1, &buffer);
+			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, buffer);
+			it->second.get()->setFrameBufferID(buffer);
+
+			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, it->second.get()->getAttachments(), it->second.get()->getTarget(), it->second.get()->getTextureID(), 0);
+		}
 	}
 
+	if (frame_buffer_count > 0)
+	{
+		glDrawBuffers(_resources.size(), drawBuffers);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			throw ResourceException("Failed to generate frame buffer.");
+		}
+	}
+
+	free(drawBuffers);
 	free(ids);
 }
 
@@ -42,6 +80,13 @@ void TextureResource::_clear()
 		it++)
 	{
 		ids[index++] = it->second.get()->getTextureID();
+
+		if (it->second.get()->getAttachments() != GL_NONE)
+		{
+			// Delete frame buffer
+			GLuint buffer = it->second.get()->getFrameBufferID();
+			glDeleteFramebuffers(1, &buffer);
+		}
 	}
 
 	glDeleteTextures(_resources.size(), ids);
@@ -49,7 +94,7 @@ void TextureResource::_clear()
 	_resources.clear();
 }
 
-TextureResource* TextureResource::_get_resource(const std::string& fileName)
+TextureResource* TextureResource::_get_resource(const std::string& fileName, GLenum target, GLfloat filter, GLenum attachments)
 {
 	if (_resources.find(fileName) != _resources.end())
 	{
@@ -57,7 +102,7 @@ TextureResource* TextureResource::_get_resource(const std::string& fileName)
 		return _resources.at(fileName).get();
 	}
 
-	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource())));
+	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource(target, filter, attachments))));
 	return _resources.at(fileName).get();
 }
 

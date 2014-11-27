@@ -7,6 +7,8 @@
 std::vector<int> Input::_KEYS(TOTAL_KEYS);
 std::vector<int> Input::_UP_KEYS;
 std::vector<int> Input::_DOWN_KEYS;
+glm::vec2 Input::_last_cursor_pos = glm::vec2(0, 0);
+glm::vec2 Input::_current_cursor_pos = glm::vec2(0, 0);
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -28,17 +30,20 @@ void Input::Update()
 		short currentState = Input::CheckKey(i);
 		short stateChange = _KEYS[i] ^ currentState;
 
-		if ((stateChange & KEY_DOWN_MASK) == KEY_DOWN_MASK)
+		if ((stateChange & KEY_TOGGLE_DOWN_MASK) == KEY_TOGGLE_DOWN_MASK)
 		{
 			_DOWN_KEYS.push_back(i);
 		}
-		else if ((stateChange & KEY_UP_MASK) == KEY_UP_MASK)
+		else if ((stateChange & KEY_TOGGLE_UP_MASK) == KEY_TOGGLE_UP_MASK)
 		{
 			_UP_KEYS.push_back(i);
 		}
 
 		_KEYS[i] = currentState;
 	}
+
+	_last_cursor_pos = _current_cursor_pos;
+	_current_cursor_pos = GetCursorPosition();
 }
 
 bool Input::GetKeyDown(int keyCode)

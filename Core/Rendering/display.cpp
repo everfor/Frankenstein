@@ -59,3 +59,9 @@ void Display::update()
 		}
 	}
 }
+
+void Display::BindAsRenderTarget()
+{
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glViewport(0, 0, GetWidth(), GetHeight());
+}

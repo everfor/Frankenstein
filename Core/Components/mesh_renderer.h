@@ -11,7 +11,7 @@ class MeshRenderer : public Component
 	public:
 		MeshRenderer(Mesh *init_mesh, Material *init_material);
 		virtual ~MeshRenderer();
-		void render(Shader *shader, Camera *camera) override;
+		void render(Shader *shader, RenderingEngine *rendering_engine) override;
 	private:
 		Mesh *mesh;
 		Material *material;

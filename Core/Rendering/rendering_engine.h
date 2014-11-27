@@ -9,6 +9,9 @@
 
 // Forward Declaraion
 class Object;
+class Texture;
+class Material;
+class Mesh;
 
 class RenderingEngine
 {
@@ -24,5 +27,10 @@ class RenderingEngine
 	private:
 		Camera *mainCamera;
 		std::vector<BaseLight*> lights;
+		std::unique_ptr<Camera> altCamera;
+		std::unique_ptr<Object> altCameraObject;
+		std::unique_ptr<Material> planeMaterial;
+		std::unique_ptr<Mesh> plane;
+		std::unique_ptr<Texture> planeTexture;
 };
 

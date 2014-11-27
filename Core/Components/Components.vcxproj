@@ -69,6 +69,8 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="mesh_renderer.cpp" />
+    <ClCompile Include="movement.cpp" />
+    <ClCompile Include="rotation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_light.h" />
@@ -76,7 +78,9 @@
     <ClInclude Include="component.h" />
     <ClInclude Include="directional_light.h" />
     <ClInclude Include="mesh_renderer.h" />
+    <ClInclude Include="movement.h" />
     <ClInclude Include="point_light.h" />
+    <ClInclude Include="rotation.h" />
     <ClInclude Include="spot_light.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -9,15 +9,29 @@
 
 #define MATERIAL_DIFFUSE_TEXTURE			"diffuse_texture"
 #define MATERIAL_NORMAL_TEXTURE				"normal_texture"
+#define MATERIAL_DISP_TEXTURE				"disp_texture"
 #define MATERIAL_SPECULAR_INTENSITY			"specular_intensity"
 #define MATERIAL_SPECULAR_EXPONENT			"specular_exponent"
+#define MATERIAL_DISP_SCALE					"disp_scale"
+#define MATERIAL_DISP_BIAS					"disp_bias"
+#define MATERIAL_DISP_OFFSET				"disp_offset"
 
 #define DEFAULT_NORMAL_TEXTURE				"./res/textures/default_normal.jpg"
+#define DEFAULT_DISP_TEXTURE				"./res/textures/default_disp.png"
 
 class Material
 {
 	public:
-		Material();
+		Material(float specular_intensity, float specular_exponent,
+				const std::string& diffuse_texture,
+				const std::string& normal_texture = DEFAULT_NORMAL_TEXTURE,
+				const std::string& disp_texture = DEFAULT_DISP_TEXTURE,
+				float disp_scale = 0.0f, float disp_offset = 0.0f);
+		Material(float specular_intensity, float specular_exponent,
+			const Texture& diffuse_texture,
+			const std::string& normal_texture = DEFAULT_NORMAL_TEXTURE,
+			const std::string& disp_texture = DEFAULT_DISP_TEXTURE,
+			float disp_scale = 0.0f, float disp_offset = 0.0f);
 		virtual ~Material();
 		void addTexture(const std::string& key, const Texture& value) { textureMap.insert(std::pair<std::string, Texture>(key, value)); };
 		void addVector(const std::string& key, const glm::vec3& value) { vectorMap.insert(std::pair<std::string, glm::vec3>(key, value)); };
