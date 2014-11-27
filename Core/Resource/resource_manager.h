@@ -14,6 +14,7 @@
 /*
 * This class is supposed to serve as a general resource manager (loading files etc.)
 */
+class TextureResource;
 class ResourceManager
 {
 	public:
@@ -22,7 +23,7 @@ class ResourceManager
 		// Parse a mesh file and store the corresponding data in Mesh object
 		static void LoadMesh(const std::string& fileName, Mesh& mesh);
 		// Parse an image file for texture
-		static void LoadTexture(GLuint texture, const std::string& file, GLenum target, GLfloat filter);
+		static void LoadTexture(GLuint texture, const std::string& file, TextureResource *resource);
 	private:
 		ResourceManager();
 };

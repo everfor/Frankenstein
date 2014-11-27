@@ -4,8 +4,8 @@
 
 std::map<std::string, std::unique_ptr<TextureResource>> TextureResource::_resources;
 
-TextureResource::TextureResource(GLenum init_target, GLfloat init_filter, GLenum init_attachments) : 
-			Resource(), target(init_target), filter(init_filter), frame_buffer_id(0), attachments(init_attachments)
+TextureResource::TextureResource(GLenum init_target, GLenum init_internal_format, GLenum init_format, GLfloat init_filter, bool init_clamp, GLenum init_attachments) :
+			Resource(), target(init_target), filter(init_filter), frame_buffer_id(0), internal_format(init_internal_format), format(init_format), clamp(init_clamp), attachments(init_attachments)
 {
 	increaseRefCout();
 }
@@ -37,7 +37,7 @@ void TextureResource::_load_all()
 		// Store texture IDs
 		it->second.get()->setTextureID(ids[index]);
 		// Bind resources
-		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first, it->second.get()->getTarget(), it->second.get()->getFilter());
+		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first, it->second.get());
 
 		drawBuffers[index++] = it->second.get()->getAttachments() == GL_DEPTH_ATTACHMENT || it->second.get()->getAttachments() == GL_STENCIL_ATTACHMENT ?
 																					GL_NONE :
@@ -94,7 +94,7 @@ void TextureResource::_clear()
 	_resources.clear();
 }
 
-TextureResource* TextureResource::_get_resource(const std::string& fileName, GLenum target, GLfloat filter, GLenum attachments)
+TextureResource* TextureResource::_get_resource(const std::string& fileName, GLenum target, GLenum internal_format, GLenum format, GLfloat filter, bool clamp, GLenum attachments)
 {
 	if (_resources.find(fileName) != _resources.end())
 	{
@@ -102,7 +102,7 @@ TextureResource* TextureResource::_get_resource(const std::string& fileName, GLe
 		return _resources.at(fileName).get();
 	}
 
-	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource(target, filter, attachments))));
+	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource(target, internal_format, format, filter, clamp, attachments))));
 	return _resources.at(fileName).get();
 }
 

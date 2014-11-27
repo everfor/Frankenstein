@@ -5,6 +5,7 @@
 #include "indexed_model.h"
 #include "obj_model.h"
 #include "display.h"
+#include "texture_resource.h"
 
 #include <glm/glm.hpp>
 #include <fstream>
@@ -73,17 +74,17 @@ void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 	}
 }
 
-void ResourceManager::LoadTexture(GLuint texture, const std::string& file, GLenum target, GLfloat filter)
+void ResourceManager::LoadTexture(GLuint texture, const std::string& file, TextureResource *resource)
 {
 	if (file == "")
 	{
-		glBindTexture(target, texture);
-		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, filter);
-		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, filter);
+		glBindTexture(resource->getTarget(), texture);
+		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(resource->getTarget(), GL_TEXTURE_MIN_FILTER, resource->getFilter());
+		glTexParameterf(resource->getTarget(), GL_TEXTURE_MAG_FILTER, resource->getFilter());
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Display::GetWidth(), Display::GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+		glTexImage2D(resource->getTarget(), 0, resource->getInternalFormat(), Display::GetWidth(), Display::GetHeight(), 0, resource->getFormat(), GL_UNSIGNED_BYTE, 0);
 	}
 	else
 	{
@@ -95,13 +96,22 @@ void ResourceManager::LoadTexture(GLuint texture, const std::string& file, GLenu
 			throw ResourceException("Failed to load diffuse texture file: " + file);
 		}
 
-		glBindTexture(target, texture);
-		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameterf(target, GL_TEXTURE_MIN_FILTER, filter);
-		glTexParameterf(target, GL_TEXTURE_MAG_FILTER, filter);
+		glBindTexture(resource->getTarget(), texture);
+		if (resource->getClamp())
+		{
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP);
+		}
+		else
+		{
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
+		
+		glTexParameterf(resource->getTarget(), GL_TEXTURE_MIN_FILTER, resource->getFilter());
+		glTexParameterf(resource->getTarget(), GL_TEXTURE_MAG_FILTER, resource->getFilter());
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(resource->getTarget(), 0, resource->getInternalFormat(), width, height, 0, resource->getFormat(), GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
