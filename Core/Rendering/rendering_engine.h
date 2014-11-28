@@ -26,12 +26,13 @@ class RenderingEngine
 		void addCamera(Camera *camera);
 		void clearLight();
 		// map operations
-		void setTexture(const std::string& key, Texture *value) { textures[key] = value; };
+		void setTexture(const std::string& key, Texture *value);
 		void setFloat(const std::string& key, float value) { floats[key] = value; };
 		void setVector(const std::string& key, const glm::vec3& value) { vectors[key] = value; };
-		Texture* getTexture(const std::string& key) { return textures.at(key); };
+		Texture* getTexture(const std::string& key) { return textures.at(key).get(); };
 		float getFloat(const std::string& key) { return floats.at(key); };
 		glm::vec3& getVector(const std::string& key) { return vectors.at(key); };
+		glm::mat4& getLightMatrix() { return lightMatrix; };
 	private:
 		Camera *mainCamera;
 		std::vector<BaseLight*> lights;
@@ -41,8 +42,9 @@ class RenderingEngine
 		std::unique_ptr<Mesh> plane;
 		std::unique_ptr<Texture> planeTexture;
 		// maps
-		std::map<std::string, Texture*> textures;
+		std::map<std::string, std::unique_ptr<Texture>> textures;
 		std::map<std::string, float> floats;
 		std::map<std::string, glm::vec3> vectors;
+		glm::mat4 lightMatrix;
 };
 

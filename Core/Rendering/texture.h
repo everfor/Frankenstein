@@ -10,6 +10,7 @@
 #define DIFFUSE_TEXTEURE_SLOT		0
 #define NORMAL_TEXTURE_SLOT			1
 #define DISP_TEXTURE_SLOT			2
+#define SHADOW_TEXTURE_SLOT			3
 
 class Texture
 {

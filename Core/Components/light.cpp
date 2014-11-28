@@ -7,9 +7,16 @@
 #include "core_engine.h"
 #include "shader.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 void BaseLight::addToEngine(CoreEngine *engine)
 {
 	engine->getRenderingEngine()->addLight(this);
+}
+
+DirectionalLight::DirectionalLight(BaseLight& init_base) : BaseLight(init_base)
+{
+	setShadow(new Shadow(glm::ortho<float>(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 20.0f)));
 }
 
 Shader* DirectionalLight::getShader()

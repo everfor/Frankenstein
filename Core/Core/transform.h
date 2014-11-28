@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
@@ -30,12 +32,12 @@ class Transform
 		bool isChanged() { return isTransformationChanged; };
 		void setParent(Transform *new_parent) { parent = new_parent; };
 		glm::mat4& getTransformation();
-		glm::vec3& getForward() { forward = glm::normalize(glm::mat3_cast(rotation) * FORWARD_DIR); return forward; };
-		glm::vec3& getBackward() { backward = glm::normalize(glm::mat3_cast(rotation) * BACKWARD_DIR); return backward; };
-		glm::vec3& getRight() { right = glm::normalize(glm::mat3_cast(rotation) * RIGHT_DIR); return right; };
-		glm::vec3& getLeft() { left = glm::normalize(glm::mat3_cast(rotation) * LEFT_DIR); return left; };
-		glm::vec3& getUp() { up = glm::normalize(glm::mat3_cast(rotation) * UP_DIR); return up; };
-		glm::vec3& getDown() { down = glm::normalize(glm::mat3_cast(rotation) * DOWN_DIR); return down; };
+		glm::vec3& getForward() { forward = glm::mat3_cast(rotation) * FORWARD_DIR; _round_normalize(forward); return forward; };
+		glm::vec3& getBackward() { backward = glm::mat3_cast(rotation) * BACKWARD_DIR; _round_normalize(backward); return backward; };
+		glm::vec3& getRight() { right = glm::mat3_cast(rotation) * RIGHT_DIR; _round_normalize(right); return right; };
+		glm::vec3& getLeft() { left = glm::mat3_cast(rotation) * LEFT_DIR; _round_normalize(left); return left; };
+		glm::vec3& getUp() { up = glm::mat3_cast(rotation) * UP_DIR; _round_normalize(up); return up; };
+		glm::vec3& getDown() { down = glm::mat3_cast(rotation) * DOWN_DIR; _round_normalize(down); return down; };
 		// Get transformed (a.k.a global) stuff
 		glm::vec3& getTransformedTranslation();
 		glm::quat& getTransformedRotation();

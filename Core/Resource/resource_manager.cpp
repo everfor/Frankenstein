@@ -84,7 +84,7 @@ void ResourceManager::LoadTexture(GLuint texture, const std::string& file, Textu
 		glTexParameterf(resource->getTarget(), GL_TEXTURE_MIN_FILTER, resource->getFilter());
 		glTexParameterf(resource->getTarget(), GL_TEXTURE_MAG_FILTER, resource->getFilter());
 
-		glTexImage2D(resource->getTarget(), 0, resource->getInternalFormat(), Display::GetWidth(), Display::GetHeight(), 0, resource->getFormat(), GL_UNSIGNED_BYTE, 0);
+		glTexImage2D(resource->getTarget(), 0, resource->getInternalFormat(), 1024, 1024, 0, resource->getFormat(), GL_UNSIGNED_BYTE, 0);
 	}
 	else
 	{

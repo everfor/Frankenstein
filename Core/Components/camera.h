@@ -23,6 +23,7 @@ class Camera : public Component
 		float getZFar() { return zFar; };
 		void setZFar(float new_zfar) { zFar = new_zfar; };
 		// Projection
+		void setCameraProjection(const glm::mat4& new_projection) { projection = new_projection; transform_locked = true; };
 		glm::mat4& getCameraProjection();
 		// Override
 		void addToEngine(CoreEngine *engine) override;
@@ -34,5 +35,6 @@ class Camera : public Component
 		float move_sensitivity;
 		float rotate_sensitivity;
 		glm::mat4 projection;
+		bool transform_locked;
 };
 

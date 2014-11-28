@@ -30,5 +30,7 @@ void Texture::bind(int unit)
 
 void Texture::bindAsRenderTarget()
 {
-
+	glBindTexture(GL_TEXTURE_2D, resources[0]->getTextureID());
+	glBindFramebuffer(GL_FRAMEBUFFER, resources[0]->getFrameBufferID());
+	glViewport(0, 0, 1024, 1024);
 }
