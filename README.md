@@ -18,9 +18,9 @@ Supported Platform
 
 TO-DOs
 ============
-- Free-moving Camera
+- <del>Free-moving Camera</del> DONE! With bugs though...
 - <del>Normal Mapping</del> DONE!
-- Render to Texture
+- <del>Render to Texture</del> DONE!
 - Shadow Mapping
 - Particle System
 - Physics Engine
