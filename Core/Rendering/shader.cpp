@@ -203,7 +203,7 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 		}
 		else if (it->first == UNIFORM_MVP)
 		{
-			setUniform(it->first, rendering_engine->getMainCamera()->getCameraProjection() * transform->getTransformation());
+			setUniform(it->first, rendering_engine->getMainCamera()->getCameraViewProjection() * transform->getTransformation());
 		}
 		else if (it->first == UNIFORM_EYE_POS)
 		{

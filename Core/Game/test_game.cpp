@@ -25,10 +25,10 @@ TestGame::TestGame(CoreEngine *core) :
 	// Common mesh
 	// Mesh *mesh = new Mesh("./res/models/monkey.obj");
 	Mesh *planeMesh = new Mesh("./res/models/plane3.obj");
-	Mesh *smallPlaneMesh = new Mesh("./res/models/plane1.obj");
+	Mesh *smallPlaneMesh = new Mesh("./res/models/cube.obj");
 
 	// TEST
-	Material *brick = new Material(0.1, 1024, "./res/textures/metal.png", "./res/textures/normal.jpg");
+	Material *brick = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.03f, -0.5f);
 	Material *wood = new Material(1, 32, "./res/textures/bricks2.jpg", "./res/textures/bricks2_normal.jpg", "./res/textures/bricks2_disp.jpg", 0.04f, 0);
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
@@ -55,7 +55,7 @@ TestGame::TestGame(CoreEngine *core) :
 	Object *smallPlane = new Object();
 	smallPlane->addComponent(new MeshRenderer(smallPlaneMesh, wood));
 	smallPlane->getTransform().moveY(-1);
-	smallPlane->getTransform().rotateX(-90);
+	//smallPlane->getTransform().rotateX(-90);
 
 	// monkey = new Object();
 	// monkey->addComponent(new MeshRenderer(mesh, metal));
@@ -76,9 +76,10 @@ TestGame::TestGame(CoreEngine *core) :
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
 	//directionalLight->getTransform().rotateY(-90);
-	//directionalLight->getTransform().rotateZ(-45);
+	directionalLight->getTransform().rotateZ(-45);
 	directionalLight->getTransform().rotateX(-90);
-	// directionalLight->getTransform().compositeRotate(-90, -45, 0);
+	//directionalLight->getTransform().rotate(directionalLight->getTransform().getUp(), 90);
+	//directionalLight->getTransform().compositeRotate(-90, -45, 0);
 
 	//Object *spotLight = new Object();
 	//spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));

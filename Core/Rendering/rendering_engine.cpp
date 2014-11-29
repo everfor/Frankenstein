@@ -23,11 +23,11 @@ RenderingEngine::RenderingEngine()
 	glEnable(GL_DEPTH_CLAMP);
 	glEnable(GL_TEXTURE_2D);
 
-	altCamera = std::unique_ptr<Camera>(new Camera(70, Display::GetHeight() / Display::GetWidth(), 0.01, 1000));
+	altCamera = std::unique_ptr<Camera>(new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000));
 	// altCamera.get()->getTransform()->setTranslation(0, 0, -2);
 	altCameraObject = std::unique_ptr<Object>(new Object());
 	altCameraObject.get()->addComponent(altCamera.get());
-	altCameraObject.get()->getTransform().setTranslation(0, 0, 1);
+	altCameraObject.get()->getTransform().setTranslation(0, 0, 0);
 
 	setVector("ambient", glm::vec3(0.2, 0.2, 0.2));
 	setTexture("shadow", new Texture("", GL_TEXTURE_2D, GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT, GL_NEAREST, true, GL_DEPTH_ATTACHMENT));
@@ -77,7 +77,7 @@ void RenderingEngine::render(Object& object)
 			altCamera->getTransform()->setTranslation(lights[i]->getTransform()->getTransformedTranslation());
 			altCamera->getTransform()->setRotation(lights[i]->getTransform()->getTransformedRotation());
 
-			lightMatrix = altCamera->getCameraProjection();
+			lightMatrix = altCamera->getCameraViewProjection();
 
 			Camera *main = getMainCamera();
 			addCamera(altCamera.get());

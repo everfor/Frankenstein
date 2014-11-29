@@ -16,7 +16,7 @@ void BaseLight::addToEngine(CoreEngine *engine)
 
 DirectionalLight::DirectionalLight(BaseLight& init_base) : BaseLight(init_base)
 {
-	setShadow(new Shadow(glm::ortho<float>(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 20.0f)));
+	setShadow(new Shadow(glm::ortho<float>(-40.0f, 40.0f, -40.0f, 40.0f, -40.0f, 40.0f)));
 }
 
 Shader* DirectionalLight::getShader()
