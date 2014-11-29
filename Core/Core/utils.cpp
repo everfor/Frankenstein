@@ -1,6 +1,8 @@
 #include "utils.h"
 
 #include <glm/glm.hpp>
+#include <cmath>
+#include <iostream>
 
 int _split_string(std::string original, const std::string& delimiter, std::vector<std::string>& split_strings)
 {
@@ -36,4 +38,17 @@ void _get_path(const std::string& fileName, std::string& path)
 	}
 
 	path = fileName.substr(0, pos + 1);
+}
+
+void _round_normalize(glm::vec3& vec)
+{
+	//std::cout << "Before Vec: " << vec.x << " " << vec.y << " " << vec.z << std::endl;
+
+	vec.x = (int)(vec.x * 10) / 10.0f;
+	vec.y = (int)(vec.y * 10) / 10.0f;
+	vec.z = (int)(vec.z * 10) / 10.0f;
+
+	// std::cout << "Vec: " << vec.x << " " << vec.y << " " << vec.z << std::endl;
+
+	vec = glm::normalize(vec);
 }

@@ -28,6 +28,7 @@
 #define SPACE_KEYWORD				" "
 // Uniforms
 #define UNIFORM_MVP					"MVP"
+#define UNIFORM_LIGHT_MATRIX		"lightMatrix"
 #define UNIFORM_MODEL				"model"
 #define UNIFORM_EYE_POS				"eyePos"
 #define UNIFORM_SPEC_INTENSITY		"specularIntensity"
@@ -41,6 +42,7 @@
 #define UNIFORM_DIFFUSE_SAMPLER		"diffuse"
 #define UNIFORM_NORMAL_SAMPLER		"normalMap"
 #define UNIFORM_DISP_SAMPLER		"dispMap"
+#define UNIFORM_SHADOW_SAMPLER		"shadowMap"
 
 // Forward declaration
 class RenderingEngine;
@@ -59,7 +61,8 @@ class Shader
 			AMBIENT_LIGHT,
 			DIRECTIONAL_LIGHT,
 			POINT_LIGHT,
-			SPOT_LIGHT
+			SPOT_LIGHT,
+			SHADOW_MAP
 		};
 		virtual ~Shader();
 		// Shaders
@@ -87,10 +90,10 @@ class Shader
 		void setUniformf(const std::string& uniform, const GLfloat value);
 		void setUniform(const std::string& uniform, const glm::vec3& value);
 		void setUniform(const std::string& uniform, const glm::mat4& value);
-		void setUniform(const std::string& uniform, BaseLight& base);
-		void setUniform(const std::string& uniform, DirectionalLight& directionalLight);
-		void setUniform(const std::string& uniform, PointLight& pointLight);
-		void setUniform(const std::string& uniform, SpotLight& light);
+		void setUniform(const std::string& uniform, BaseLight *base);
+		void setUniform(const std::string& uniform, DirectionalLight *directionalLight);
+		void setUniform(const std::string& uniform, PointLight *pointLight);
+		void setUniform(const std::string& uniform, SpotLight *light);
 		// Members
 		_shader_type type;
 		// Uniforms binded (Format: name, (type, id))

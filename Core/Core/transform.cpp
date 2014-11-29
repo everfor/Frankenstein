@@ -51,7 +51,7 @@ glm::quat& Transform::getTransformedRotation()
 {
 	updateParentTransform();
 
-	transformedRotation = glm::normalize(glm::quat(parentTransformation * glm::mat4_cast(rotation)));
+	transformedRotation = glm::toQuat(parentTransformation) * rotation;
 
 	return transformedRotation;
 }

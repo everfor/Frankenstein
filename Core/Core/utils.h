@@ -4,8 +4,6 @@
 * Just a bunch of uitility functions
 */
 
-#include "vertex.h"
-
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
@@ -19,3 +17,6 @@ float _max_component(glm::vec3& vec);
 
 // Get path of the file
 void _get_path(const std::string& fileName, std::string& path);
+
+// Round and normalize to 2 decimal points
+void _round_normalize(glm::vec3& vec);

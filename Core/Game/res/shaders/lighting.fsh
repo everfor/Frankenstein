@@ -1,6 +1,7 @@
 in vec2 tex0;
 in vec3 worldPos0;
 in mat3 tbn;
+in vec4 shadowMapCoords0;
 
 out vec4 gl_FragColor;
 

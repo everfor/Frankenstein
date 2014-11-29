@@ -158,33 +158,33 @@ void Shader::setUniform(const std::string& uniform, const glm::mat4& value)
 	glUniformMatrix4fv(uniforms.at(uniform).second, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void Shader::setUniform(const std::string& uniform, BaseLight& base)
+void Shader::setUniform(const std::string& uniform, BaseLight *base)
 {
-	setUniform(uniform + ".color", base.getColor());
-	setUniformf(uniform + ".intensity", base.getIntensity());
+	setUniform(uniform + ".color", base->getColor());
+	setUniformf(uniform + ".intensity", base->getIntensity());
 }
 
-void Shader::setUniform(const std::string& uniform, DirectionalLight& directionalLight)
+void Shader::setUniform(const std::string& uniform, DirectionalLight *directionalLight)
 {
-	setUniform(uniform + ".base", (BaseLight)directionalLight);
-	setUniform(uniform + ".direction", directionalLight.getDirection());
+	setUniform(uniform + ".base", (BaseLight*)directionalLight);
+	setUniform(uniform + ".direction", directionalLight->getDirection());
 }
 
-void Shader::setUniform(const std::string& uniform, PointLight& pointLight)
+void Shader::setUniform(const std::string& uniform, PointLight *pointLight)
 {
-	setUniform(uniform + ".base", (BaseLight)pointLight);
-	setUniform(uniform + ".position", pointLight.getTransform()->getTransformedTranslation());
-	setUniformf(uniform + ".atten.constant", pointLight.getConstant());
-	setUniformf(uniform + ".atten.linear", pointLight.getLinear());
-	setUniformf(uniform + ".atten.exponent", pointLight.getExponent());
-	setUniformf(uniform + ".range", pointLight.getRange());
+	setUniform(uniform + ".base", (BaseLight*)pointLight);
+	setUniform(uniform + ".position", pointLight->getTransform()->getTransformedTranslation());
+	setUniformf(uniform + ".atten.constant", pointLight->getConstant());
+	setUniformf(uniform + ".atten.linear", pointLight->getLinear());
+	setUniformf(uniform + ".atten.exponent", pointLight->getExponent());
+	setUniformf(uniform + ".range", pointLight->getRange());
 }
 
-void Shader::setUniform(const std::string& uniform, SpotLight& spotLight)
+void Shader::setUniform(const std::string& uniform, SpotLight *spotLight)
 {
-	setUniform(uniform + ".pointLight", (PointLight)spotLight);
-	setUniform(uniform + ".direction", spotLight.getDirection());
-	setUniformf(uniform + ".cutoff", spotLight.getCutOff());
+	setUniform(uniform + ".pointLight", (PointLight*)spotLight);
+	setUniform(uniform + ".direction", spotLight->getDirection());
+	setUniformf(uniform + ".cutoff", spotLight->getCutOff());
 }
 
 void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_engine, Material *material)
@@ -193,13 +193,17 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 		it != uniforms.end();
 		it++)
 	{
-		if (it->first == UNIFORM_MODEL)
+		if (it->first == UNIFORM_LIGHT_MATRIX)
+		{
+			setUniform(it->first, rendering_engine->getLightMatrix() * transform->getTransformation());
+		}
+		else if (it->first == UNIFORM_MODEL)
 		{
 			setUniform(it->first, transform->getTransformation());
 		}
 		else if (it->first == UNIFORM_MVP)
 		{
-			setUniform(it->first, rendering_engine->getMainCamera()->getCameraProjection() * transform->getTransformation());
+			setUniform(it->first, rendering_engine->getMainCamera()->getCameraViewProjection() * transform->getTransformation());
 		}
 		else if (it->first == UNIFORM_EYE_POS)
 		{
@@ -236,6 +240,11 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 			setUniformi(it->first, DISP_TEXTURE_SLOT);
 			material->getTexture(MATERIAL_DISP_TEXTURE).bind(DISP_TEXTURE_SLOT);
 		}
+		else if (it->first == UNIFORM_SHADOW_SAMPLER)
+		{
+			setUniformi(it->first, SHADOW_TEXTURE_SLOT);
+			rendering_engine->getTexture("shadow")->bind(SHADOW_TEXTURE_SLOT);
+		}
 	}
 
 	// Set Light Uniforms
@@ -245,13 +254,13 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 			setUniform(UNIFORM_AMBIENT_LIGHT, light->getColor());
 			break;
 		case Shader::DIRECTIONAL_LIGHT:
-			setUniform(UNIFORM_DIRECTIONAL_LIGHT, (DirectionalLight)*light);
+			setUniform(UNIFORM_DIRECTIONAL_LIGHT, (DirectionalLight*)light);
 			break;
 		case Shader::POINT_LIGHT:
-			setUniform(UNIFORM_POINT_LIGHT, (PointLight)*light);
+			setUniform(UNIFORM_POINT_LIGHT, (PointLight*)light);
 			break;
 		case Shader::SPOT_LIGHT:
-			setUniform(UNIFORM_SPOT_LIGHT, (SpotLight)((PointLight)*light));
+			setUniform(UNIFORM_SPOT_LIGHT, (SpotLight*)((PointLight*)light));
 			break;
 		default:
 			break;
@@ -313,6 +322,11 @@ Shader* Shader::GetShader(Shader::_shader_type type, BaseLight* light)
 				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
 					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/forward-spot.vs",
 														"./res/shaders/forward-spot.fs"))));
+				break;
+			case _shader_type::SHADOW_MAP:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/shadow.vs",
+					"./res/shaders/shadow.fs"))));
 				break;
 		}
 	}
