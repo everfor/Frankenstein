@@ -79,8 +79,16 @@ void ResourceManager::LoadTexture(GLuint texture, const std::string& file, Textu
 	if (file == "")
 	{
 		glBindTexture(resource->getTarget(), texture);
-		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_REPEAT);
+		if (resource->getClamp())
+		{
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP);
+		}
+		else
+		{
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
 		glTexParameterf(resource->getTarget(), GL_TEXTURE_MIN_FILTER, resource->getFilter());
 		glTexParameterf(resource->getTarget(), GL_TEXTURE_MAG_FILTER, resource->getFilter());
 

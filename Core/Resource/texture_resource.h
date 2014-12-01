@@ -17,6 +17,8 @@ class TextureResource : public Resource
 		void setTextureID(GLuint new_id) { id = new_id; };
 		GLuint getFrameBufferID() { return frame_buffer_id; };
 		void setFrameBufferID(GLuint new_id) { frame_buffer_id = new_id; };
+		GLuint getRenderBufferID() { return render_buffer_id; };
+		void setRenderBufferID(GLuint new_id) { render_buffer_id = new_id; };
 		GLenum getTarget() { return target; };
 		GLfloat getFilter() { return filter; };
 		GLenum getAttachments() { return attachments; };
@@ -36,6 +38,7 @@ class TextureResource : public Resource
 		GLenum target;
 		GLfloat filter;
 		GLuint frame_buffer_id;
+		GLuint render_buffer_id;
 		GLenum internal_format;
 		GLenum format;
 		bool clamp;

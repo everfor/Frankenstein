@@ -24,16 +24,12 @@ RenderingEngine::RenderingEngine()
 	glEnable(GL_TEXTURE_2D);
 
 	altCamera = std::unique_ptr<Camera>(new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000));
-	// altCamera.get()->getTransform()->setTranslation(0, 0, -2);
 	altCameraObject = std::unique_ptr<Object>(new Object());
 	altCameraObject.get()->addComponent(altCamera.get());
-	altCameraObject.get()->getTransform().setTranslation(0, 0, 0);
+	//altCameraObject.get()->getTransform().setTranslation(0, 1, 0);
 
 	setVector("ambient", glm::vec3(0.2, 0.2, 0.2));
-	setTexture("shadow", new Texture("", GL_TEXTURE_2D, GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT, GL_NEAREST, true, GL_DEPTH_ATTACHMENT));
-	//planeTexture = std::unique_ptr<Texture>(new Texture("", GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0));
-	//plane = std::unique_ptr<Mesh>(new Mesh("./res/models/plane.obj"));
-	//planeMaterial = std::unique_ptr<Material>(new Material(1, 8, *(planeTexture.get())));
+	setTexture("shadow", new Texture("", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
 }
 
 RenderingEngine::~RenderingEngine()
@@ -69,7 +65,7 @@ void RenderingEngine::render(Object& object)
 	{
 		Shadow *shadow = lights[i]->getShadow();
 		getTexture("shadow")->bindAsRenderTarget();
-		glClear(GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		if (shadow != NULL)
 		{
@@ -81,7 +77,10 @@ void RenderingEngine::render(Object& object)
 
 			Camera *main = getMainCamera();
 			addCamera(altCamera.get());
+
+			glCullFace(GL_FRONT);
 			object.render(Shader::GetShader(Shader::_shader_type::SHADOW_MAP, NULL), this);
+			glCullFace(GL_BACK);
 
 			addCamera(main);
 		}
