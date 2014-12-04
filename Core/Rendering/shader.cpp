@@ -243,7 +243,12 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 		else if (it->first == UNIFORM_SHADOW_SAMPLER)
 		{
 			setUniformi(it->first, SHADOW_TEXTURE_SLOT);
-			rendering_engine->getTexture("shadow")->bind(SHADOW_TEXTURE_SLOT);
+			rendering_engine->getTexture(RENDERING_ENGINE_SHADOW_MAP)->bind(SHADOW_TEXTURE_SLOT);
+		}
+		else if (it->first == UNIFORM_FILTER_SAMPLER)
+		{
+			setUniformi(it->first, FILTER_TEXTURE_SLOT);
+			rendering_engine->getTexture(RENDERING_ENGINE_FILTER_TARGET)->bind(FILTER_TEXTURE_SLOT);
 		}
 	}
 
@@ -327,6 +332,11 @@ Shader* Shader::GetShader(Shader::_shader_type type, BaseLight* light)
 				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
 					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/shadow.vs",
 					"./res/shaders/shadow.fs"))));
+				break;
+			case _shader_type::FILTER_NULL:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/filter-null.vs",
+					"./res/shaders/filter-null.fs"))));
 				break;
 		}
 	}

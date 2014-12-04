@@ -14,6 +14,6 @@ MeshRenderer::~MeshRenderer()
 void MeshRenderer::render(Shader *shader, RenderingEngine *rendering_engine)
 {
 	shader->bind();
-	shader->updateUniforms(getTransform(), rendering_engine, (material));
+	shader->updateUniforms(getTransform(), rendering_engine, material);
 	mesh->draw();
 }

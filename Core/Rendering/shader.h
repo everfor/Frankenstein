@@ -43,6 +43,7 @@
 #define UNIFORM_NORMAL_SAMPLER		"normalMap"
 #define UNIFORM_DISP_SAMPLER		"dispMap"
 #define UNIFORM_SHADOW_SAMPLER		"shadowMap"
+#define UNIFORM_FILTER_SAMPLER		"filterMap"
 
 // Forward declaration
 class RenderingEngine;
@@ -62,7 +63,8 @@ class Shader
 			DIRECTIONAL_LIGHT,
 			POINT_LIGHT,
 			SPOT_LIGHT,
-			SHADOW_MAP
+			SHADOW_MAP,
+			FILTER_NULL
 		};
 		virtual ~Shader();
 		// Shaders

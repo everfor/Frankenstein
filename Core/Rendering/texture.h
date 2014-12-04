@@ -12,6 +12,8 @@
 #define DISP_TEXTURE_SLOT			2
 #define SHADOW_TEXTURE_SLOT			3
 
+#define FILTER_TEXTURE_SLOT			0
+
 class Texture
 {
 	public:
