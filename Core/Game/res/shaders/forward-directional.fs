@@ -4,6 +4,8 @@
 
 uniform DirectionalLight directionalLight;
 uniform sampler2D shadowMap;
+uniform float shadowMinVariance;
+uniform float lightBleedThreshold;
 
 float linearStep(float low, float high, float value)
 {
@@ -15,10 +17,10 @@ float sampleVarianceShadow(sampler2D shadowMap, vec3 shadowMapCoords, float comp
 	vec2 moment = texture(shadowMap, shadowMapCoords.xy).xy;
 
 	float p = step(compare, moment.x);
-	float variance = max(moment.y - moment.x * moment.x, 0.0002);
+	float variance = max(moment.y - moment.x * moment.x, shadowMinVariance);
 
 	float d = compare - moment.x;
-	float pmax = linearStep(0.05, 1.0, variance / (variance + d * d));
+	float pmax = linearStep(lightBleedThreshold, 1.0, variance / (variance + d * d));
 
 	return min(max(p, pmax), 1.0);
 	// return step(compare, texture(shadowMap, shadowMapCoords.xy).x);

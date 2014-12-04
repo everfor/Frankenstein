@@ -39,6 +39,9 @@
 #define UNIFORM_SPOT_LIGHT			"spotLight"
 #define UNIFORM_DISP_SCALE			"dispScale"
 #define UNIFORM_DISP_BIAS			"dispBias"
+#define UNIFORM_BLUR_SCALE			"blurScale"
+#define UNIFORM_SHADOW_VARIANCE		"shadowMinVariance"
+#define UNIFORM_LIGHT_BLEED			"lightBleedThreshold"
 #define UNIFORM_DIFFUSE_SAMPLER		"diffuse"
 #define UNIFORM_NORMAL_SAMPLER		"normalMap"
 #define UNIFORM_DISP_SAMPLER		"dispMap"
@@ -64,7 +67,8 @@ class Shader
 			POINT_LIGHT,
 			SPOT_LIGHT,
 			SHADOW_MAP,
-			FILTER_NULL
+			FILTER_NULL,
+			FILTER_GAUSS_BLUR
 		};
 		virtual ~Shader();
 		// Shaders

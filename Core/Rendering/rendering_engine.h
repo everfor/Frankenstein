@@ -13,6 +13,9 @@
 #define RENDERING_ENGINE_SHADOW_MAP				"shadow_map"
 #define RENDERING_ENGINE_TEMP_TARGET			"temp_target"
 #define RENDERING_ENGINE_FILTER_TARGET			"filter_target"
+#define RENDERING_ENGINE_BLUR_SCALE				"blur_scale"
+#define RENDERING_ENGINE_SHADOW_MIN_VARIANCE	"min_variance"
+#define RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD	"light_bleed"
 
 // Forward Declaraion
 class Object;
@@ -31,7 +34,9 @@ class RenderingEngine
 		void addLight(BaseLight *light);
 		void addCamera(Camera *camera);
 		void clearLight();
+		// Texture Filtering
 		void applyFilter(Shader *shader, Texture *src, Texture *dest);
+		void gaussBlur(Texture *target, float blur_amt);
 		// map operations
 		void setTexture(const std::string& key, Texture *value);
 		void setFloat(const std::string& key, float value) { floats[key] = value; };
@@ -43,7 +48,7 @@ class RenderingEngine
 	private:
 		Camera *mainCamera;
 		std::vector<BaseLight*> lights;
-		std::unique_ptr<Camera> altCamera;
+		Camera* altCamera;
 		std::unique_ptr<Object> altCameraObject;
 		std::unique_ptr<Material> planeMaterial;
 		std::unique_ptr<Mesh> plane;

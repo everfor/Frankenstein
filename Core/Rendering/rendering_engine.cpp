@@ -23,9 +23,9 @@ RenderingEngine::RenderingEngine()
 	glEnable(GL_DEPTH_CLAMP);
 	glEnable(GL_TEXTURE_2D);
 
-	altCamera = std::unique_ptr<Camera>(new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000));
+	altCamera = new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000);
 	altCameraObject = std::unique_ptr<Object>(new Object());
-	altCameraObject.get()->addComponent(altCamera.get());
+	altCameraObject.get()->addComponent(altCamera);
 	//altCameraObject.get()->getTransform().setTranslation(0, 1, 0);
 
 	setVector(RENDERING_ENGINE_AMBIENT_LIGHT, glm::vec3(0.2, 0.2, 0.2));
@@ -35,19 +35,30 @@ RenderingEngine::RenderingEngine()
 	// Plane Object
 	// Target texture for render to texture
 	// And texture filtering
-	planeTexture = std::unique_ptr<Texture>(new Texture("plane_texture", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
-	planeMaterial = std::unique_ptr<Material>(new Material(1, 8, *planeTexture.get()));
+	planeMaterial = std::unique_ptr<Material>(new Material(1, 8, Texture("plane_texture", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0)));
 	planeTransform = std::unique_ptr<Transform>(new Transform());
 	planeTransform.get()->setTranslation(0, 0, 0);
 	planeTransform.get()->setScale(1, 1, 1);
 	plane = std::unique_ptr<Mesh>(new Mesh("./res/models/plane.obj"));
+
+	// Shadow map uniform data
+	setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002);
+	setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.05);
 }
 
 RenderingEngine::~RenderingEngine()
 {
-	for (std::map<std::string, Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
+	std::map<std::string, Texture*>::iterator it = textures.begin();
+
+	while (it != textures.end())
 	{
-		delete it->second;
+		if (it->second != NULL)
+		{
+			delete it->second;
+		}
+		textures.erase(it);
+
+		it = textures.begin();
 	}
 }
 
@@ -70,7 +81,7 @@ void RenderingEngine::applyFilter(Shader *shader, Texture *src, Texture *dest)
 	altCamera->getTransform()->setRotation(glm::quat());
 
 	Camera *main_cam = getMainCamera();
-	addCamera(altCamera.get());
+	addCamera(altCamera);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader->bind();
@@ -80,6 +91,15 @@ void RenderingEngine::applyFilter(Shader *shader, Texture *src, Texture *dest)
 	// Restore
 	addCamera(main_cam);
 	setTexture(RENDERING_ENGINE_FILTER_TARGET, NULL);
+}
+
+void RenderingEngine::gaussBlur(Texture *target, float blur_amt)
+{
+	setVector(RENDERING_ENGINE_BLUR_SCALE, glm::vec3(1.0f / (1024.0f * blur_amt), 0.0f, 0.0f));
+	applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_GAUSS_BLUR, NULL), target, getTexture(RENDERING_ENGINE_TEMP_TARGET));
+
+	setVector(RENDERING_ENGINE_BLUR_SCALE, glm::vec3(0.0f, 1.0f / (1024.0f * blur_amt), 0.0f));
+	applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_GAUSS_BLUR, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), target);
 }
 
 void RenderingEngine::setTexture(const std::string& key, Texture *value)
@@ -118,7 +138,7 @@ void RenderingEngine::render(Object& object)
 			lightMatrix = altCamera->getCameraViewProjection();
 
 			Camera *main = getMainCamera();
-			addCamera(altCamera.get());
+			addCamera(altCamera);
 
 			// Render the shadow map
 			glCullFace(GL_FRONT);
@@ -127,8 +147,11 @@ void RenderingEngine::render(Object& object)
 
 			addCamera(main);
 
-			applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_SHADOW_MAP), getTexture(RENDERING_ENGINE_TEMP_TARGET));
-			applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), getTexture(RENDERING_ENGINE_SHADOW_MAP));
+			//applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_SHADOW_MAP), getTexture(RENDERING_ENGINE_TEMP_TARGET));
+			//applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), getTexture(RENDERING_ENGINE_SHADOW_MAP));
+			
+			// Apply gauss filter to shadow map to make shadow softer
+			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.4);
 		}
 
 		Display::BindAsRenderTarget();
