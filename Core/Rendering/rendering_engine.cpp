@@ -40,10 +40,6 @@ RenderingEngine::RenderingEngine()
 	planeTransform.get()->setTranslation(0, 0, 0);
 	planeTransform.get()->setScale(1, 1, 1);
 	plane = std::unique_ptr<Mesh>(new Mesh("./res/models/plane.obj"));
-
-	// Shadow map uniform data
-	setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002);
-	setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.05);
 }
 
 RenderingEngine::~RenderingEngine()
@@ -143,10 +139,20 @@ void RenderingEngine::render(Object& object)
 			Camera *main = getMainCamera();
 			addCamera(altCamera);
 
+			// Set shadow specific params
+			setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, shadow->getMinVariance());
+			setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, shadow->getLightBleedCorrection());
+
 			// Render the shadow map
-			glCullFace(GL_FRONT);
+			if (shadow->shouldFlip())
+			{
+				glCullFace(GL_FRONT);
+			}
 			object.render(Shader::GetShader(Shader::_shader_type::SHADOW_MAP, NULL), this);
-			glCullFace(GL_BACK);
+			if (shadow->shouldFlip())
+			{
+				glCullFace(GL_BACK);
+			}
 
 			addCamera(main);
 

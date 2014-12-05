@@ -12,11 +12,18 @@ class CoreEngine;
 class Shadow
 {
 	public:
-		Shadow(glm::mat4 init_projection) : projection(init_projection) {};
+		Shadow(glm::mat4 init_projection, float init_min_var = 0.0f, float init_light_bleed = 0.0f, bool should_flip_face = false) : 
+			projection(init_projection), min_variance(init_min_var), lightbleed_correction(init_light_bleed), flip_face(should_flip_face) {};
 		virtual ~Shadow() {};
 		glm::mat4& getProjection() { return projection; };
+		float getMinVariance() { return min_variance; };
+		float getLightBleedCorrection() { return lightbleed_correction; };
+		bool shouldFlip() { return flip_face; };
 	private:
 		glm::mat4 projection;
+		float min_variance;
+		float lightbleed_correction;
+		bool flip_face;
 };
 
 class BaseLight : public Component

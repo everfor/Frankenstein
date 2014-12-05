@@ -78,13 +78,11 @@ TestGame::TestGame(CoreEngine *core) :
 	directionalLight->getTransform().rotateY(40);
 	directionalLight->getTransform().rotateZ(-45);
 	directionalLight->getTransform().rotateX(-90);
-	//directionalLight->getTransform().rotate(directionalLight->getTransform().getUp(), 90);
-	//directionalLight->getTransform().compositeRotate(-90, -45, 0);
 
-	//Object *spotLight = new Object();
-	//spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
-	//spotLight->getTransform().setTranslation(0, -1, 0);
-	//spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
+	Object *spotLight = new Object();
+	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.7f), 0, 0, 0.3), 70.0f));
+	spotLight->getTransform().setTranslation(0, 1, 0);
+	spotLight->getTransform().rotateX(-90);
 
 	camera = new Object();
 	camera->addComponent(new Camera(60.0f, 800.0 / 600.0, 0.1, 10000));
@@ -93,8 +91,8 @@ TestGame::TestGame(CoreEngine *core) :
 	camera->getTransform().setTranslation(0, 0, 2);
 
 	//addObject(pointLight);
+	addObject(spotLight);
 	addObject(directionalLight);
-	//addObject(spotLight);
 	addObject(camera);
 
 	Material::_load_textures();
