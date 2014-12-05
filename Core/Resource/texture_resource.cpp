@@ -36,6 +36,20 @@ void TextureResource::_load_all()
 		// Bind resources
 		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first, it->second.get());
 
+		// Mipmapping
+		if (it->second.get()->getFilter() == GL_LINEAR_MIPMAP_NEAREST ||
+			it->second.get()->getFilter() == GL_LINEAR_MIPMAP_LINEAR ||
+			it->second.get()->getFilter() == GL_NEAREST_MIPMAP_NEAREST ||
+			it->second.get()->getFilter() == GL_NEAREST_MIPMAP_LINEAR)
+		{
+			glGenerateMipmap(it->second.get()->getTarget());
+		}
+		else
+		{
+			glTexParameteri(it->second.get()->getTarget(), GL_TEXTURE_BASE_LEVEL, 0);
+			glTexParameteri(it->second.get()->getTarget(), GL_TEXTURE_MAX_LEVEL, 0);
+		}
+
 		if (it->second.get()->getAttachments() != GL_NONE)
 		{
 			GLenum drawBuffers[1];

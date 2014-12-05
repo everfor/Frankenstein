@@ -116,6 +116,7 @@ void RenderingEngine::render(Object& object)
 {
 	Display::BindAsRenderTarget();
 
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	clearScreen();
 	BaseLight light(getVector(RENDERING_ENGINE_AMBIENT_LIGHT));
 	object.render(Shader::GetShader(Shader::_shader_type::AMBIENT_LIGHT, &light), this);
@@ -125,7 +126,9 @@ void RenderingEngine::render(Object& object)
 	{
 		Shadow *shadow = lights[i]->getShadow();
 		getTexture(RENDERING_ENGINE_SHADOW_MAP)->bindAsRenderTarget();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		clearScreen();
 
 		// Shadow calculation
 		if (shadow != NULL)

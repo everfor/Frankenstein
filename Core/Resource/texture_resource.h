@@ -44,7 +44,7 @@ class TextureResource : public Resource
 		bool clamp;
 		GLenum attachments;
 		// Factory
-		TextureResource(GLenum init_target = GL_TEXTURE_2D, GLenum init_internal_format = GL_RGBA, GLenum init_format = GL_RGBA, GLfloat init_filter = GL_LINEAR, bool init_clamp = false, GLenum attachments = GL_NONE);
+		TextureResource(GLenum init_target = GL_TEXTURE_2D, GLenum init_internal_format = GL_RGBA, GLenum init_format = GL_RGBA, GLfloat init_filter = GL_LINEAR_MIPMAP_LINEAR, bool init_clamp = false, GLenum attachments = GL_NONE);
 		static std::map<std::string, std::unique_ptr<TextureResource>> _resources;
 };
 
