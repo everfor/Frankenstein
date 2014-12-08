@@ -29,7 +29,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	// TEST
 	Material *brick = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.03f, -0.5f);
-	Material *wood = new Material(1, 32, "./res/textures/bricks2.jpg", "./res/textures/bricks2_normal.jpg", "./res/textures/bricks2_disp.jpg", 0.04f, 0);
+	Material *wood = new Material(0.1, 2048, "./res/textures/bricks2.jpg", "./res/textures/bricks2_normal.jpg", "./res/textures/bricks2_disp.jpg", 0.03f, -1.0f);
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
@@ -54,7 +54,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *smallPlane = new Object();
 	smallPlane->addComponent(new MeshRenderer(smallPlaneMesh, wood));
-	smallPlane->getTransform().moveY(-1);
+	smallPlane->getTransform().moveY(-0.99);
 	//smallPlane->getTransform().rotateX(-90);
 
 	// monkey = new Object();
@@ -75,16 +75,14 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *directionalLight = new Object();
 	directionalLight->addComponent(new DirectionalLight(BaseLight(glm::vec3(1, 1, 1), 0.7f)));
-	//directionalLight->getTransform().rotateY(-90);
+	directionalLight->getTransform().rotateY(40);
 	directionalLight->getTransform().rotateZ(-45);
 	directionalLight->getTransform().rotateX(-90);
-	//directionalLight->getTransform().rotate(directionalLight->getTransform().getUp(), 90);
-	//directionalLight->getTransform().compositeRotate(-90, -45, 0);
 
-	//Object *spotLight = new Object();
-	//spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(0, 0, 1), 0.3f), 0, 0, 1), 0.5f));
-	//spotLight->getTransform().setTranslation(0, -1, 0);
-	//spotLight->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), 90.0f, glm::vec3(1, 0, 0)));
+	Object *spotLight = new Object();
+	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.7f), 0, 0, 0.3), 70.0f));
+	spotLight->getTransform().setTranslation(0, 1, 0);
+	spotLight->getTransform().rotateX(-90);
 
 	camera = new Object();
 	camera->addComponent(new Camera(60.0f, 800.0 / 600.0, 0.1, 10000));
@@ -93,8 +91,8 @@ TestGame::TestGame(CoreEngine *core) :
 	camera->getTransform().setTranslation(0, 0, 2);
 
 	//addObject(pointLight);
+	addObject(spotLight);
 	addObject(directionalLight);
-	//addObject(spotLight);
 	addObject(camera);
 
 	Material::_load_textures();

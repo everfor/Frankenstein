@@ -25,12 +25,12 @@ void Texture::bind(int unit)
 {
 	assert(unit >= 0 && unit <= 31);
 	glActiveTexture(GL_TEXTURE0 + unit);
-	glBindTexture(GL_TEXTURE_2D, resources[0]->getTextureID());
+	glBindTexture(resources[0]->getTarget(), resources[0]->getTextureID());
 }
 
 void Texture::bindAsRenderTarget()
 {
-	glBindTexture(GL_TEXTURE_2D, resources[0]->getTextureID());
+	glBindTexture(resources[0]->getTarget(), 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, resources[0]->getFrameBufferID());
 	glViewport(0, 0, 1024, 1024);
 }

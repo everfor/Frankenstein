@@ -27,47 +27,66 @@ void TextureResource::_load_all()
 	glGenTextures(_resources.size(), ids);
 
 	int index = 0;
-	int frame_buffer_count = 0;
-	// Used for setting draw buffers for frame buffers
-	GLenum *drawBuffers = (GLuint*)malloc(_resources.size() * sizeof(GLuint));
 	for (std::map<std::string, std::unique_ptr<TextureResource>>::iterator it = _resources.begin();
 		it != _resources.end();
 		it++)
 	{	
 		// Store texture IDs
-		it->second.get()->setTextureID(ids[index]);
+		it->second.get()->setTextureID(ids[index++]);
 		// Bind resources
 		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first, it->second.get());
 
-		drawBuffers[index++] = it->second.get()->getAttachments() == GL_DEPTH_ATTACHMENT || it->second.get()->getAttachments() == GL_STENCIL_ATTACHMENT ?
-																					GL_NONE :
-																					it->second.get()->getAttachments();
+		// Mipmapping
+		if (it->second.get()->getFilter() == GL_LINEAR_MIPMAP_NEAREST ||
+			it->second.get()->getFilter() == GL_LINEAR_MIPMAP_LINEAR ||
+			it->second.get()->getFilter() == GL_NEAREST_MIPMAP_NEAREST ||
+			it->second.get()->getFilter() == GL_NEAREST_MIPMAP_LINEAR)
+		{
+			glGenerateMipmap(it->second.get()->getTarget());
+		}
+		else
+		{
+			glTexParameteri(it->second.get()->getTarget(), GL_TEXTURE_BASE_LEVEL, 0);
+			glTexParameteri(it->second.get()->getTarget(), GL_TEXTURE_MAX_LEVEL, 0);
+		}
 
 		if (it->second.get()->getAttachments() != GL_NONE)
 		{
-			++frame_buffer_count;
+			GLenum drawBuffers[1];
+			drawBuffers[0] = it->second.get()->getAttachments() == GL_DEPTH_ATTACHMENT || it->second.get()->getAttachments() == GL_STENCIL_ATTACHMENT ?
+														GL_NONE :
+														it->second.get()->getAttachments();
 
 			// Generate frame buffer
 			GLuint buffer;
 			glGenFramebuffers(1, &buffer);
-			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, buffer);
+			glBindFramebuffer(GL_FRAMEBUFFER, buffer);
+
+			// RENDER BUFFER GOES BEFORE TEXUTURE2D BIDNING!!!
+			if (it->second.get()->getAttachments() != GL_DEPTH_ATTACHMENT)
+			{
+				GLuint render_buffer;
+				glGenRenderbuffers(1, &render_buffer);
+				glBindRenderbuffer(GL_RENDERBUFFER, render_buffer);
+				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1024, 1024);
+				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_buffer);
+				
+				it->second.get()->setRenderBufferID(render_buffer);
+			}
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, it->second.get()->getAttachments(), it->second.get()->getTarget(), it->second.get()->getTextureID(), 0);
+			glDrawBuffers(1, drawBuffers);
 			it->second.get()->setFrameBufferID(buffer);
 
-			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, it->second.get()->getAttachments(), it->second.get()->getTarget(), it->second.get()->getTextureID(), 0);
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 
+			{
+				throw ResourceException("Failed to create frame buffer.");
+			}
+
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 	}
 
-	if (frame_buffer_count > 0)
-	{
-		glDrawBuffers(_resources.size(), drawBuffers);
-
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		{
-			throw ResourceException("Failed to generate frame buffer.");
-		}
-	}
-
-	free(drawBuffers);
 	free(ids);
 }
 
@@ -86,6 +105,12 @@ void TextureResource::_clear()
 			// Delete frame buffer
 			GLuint buffer = it->second.get()->getFrameBufferID();
 			glDeleteFramebuffers(1, &buffer);
+
+			if (it->second.get()->getAttachments() != GL_DEPTH_ATTACHMENT)
+			{
+				GLuint render_buffer = it->second.get()->getRenderBufferID();
+				glDeleteRenderbuffers(1, &render_buffer);
+			}
 		}
 	}
 

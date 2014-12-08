@@ -6,17 +6,53 @@
 #include "rendering_engine.h"
 #include "core_engine.h"
 #include "shader.h"
+#include "camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+
+#define PI 3.1415926
 
 void BaseLight::addToEngine(CoreEngine *engine)
 {
 	engine->getRenderingEngine()->addLight(this);
 }
 
-DirectionalLight::DirectionalLight(BaseLight& init_base) : BaseLight(init_base)
+glm::vec3& BaseLight::getShadowTranslation(Camera *cam)
 {
-	setShadow(new Shadow(glm::ortho<float>(-40.0f, 40.0f, -40.0f, 40.0f, -40.0f, 40.0f)));
+	return getTransform()->getTransformedTranslation();
+}
+
+glm::quat& BaseLight::getShadowRotation(Camera *cam)
+{
+	return getTransform()->getTransformedRotation();
+}
+
+DirectionalLight::DirectionalLight(BaseLight& init_base, float init_shadow_area) : BaseLight(init_base), half_shadow_area(init_shadow_area / 2.0f)
+{
+	setShadow(new Shadow(glm::ortho<float>(-half_shadow_area, half_shadow_area, -half_shadow_area, half_shadow_area, -half_shadow_area, half_shadow_area), 0.0002, 0.05, true));
+}
+
+glm::vec3& DirectionalLight::getShadowTranslation(Camera* cam)
+{
+	shadow_translation = cam->getTransform()->getTransformedTranslation() + cam->getTransform()->getTransformedForward() * half_shadow_area;
+
+	// Rotate shadow translation in light space
+	shadow_translation = glm::mat3_cast(glm::conjugate(cam->getTransform()->getTransformedRotation())) * shadow_translation;
+
+	float texelSize = (2.0f * half_shadow_area) / 1024.0f;
+	shadow_translation.x = texelSize * floor(shadow_translation.x / texelSize);
+	shadow_translation.y = texelSize * floor(shadow_translation.y / texelSize);
+
+	// Restore rotation
+	shadow_translation = glm::mat3_cast(cam->getTransform()->getTransformedRotation()) * shadow_translation;
+
+	return shadow_translation;
+}
+
+SpotLight::SpotLight(PointLight& init_point, float init_view_angle)
+	: PointLight(init_point), cutoff(cosf(init_view_angle * PI / 360.0f))
+{
+	setShadow(new Shadow(glm::perspective(init_view_angle, 1.0f, 0.01f, getRange()), 0.00001, 0.05, false));
 }
 
 Shader* DirectionalLight::getShader()

@@ -1,16 +1,9 @@
 #version 330
 #include "lighting.glh"
 #include "lighting.fsh"
+#include "shadow.fsh"
 
 uniform DirectionalLight directionalLight;
-uniform sampler2D shadowMap;
-
-float calculateShadowAmount(sampler2D shadowMap, vec4 shadowMapCoords)
-{
-	vec3 shadowCoords = (shadowMapCoords.xyz / shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
-
-	return step(shadowCoords.z - 0.002, texture2D(shadowMap, shadowCoords.xy).r);
-}
 
 void main()
 {

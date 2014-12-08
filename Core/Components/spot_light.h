@@ -5,8 +5,7 @@
 class SpotLight : public PointLight
 {
 	public:
-		SpotLight(PointLight& init_point = PointLight(), float init_cutoff = 0.5)
-			: PointLight(init_point), cutoff(init_cutoff) {};
+		SpotLight(PointLight& init_point = PointLight(), float init_view_angle = 170.0f);
 		virtual ~SpotLight() {};
 		glm::vec3& getDirection() { return getTransform()->getTransformedForward(); };
 		float getCutOff() { return cutoff; };

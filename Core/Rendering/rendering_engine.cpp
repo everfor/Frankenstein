@@ -23,33 +23,87 @@ RenderingEngine::RenderingEngine()
 	glEnable(GL_DEPTH_CLAMP);
 	glEnable(GL_TEXTURE_2D);
 
-	altCamera = std::unique_ptr<Camera>(new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000));
-	// altCamera.get()->getTransform()->setTranslation(0, 0, -2);
+	altCamera = new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000);
 	altCameraObject = std::unique_ptr<Object>(new Object());
-	altCameraObject.get()->addComponent(altCamera.get());
-	altCameraObject.get()->getTransform().setTranslation(0, 0, 0);
+	altCameraObject.get()->addComponent(altCamera);
+	//altCameraObject.get()->getTransform().setTranslation(0, 1, 0);
 
-	setVector("ambient", glm::vec3(0.2, 0.2, 0.2));
-	setTexture("shadow", new Texture("", GL_TEXTURE_2D, GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT, GL_NEAREST, true, GL_DEPTH_ATTACHMENT));
-	//planeTexture = std::unique_ptr<Texture>(new Texture("", GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0));
-	//plane = std::unique_ptr<Mesh>(new Mesh("./res/models/plane.obj"));
-	//planeMaterial = std::unique_ptr<Material>(new Material(1, 8, *(planeTexture.get())));
+	setVector(RENDERING_ENGINE_AMBIENT_LIGHT, glm::vec3(0.2, 0.2, 0.2));
+	setTexture(RENDERING_ENGINE_SHADOW_MAP, new Texture("shadow_map", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
+	setTexture(RENDERING_ENGINE_TEMP_TARGET, new Texture("temp_target", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
+
+	setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002f);
+	setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
+
+	// Plane Object
+	// Target texture for render to texture
+	// And texture filtering
+	planeMaterial = std::unique_ptr<Material>(new Material(1, 8, Texture("plane_texture", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0)));
+	planeTransform = std::unique_ptr<Transform>(new Transform());
+	planeTransform.get()->setTranslation(0, 0, 0);
+	planeTransform.get()->setScale(1, 1, 1);
+	plane = std::unique_ptr<Mesh>(new Mesh("./res/models/plane.obj"));
 }
 
 RenderingEngine::~RenderingEngine()
 {
+	std::map<std::string, Texture*>::iterator it = textures.begin();
+
+	while (it != textures.end())
+	{
+		if (it->second != NULL)
+		{
+			delete it->second;
+		}
+		textures.erase(it);
+
+		it = textures.begin();
+	}
+}
+
+void RenderingEngine::applyFilter(Shader *shader, Texture *src, Texture *dest)
+{
+	if (dest == NULL)
+	{
+		Display::BindAsRenderTarget();
+	}
+	else
+	{
+		dest->bindAsRenderTarget();
+	}
+
+	setTexture(RENDERING_ENGINE_FILTER_TARGET, src);
+
+	// Orthogonal projection with alt camera placed at origin facing forward
+	altCamera->setCameraProjection(glm::mat4(1.0));
+	altCamera->getTransform()->setTranslation(0, 0, 0);
+	altCamera->getTransform()->setRotation(glm::quat());
+
+	Camera *main_cam = getMainCamera();
+	addCamera(altCamera);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	shader->bind();
+	shader->updateUniforms(planeTransform.get(), this, planeMaterial.get());
+	plane->draw();
+
+	// Restore
+	addCamera(main_cam);
+	setTexture(RENDERING_ENGINE_FILTER_TARGET, NULL);
+}
+
+void RenderingEngine::gaussBlur(Texture *target, float blur_amt)
+{
+	setVector(RENDERING_ENGINE_BLUR_SCALE, glm::vec3(1.0f / (1024.0f * blur_amt), 0.0f, 0.0f));
+	applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_GAUSS_BLUR, NULL), target, getTexture(RENDERING_ENGINE_TEMP_TARGET));
+
+	setVector(RENDERING_ENGINE_BLUR_SCALE, glm::vec3(0.0f, 1.0f / (1024.0f * blur_amt), 0.0f));
+	applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_GAUSS_BLUR, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), target);
 }
 
 void RenderingEngine::setTexture(const std::string& key, Texture *value)
 {
-	if (textures.find(key) != textures.end())
-	{
-		textures.at(key).reset(value);
-	}
-	else
-	{
-		textures.insert(std::pair<std::string, std::unique_ptr<Texture>>(key, std::unique_ptr<Texture>(value)));
-	}
+	textures[key] = value;
 }
 
 void RenderingEngine::clearScreen()
@@ -61,29 +115,62 @@ void RenderingEngine::render(Object& object)
 {
 	Display::BindAsRenderTarget();
 
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	clearScreen();
-	BaseLight light(getVector("ambient"));
+	BaseLight light(getVector(RENDERING_ENGINE_AMBIENT_LIGHT));
 	object.render(Shader::GetShader(Shader::_shader_type::AMBIENT_LIGHT, &light), this);
 
+	// Apply shader for each kind of light
 	for (int i = 0; i < lights.size(); i++)
 	{
 		Shadow *shadow = lights[i]->getShadow();
-		getTexture("shadow")->bindAsRenderTarget();
-		glClear(GL_DEPTH_BUFFER_BIT);
+		getTexture(RENDERING_ENGINE_SHADOW_MAP)->bindAsRenderTarget();
 
+		glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
+		clearScreen();
+
+		// Shadow calculation
 		if (shadow != NULL)
 		{
+			// Set camera to the configuration of the shadow of the light
 			altCamera->setCameraProjection(shadow->getProjection());
-			altCamera->getTransform()->setTranslation(lights[i]->getTransform()->getTransformedTranslation());
-			altCamera->getTransform()->setRotation(lights[i]->getTransform()->getTransformedRotation());
+			altCamera->getTransform()->setTranslation(lights[i]->getShadowTranslation(getMainCamera()));
+			altCamera->getTransform()->setRotation(lights[i]->getShadowRotation(getMainCamera()));
 
 			lightMatrix = altCamera->getCameraViewProjection();
 
 			Camera *main = getMainCamera();
-			addCamera(altCamera.get());
+			addCamera(altCamera);
+
+			// Set shadow specific params
+			setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, shadow->getMinVariance());
+			setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, shadow->getLightBleedCorrection());
+
+			// Render the shadow map
+			if (shadow->shouldFlip())
+			{
+				glCullFace(GL_FRONT);
+			}
 			object.render(Shader::GetShader(Shader::_shader_type::SHADOW_MAP, NULL), this);
+			if (shadow->shouldFlip())
+			{
+				glCullFace(GL_BACK);
+			}
 
 			addCamera(main);
+
+			//applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_SHADOW_MAP), getTexture(RENDERING_ENGINE_TEMP_TARGET));
+			//applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), getTexture(RENDERING_ENGINE_SHADOW_MAP));
+			
+			// Apply gauss filter to shadow map to make shadow softer
+			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.4);
+		}
+		else
+		{
+			// Set some default values if no shadows are presented
+			lightMatrix = glm::mat4();
+			setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002f);
+			setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
 		}
 
 		Display::BindAsRenderTarget();

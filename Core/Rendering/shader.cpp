@@ -225,6 +225,18 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 		{
 			setUniformf(it->first, material->getFloat(MATERIAL_DISP_SCALE));
 		}
+		else if (it->first == UNIFORM_BLUR_SCALE)
+		{
+			setUniform(it->first, rendering_engine->getVector(RENDERING_ENGINE_BLUR_SCALE));
+		}
+		else if (it->first == UNIFORM_SHADOW_VARIANCE)
+		{
+			setUniformf(it->first, rendering_engine->getFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE));
+		}
+		else if (it->first == UNIFORM_LIGHT_BLEED)
+		{
+			setUniformf(it->first, rendering_engine->getFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD));
+		}
 		else if (it->first == UNIFORM_DIFFUSE_SAMPLER)
 		{
 			setUniformi(it->first, DIFFUSE_TEXTEURE_SLOT);
@@ -243,7 +255,12 @@ void Shader::updateUniforms(Transform *transform, RenderingEngine *rendering_eng
 		else if (it->first == UNIFORM_SHADOW_SAMPLER)
 		{
 			setUniformi(it->first, SHADOW_TEXTURE_SLOT);
-			rendering_engine->getTexture("shadow")->bind(SHADOW_TEXTURE_SLOT);
+			rendering_engine->getTexture(RENDERING_ENGINE_SHADOW_MAP)->bind(SHADOW_TEXTURE_SLOT);
+		}
+		else if (it->first == UNIFORM_FILTER_SAMPLER)
+		{
+			setUniformi(it->first, FILTER_TEXTURE_SLOT);
+			rendering_engine->getTexture(RENDERING_ENGINE_FILTER_TARGET)->bind(FILTER_TEXTURE_SLOT);
 		}
 	}
 
@@ -327,6 +344,16 @@ Shader* Shader::GetShader(Shader::_shader_type type, BaseLight* light)
 				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
 					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/shadow.vs",
 					"./res/shaders/shadow.fs"))));
+				break;
+			case _shader_type::FILTER_NULL:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/filter-null.vs",
+					"./res/shaders/filter-null.fs"))));
+				break;
+			case _shader_type::FILTER_GAUSS_BLUR:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/filter-gaussblur.vs",
+					"./res/shaders/filter-gaussblur.fs"))));
 				break;
 		}
 	}
