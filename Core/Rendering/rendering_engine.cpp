@@ -32,6 +32,9 @@ RenderingEngine::RenderingEngine()
 	setTexture(RENDERING_ENGINE_SHADOW_MAP, new Texture("shadow_map", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
 	setTexture(RENDERING_ENGINE_TEMP_TARGET, new Texture("temp_target", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
 
+	setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002f);
+	setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
+
 	// Plane Object
 	// Target texture for render to texture
 	// And texture filtering
@@ -123,7 +126,7 @@ void RenderingEngine::render(Object& object)
 		Shadow *shadow = lights[i]->getShadow();
 		getTexture(RENDERING_ENGINE_SHADOW_MAP)->bindAsRenderTarget();
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
 		clearScreen();
 
 		// Shadow calculation
@@ -131,8 +134,8 @@ void RenderingEngine::render(Object& object)
 		{
 			// Set camera to the configuration of the shadow of the light
 			altCamera->setCameraProjection(shadow->getProjection());
-			altCamera->getTransform()->setTranslation(lights[i]->getTransform()->getTransformedTranslation());
-			altCamera->getTransform()->setRotation(lights[i]->getTransform()->getTransformedRotation());
+			altCamera->getTransform()->setTranslation(lights[i]->getShadowTranslation(getMainCamera()));
+			altCamera->getTransform()->setRotation(lights[i]->getShadowRotation(getMainCamera()));
 
 			lightMatrix = altCamera->getCameraViewProjection();
 
@@ -161,6 +164,13 @@ void RenderingEngine::render(Object& object)
 			
 			// Apply gauss filter to shadow map to make shadow softer
 			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.4);
+		}
+		else
+		{
+			// Set some default values if no shadows are presented
+			lightMatrix = glm::mat4();
+			setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002f);
+			setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
 		}
 
 		Display::BindAsRenderTarget();

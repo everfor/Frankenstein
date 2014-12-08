@@ -8,6 +8,7 @@
 
 // Forward Declaration
 class CoreEngine;
+class Camera;
 
 class Shadow
 {
@@ -38,7 +39,10 @@ class BaseLight : public Component
 		// Engine Specific stuff
 		void addToEngine(CoreEngine *engine) override;
 		virtual Shader* getShader() { throw LightException("Base light does not have a real shader"); };
+		// Shadow related functions
 		Shadow* getShadow() { return shadow; };
+		virtual glm::vec3& getShadowTranslation(Camera *cam);
+		virtual glm::quat& getShadowRotation(Camera *cam);
 	protected:
 		void setShadow(Shadow *new_shadow) { if (shadow != NULL) { delete shadow; }; shadow = new_shadow; };
 	private:

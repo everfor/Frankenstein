@@ -90,8 +90,8 @@ void ResourceManager::LoadTexture(GLuint texture, const std::string& file, Textu
 	glBindTexture(resource->getTarget(), texture);
 	if (resource->getClamp())
 	{
-		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
 	else
 	{
