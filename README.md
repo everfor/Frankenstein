@@ -21,7 +21,8 @@ TO-DOs
 - <del>Free-moving Camera</del> DONE! With bugs though...
 - <del>Normal Mapping</del> DONE!
 - <del>Render to Texture</del> DONE!
-- Shadow Mapping
+- <del>Shadow Mapping</del> DONE! With bugs...
+- Anti-Aliasing
 - Particle System
 - Physics Engine
 - Audio System
