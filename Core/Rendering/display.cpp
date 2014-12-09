@@ -27,6 +27,9 @@ Display::Display(unsigned int init_width, unsigned int init_height, std::string&
 	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 3 * COLOR_SIZE + ALPHA_SIZE);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, USE_DOUBLE_BUFFER);
 
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
 	context = SDL_GL_CreateContext(window);
 

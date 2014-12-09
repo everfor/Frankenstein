@@ -19,9 +19,8 @@ RenderingEngine::RenderingEngine()
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-
 	glEnable(GL_DEPTH_CLAMP);
-	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_MULTISAMPLE);
 
 	altCamera = new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000);
 	altCameraObject = std::unique_ptr<Object>(new Object());

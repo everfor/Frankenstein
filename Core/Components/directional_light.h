@@ -7,7 +7,7 @@
 class DirectionalLight : public BaseLight
 {
 	public:
-		DirectionalLight(BaseLight& init_base = BaseLight(), float init_shadow_area = 20.0f);
+		DirectionalLight(BaseLight& init_base = BaseLight(), float init_shadow_area = 40.0f);
 		virtual ~DirectionalLight() {};
 		glm::vec3& getDirection() { return getTransform()->getTransformedForward(); }
 		Shader* getShader() override;
