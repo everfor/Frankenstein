@@ -43,6 +43,10 @@ void TextureResource::_load_all()
 			it->second.get()->getFilter() == GL_NEAREST_MIPMAP_LINEAR)
 		{
 			glGenerateMipmap(it->second.get()->getTarget());
+			// Anistropic filtering
+			GLfloat maxAnistropySample;
+			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnistropySample);
+			glTexParameterf(it->second.get()->getTarget(), GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnistropySample);
 		}
 		else
 		{
