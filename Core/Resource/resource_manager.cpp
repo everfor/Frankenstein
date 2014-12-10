@@ -74,7 +74,7 @@ void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 	}
 }
 
-void ResourceManager::LoadTexture(GLuint texture, const std::string& file, TextureResource *resource)
+void ResourceManager::LoadTexture(const std::string& file, TextureResource *resource)
 {
 	int width, height, num;
 	unsigned char* data = stbi_load(file.c_str(), &width, &height, &num, 4);
@@ -83,11 +83,14 @@ void ResourceManager::LoadTexture(GLuint texture, const std::string& file, Textu
 	{
 		// throw ResourceException("Failed to load diffuse texture file: " + file);
 		data = 0;
-		width = 1024;
-		height = 1024;
+		width = resource->getWidth();
+		height = resource->getHeight();
 	}
 
-	glBindTexture(resource->getTarget(), texture);
+	resource->setWidth(width);
+	resource->setHeight(height);
+
+	glBindTexture(resource->getTarget(), resource->getTextureID());
 	if (resource->getClamp())
 	{
 		glTexParameteri(resource->getTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

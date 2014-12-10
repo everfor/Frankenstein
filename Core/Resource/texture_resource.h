@@ -25,13 +25,17 @@ class TextureResource : public Resource
 		GLenum getInternalFormat() { return internal_format; };
 		GLenum getFormat() { return format; };
 		bool getClamp() { return clamp; };
+		void setWidth(int new_width) { width = new_width; };
+		int getWidth() { return width; };
+		void setHeight(int new_height) { height = new_height; };
+		int getHeight() { return height; };
 		// Frame Buffer
 		void bindAsFrameBuffer(int width, int height);
 		// Static methods
 		static void _load_all();
 		static void _clear();
 		// Factory
-		static TextureResource* _get_resource(const std::string& fileName, GLenum target, GLenum internal_format, GLenum format, GLfloat filter, bool clamp, GLenum attachments = GL_NONE);
+		static TextureResource* _get_resource(const std::string& fileName, GLenum target, GLenum internal_format, GLenum format, GLfloat filter, bool clamp, GLenum attachments = GL_NONE, int width = 1024, int height = 1024);
 		static void _remove_resource(const std::string& fileName);
 	private:
 		GLuint id;
@@ -43,8 +47,11 @@ class TextureResource : public Resource
 		GLenum format;
 		bool clamp;
 		GLenum attachments;
+		// Size
+		int width;
+		int height;
 		// Factory
-		TextureResource(GLenum init_target = GL_TEXTURE_2D, GLenum init_internal_format = GL_RGBA, GLenum init_format = GL_RGBA, GLfloat init_filter = GL_LINEAR_MIPMAP_LINEAR, bool init_clamp = false, GLenum attachments = GL_NONE);
+		TextureResource(GLenum init_target = GL_TEXTURE_2D, GLenum init_internal_format = GL_RGBA, GLenum init_format = GL_RGBA, GLfloat init_filter = GL_LINEAR_MIPMAP_LINEAR, bool init_clamp = false, GLenum attachments = GL_NONE, int width = 1024, int height = 1024);
 		static std::map<std::string, std::unique_ptr<TextureResource>> _resources;
 };
 

@@ -17,8 +17,8 @@
 class Texture
 {
 	public:
-		Texture(const std::string& fileName, const GLenum target = GL_TEXTURE_2D, const GLenum internal_format = GL_RGBA, const GLenum format = GL_RGBA, const GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, bool clmap = false, const GLenum attachments = GL_NONE);
-		Texture(const std::string *fileNames, const int num_textures, const GLenum *targets, const GLenum *internal_formats, const GLenum *formats, const GLfloat *filters, bool *clamps, const GLenum *attachments);
+		Texture(const std::string& fileName, const GLenum target = GL_TEXTURE_2D, const GLenum internal_format = GL_RGBA, const GLenum format = GL_RGBA, const GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, bool clmap = false, const GLenum attachments = GL_NONE, const int width = 1024, const int height = 1024);
+		Texture(const std::string *fileNames, const int num_textures, const GLenum *targets, const GLenum *internal_formats, const GLenum *formats, const GLfloat *filters, bool *clamps, const GLenum *attachments, const int *widths, const int *heights);
 		virtual ~Texture();
 		void setTexture(const std::string& fileName);
 		TextureResource* getResource() { return resources[0]; };

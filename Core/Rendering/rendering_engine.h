@@ -12,6 +12,7 @@
 #define RENDERING_ENGINE_AMBIENT_LIGHT			"ambient"
 #define RENDERING_ENGINE_SHADOW_MAP				"shadow_map"
 #define RENDERING_ENGINE_TEMP_TARGET			"temp_target"
+#define RENDERING_ENGINE_DISPLAY_TARGET			"display_target"
 #define RENDERING_ENGINE_FILTER_TARGET			"filter_target"
 #define RENDERING_ENGINE_BLUR_SCALE				"blur_scale"
 #define RENDERING_ENGINE_SHADOW_MIN_VARIANCE	"min_variance"

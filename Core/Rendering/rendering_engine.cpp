@@ -20,7 +20,7 @@ RenderingEngine::RenderingEngine()
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
-	glEnable(GL_MULTISAMPLE);
+	//glEnable(GL_MULTISAMPLE);
 
 	altCamera = new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000);
 	altCameraObject = std::unique_ptr<Object>(new Object());
@@ -30,6 +30,9 @@ RenderingEngine::RenderingEngine()
 	setVector(RENDERING_ENGINE_AMBIENT_LIGHT, glm::vec3(0.2, 0.2, 0.2));
 	setTexture(RENDERING_ENGINE_SHADOW_MAP, new Texture("shadow_map", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
 	setTexture(RENDERING_ENGINE_TEMP_TARGET, new Texture("temp_target", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
+
+	// Display target texture for FXAA
+	setTexture(RENDERING_ENGINE_DISPLAY_TARGET, new Texture("display_target", GL_TEXTURE_2D, GL_RGBA, GL_RGBA, GL_LINEAR, false, GL_COLOR_ATTACHMENT0, Display::GetWidth(), Display::GetHeight()));
 
 	setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002f);
 	setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
@@ -112,7 +115,8 @@ void RenderingEngine::clearScreen()
 
 void RenderingEngine::render(Object& object)
 {
-	Display::BindAsRenderTarget();
+	//Display::BindAsRenderTarget();
+	getTexture(RENDERING_ENGINE_DISPLAY_TARGET)->bindAsRenderTarget();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	clearScreen();
@@ -172,7 +176,8 @@ void RenderingEngine::render(Object& object)
 			setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
 		}
 
-		Display::BindAsRenderTarget();
+		//Display::BindAsRenderTarget();
+		getTexture(RENDERING_ENGINE_DISPLAY_TARGET)->bindAsRenderTarget();
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -183,6 +188,9 @@ void RenderingEngine::render(Object& object)
 		glDepthFunc(GL_LESS);
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
+
+		// Apply FXAA
+		applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_FXAA, NULL), getTexture(RENDERING_ENGINE_DISPLAY_TARGET), NULL);
 	}
 }
 

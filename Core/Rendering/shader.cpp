@@ -355,6 +355,11 @@ Shader* Shader::GetShader(Shader::_shader_type type, BaseLight* light)
 					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/filter-gaussblur.vs",
 					"./res/shaders/filter-gaussblur.fs"))));
 				break;
+			case _shader_type::FILTER_FXAA:
+				_shaders.insert(std::pair<_shader_type, std::unique_ptr<Shader>>(type,
+					std::unique_ptr<Shader>(new Shader(type, "./res/shaders/filter-fxaa.vs",
+					"./res/shaders/filter-fxaa.fs"))));
+				break;
 		}
 	}
 

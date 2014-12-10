@@ -36,6 +36,6 @@ float calculateShadowAmount(sampler2D shadowMap, vec4 shadowMapCoords)
 	}
 	else
 	{
-		return 1.0;
+		return 1.0 - lightBleedThreshold;
 	}
 }
