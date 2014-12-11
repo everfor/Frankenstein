@@ -73,6 +73,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="object.cpp" />
+    <ClCompile Include="profiler.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="profiler.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="utils.h" />

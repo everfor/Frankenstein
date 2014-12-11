@@ -40,7 +40,7 @@ void CoreEngine::run()
 {
 	// For counting frames
 	int frames = 0;
-	long frame_counter = 0;
+	double frame_counter = 0.0;
 
 	is_running = true;
 
@@ -78,6 +78,13 @@ void CoreEngine::run()
 
 			if (frame_counter >= 1.0)
 			{
+				// Display Profiling info for Rendering engine
+				renderingEngine.displayProfilerInfo((double)frames);
+				renderingEngine.displayWindowSyncProfilerInfo((double)frames);
+
+				// Total time each frame
+				std::cout << "Total time:" << "\t\t\t" << (1000.0 * frame_counter) / (double)frames << "ms." << std::endl << std::endl;
+
 				frames = 0;
 				frame_counter = 0;
 			}

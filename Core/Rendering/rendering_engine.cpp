@@ -10,7 +10,7 @@
 
 #include <GL/glew.h>
 
-RenderingEngine::RenderingEngine()
+RenderingEngine::RenderingEngine() : renderProfiler(Profiler()), windowSyncProfiler(Profiler())
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -115,6 +115,9 @@ void RenderingEngine::clearScreen()
 
 void RenderingEngine::render(Object& object)
 {
+	// Stop Profiler
+	renderProfiler.startInvocation();
+
 	//Display::BindAsRenderTarget();
 	getTexture(RENDERING_ENGINE_DISPLAY_TARGET)->bindAsRenderTarget();
 
@@ -166,7 +169,7 @@ void RenderingEngine::render(Object& object)
 			//applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), getTexture(RENDERING_ENGINE_SHADOW_MAP));
 			
 			// Apply gauss filter to shadow map to make shadow softer
-			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.4);
+			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.8);
 		}
 		else
 		{
@@ -188,10 +191,19 @@ void RenderingEngine::render(Object& object)
 		glDepthFunc(GL_LESS);
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
-
-		// Apply FXAA
-		applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_FXAA, NULL), getTexture(RENDERING_ENGINE_DISPLAY_TARGET), NULL);
 	}
+
+	// Stop Profiling
+	renderProfiler.stopInvocation();
+
+	// Start window Sync profiler
+	windowSyncProfiler.startInvocation();
+
+	// Apply FXAA
+	applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_FXAA, NULL), getTexture(RENDERING_ENGINE_DISPLAY_TARGET), NULL);
+
+	// Stop window Sync profiler
+	windowSyncProfiler.stopInvocation();
 }
 
 void RenderingEngine::addLight(BaseLight *light)

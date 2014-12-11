@@ -2,6 +2,7 @@
 
 #include "camera.h"
 #include "base_light.h"
+#include "profiler.h"
 
 #include <glm/glm.hpp>
 #include <vector>
@@ -46,7 +47,12 @@ class RenderingEngine
 		float getFloat(const std::string& key) { return floats.at(key); };
 		glm::vec3& getVector(const std::string& key) { return vectors.at(key); };
 		glm::mat4& getLightMatrix() { return lightMatrix; };
+		// Profiling
+		double displayProfilerInfo(double dividend = 0.0) { return renderProfiler.displayAndReset("Render Time", dividend); };
+		double displayWindowSyncProfilerInfo(double dividend = 0.0) { return windowSyncProfiler.displayAndReset("Window Sync", dividend); };
 	private:
+		Profiler renderProfiler;
+		Profiler windowSyncProfiler;
 		Camera *mainCamera;
 		std::vector<BaseLight*> lights;
 		Camera* altCamera;

@@ -29,6 +29,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	// TEST
 	Material *brick = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.03f, -0.5f);
+	//Material *brick = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg");
 	Material *wood = new Material(0.1, 2048, "./res/textures/bricks2.jpg", "./res/textures/bricks2_normal.jpg", "./res/textures/bricks2_disp.jpg", 0.03f, -1.0f);
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
