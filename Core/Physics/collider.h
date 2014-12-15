@@ -35,6 +35,8 @@ class Collider : public Component
 		_collider_type getType() const { return type; };
 		// Collision detection
 		virtual Collision collideWith(Collider *other) { return Collision(); };
+		// Get center
+		glm::vec3& getCenter() { return getTransform()->getTransformedTranslation(); };
 	private:
 		const _collider_type type;
 };

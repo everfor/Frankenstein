@@ -8,17 +8,16 @@ Collision SphereCollider::collideWith(Collider* other)
 	if (other_type == Collider::_collider_type::COLLIDER_SPHERE)
 	{
 		float radiusDist = radius + ((SphereCollider*)other)->getRadius();
-		glm::vec3 centerDir = ((SphereCollider*)other)->getCenter() - getCenter();
+		glm::vec3 centerDir = other->getCenter() - getCenter();
 		float centerDist = glm::length(centerDir);
 		centerDir = centerDir / centerDist;
 
 		// Set collision data
 		collision.setDirection(centerDir);
 		collision.setDistance(centerDist);
-		if (centerDist < radiusDist)
-		{
-			collision.setIsColliding(true);
-		}
+
+		// Collision Detection
+		collision.setIsColliding(centerDist < radiusDist);
 	}
 
 	return collision;
