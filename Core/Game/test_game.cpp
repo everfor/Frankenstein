@@ -24,7 +24,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	// Common mesh
 	// Mesh *mesh = new Mesh("./res/models/monkey.obj");
-	Mesh *planeMesh = new Mesh("./res/models/plane3.obj");
+	Mesh *planeMesh = new Mesh("./res/models/terrain.obj");
 	Mesh *smallPlaneMesh = new Mesh("./res/models/cube.obj");
 
 	// TEST
