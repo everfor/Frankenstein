@@ -65,11 +65,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="aabb_collider.h" />
     <ClInclude Include="collider.h" />
+    <ClInclude Include="plane_collider.h" />
     <ClInclude Include="sphere_collider.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="collider.cpp" />
+    <ClCompile Include="aabb_collider.cpp" />
+    <ClCompile Include="plane_collider.cpp" />
     <ClCompile Include="sphere_collider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

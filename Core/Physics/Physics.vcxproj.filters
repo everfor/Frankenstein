@@ -21,12 +21,21 @@
     <ClInclude Include="sphere_collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="aabb_collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="plane_collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="collider.cpp">
+    <ClCompile Include="sphere_collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sphere_collider.cpp">
+    <ClCompile Include="aabb_collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="plane_collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

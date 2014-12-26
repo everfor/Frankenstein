@@ -28,7 +28,8 @@ class Collider : public Component
 		static enum _collider_type
 		{
 			COLLIDER_SPHERE,
-			COLLIDER_AABB
+			COLLIDER_AABB,
+			COLLIDER_PLANE
 		};
 		Collider(_collider_type init_type) : type(init_type) {};
 		virtual ~Collider() {};
