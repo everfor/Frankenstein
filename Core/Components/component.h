@@ -6,6 +6,7 @@
 // Forward Declaration
 class CoreEngine;
 class RenderingEngine;
+class Object;
 class Shader;
 class Transform;
 
@@ -21,6 +22,7 @@ class Component
 		Transform* getTransform() { return transform; };
 		void setEngine(CoreEngine *engine) { addToEngine(engine); };
 		virtual void addToEngine(CoreEngine *engine) {};
+		virtual void acceptParentObj(Object *obj) {};
 	protected:
 		CoreEngine *engine;
 	private:
