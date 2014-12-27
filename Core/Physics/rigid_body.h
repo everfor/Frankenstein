@@ -9,15 +9,14 @@ class Object;
 class RigidBody : public PhysicsObject
 {
 	public:
-		RigidBody(glm::vec3& init_vel = glm::vec3()) : velocity(init_vel) {};
+		RigidBody(glm::vec3& init_vel = glm::vec3(), float init_mass = 0.0f, float init_resitution = 1.0f);
 		virtual ~RigidBody() {};
-		// Velocity
-		void setVelocity(glm::vec3& new_vel) { velocity = new_vel; };
-		glm::vec3& getVelocity() { return velocity; };
+		// Setters
+		void setVelocity(glm::vec3& new_vel) override { velocity = new_vel; };
+		void setMass(float new_mass) override;
+		void setResitution(float new_resitution) override { resitution = new_resitution; };
 		// Override
 		virtual void simulate(float delta) override;
-	private:
-		// TODO: add mass
-		glm::vec3 velocity;
+		virtual void collide(PhysicsObject *other) override;
 };
 

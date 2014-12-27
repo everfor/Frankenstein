@@ -16,7 +16,7 @@ Collision PlaneCollider::collideWith(Collider *other)
 
 		collision.setIsColliding(sphereDist > 0);
 		collision.setDistance(sphereDist);
-		collision.setDirection(centerDir);
+		collision.setCollisionNormal(getNormal());
 	}
 
 	return collision;

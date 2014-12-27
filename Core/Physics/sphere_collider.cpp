@@ -13,7 +13,7 @@ Collision SphereCollider::collideWith(Collider* other)
 		centerDir = centerDir / centerDist;
 
 		// Set collision data
-		collision.setDirection(centerDir);
+		collision.setCollisionNormal(centerDir);
 		collision.setDistance(centerDist);
 
 		// Collision Detection

@@ -13,14 +13,16 @@ Collision AABBCollider::collideWith(Collider* other)
 		float centerDist = glm::length(centerDir);
 		centerDir = centerDir / centerDist;
 
-		collision.setDirection(centerDir);
 		collision.setDistance(centerDist);
 
 		glm::vec3 dist1 = ((AABBCollider*)other)->getMinExtents() - getMaxExtents();
 		glm::vec3 dist2 = getMinExtents() - ((AABBCollider*)other)->getMaxExtents();
 
+		glm::vec3 normal = glm::vec3(fmaxf(dist1.x, dist2.x), fmaxf(dist1.y, dist2.y), fmaxf(dist1.z, dist2.z));
+		collision.setCollisionNormal(normal);
+
 		// Get largest components from the two calculated distances
-		float maxDist = fmaxf(fmaxf(fmaxf(dist1.x, dist2.x), fmaxf(dist1.y, dist2.y)), fmaxf(dist1.z, dist2.z));
+		float maxDist = fmaxf(fmaxf(normal.x, normal.y), normal.z);
 
 		// Collision Detection
 		collision.setIsColliding(maxDist < 0);
