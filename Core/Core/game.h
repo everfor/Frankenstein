@@ -11,7 +11,7 @@ class Game
 		Game(CoreEngine* core) : engine(core), root(Object()) { root.setEngine(engine); };
 		virtual ~Game() {};
 		virtual void input(float delta) { getRoot().input(delta); };
-		virtual void update(float delta) { getRoot().update(delta); };
+		virtual void update(float delta);
 		void render();
 		void addObject(Object *object) { root.addChild(object); };
 		void setEngine(CoreEngine *new_engine);

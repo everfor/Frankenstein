@@ -12,6 +12,7 @@
 #include "core_engine.h"
 #include "movement.h"
 #include "rotation.h"
+#include "rigid_body.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -55,6 +56,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *smallPlane = new Object();
 	smallPlane->addComponent(new MeshRenderer(smallPlaneMesh, wood));
+	smallPlane->addComponent(new RigidBody(glm::vec3(0.2, 0.0, 0.0)));
 	smallPlane->getTransform().moveY(-0.99);
 	//smallPlane->getTransform().rotateX(-90);
 
@@ -82,7 +84,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *spotLight = new Object();
 	spotLight->addComponent(new SpotLight(PointLight(BaseLight(glm::vec3(1, 1, 0), 0.7f), 0, 0, 0.3), 70.0f));
-	spotLight->getTransform().setTranslation(0, 1, 0);
+	spotLight->getTransform().setTranslation(0, 1.5, 0);
 	spotLight->getTransform().rotateX(-90);
 
 	camera = new Object();

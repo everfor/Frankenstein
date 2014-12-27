@@ -2,13 +2,8 @@
 #include "object.h"
 #include "transform.h"
 
-void RigidBody::update(Transform *transform, float delta)
+void RigidBody::simulate(float delta)
 {
 	// Velocity is always local
-	transform->setTranslation(transform->getTranslation() + velocity * delta);
-}
-
-void RigidBody::acceptParentObj(Object *obj)
-{
-	obj->setHasRigidBody(true);
+	getTransform()->setTranslation(getTransform()->getTranslation() + velocity * delta);
 }

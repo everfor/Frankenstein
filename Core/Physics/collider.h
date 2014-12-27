@@ -1,6 +1,7 @@
 #pragma once
 
 #include "component.h"
+#include "transform.h"
 
 #include <glm/glm.hpp>
 
@@ -22,7 +23,7 @@ class Collision
 		glm::vec3 direction;
 };
 
-class Collider : public Component
+class Collider
 {
 	public:
 		static enum _collider_type
@@ -38,7 +39,10 @@ class Collider : public Component
 		virtual Collision collideWith(Collider *other) { return Collision(); };
 		// Get center
 		glm::vec3& getCenter() { return getTransform()->getTransformedTranslation(); };
+		void setTransform(Transform* new_transform) { transform = new_transform; };
+		Transform* getTransform() { return transform; };
 	private:
 		const _collider_type type;
+		Transform* transform;
 };
 

@@ -30,6 +30,12 @@
     <ClInclude Include="rigid_body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics_engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sphere_collider.cpp">
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rigid_body.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="physics_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="physics_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

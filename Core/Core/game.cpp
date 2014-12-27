@@ -12,3 +12,9 @@ void Game::setEngine(CoreEngine *new_engine)
 	engine = new_engine;
 	getRoot().setEngine(engine);
 }
+
+void Game::update(float delta)
+{
+	engine->getPhysicsEngine()->update(delta);
+	getRoot().update(delta);
+}
