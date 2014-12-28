@@ -15,6 +15,10 @@ void Game::setEngine(CoreEngine *new_engine)
 
 void Game::update(float delta)
 {
-	engine->getPhysicsEngine()->update(delta);
+	if (physicsEngineEnabled())
+	{
+		engine->getPhysicsEngine()->update(delta);
+	}
+	
 	getRoot().update(delta);
 }

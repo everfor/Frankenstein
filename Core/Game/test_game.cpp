@@ -20,8 +20,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-TestGame::TestGame(CoreEngine *core) :
-		Game(core)
+TestGame::TestGame(CoreEngine *core, bool enable_phys) :
+		Game(core, enable_phys)
 {
 	Input::Initialize();
 
@@ -33,7 +33,7 @@ TestGame::TestGame(CoreEngine *core) :
 	// TEST
 	Material *brick = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.03f, -0.5f);
 	Material *brick2 = new Material(0.1, 2048, "./res/textures/bricks2.jpg", "./res/textures/bricks2_normal.jpg", "./res/textures/bricks2_disp.jpg", 0.03f, -1.0f);
-	Material *cave = new Material(0.2, 1024, "./res/textures/cave.png");
+	Material *cave = new Material(0.5, 512, "./res/textures/cave.png");
 
 	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
 	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
@@ -58,7 +58,7 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *sphere1 = new Object();
 	sphere1->addComponent(new MeshRenderer(smallPlaneMesh, brick2));
-	RigidBody *rigidBody1 = new RigidBody(glm::vec3(0.2, 0.0, 0.0), 1.0f);
+	RigidBody *rigidBody1 = new RigidBody(glm::vec3(0.2, 0.0, 0.0), 1.0f, 0.9f);
 	rigidBody1->setCollider(new SphereCollider(1.0f));
 	sphere1->addComponent(rigidBody1);
 	sphere1->getTransform().moveX(-2.0);
@@ -68,9 +68,10 @@ TestGame::TestGame(CoreEngine *core) :
 
 	Object *sphere2 = new Object();
 	sphere2->addComponent(new MeshRenderer(smallPlaneMesh, cave));
-	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.0), 1.0f);
+	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.0), 10.0f);
 	rigidBody2->setCollider(new SphereCollider(1.0f));
 	sphere2->addComponent(rigidBody2);
+	sphere2->getTransform().moveZ(0.5);
 	sphere2->getTransform().moveX(2.0);
 	sphere2->getTransform().moveY(-0.99);
 

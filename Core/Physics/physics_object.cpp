@@ -4,7 +4,7 @@
 
 PhysicsObject::PhysicsObject(_physobj_type init_type, Collider* init_collider) : 
 			velocity(glm::vec3()), mass(0.0f), inv_mass(0.0f), resitution(1.0f),
-			collider(std::unique_ptr<Collider>(init_collider)), type(init_type)
+			collider(std::unique_ptr<Collider>(init_collider)), type(init_type), layer(1)
 {
 	if (collider.get() != NULL)
 	{

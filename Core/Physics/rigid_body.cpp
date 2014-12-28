@@ -42,24 +42,28 @@ void RigidBody::collide(PhysicsObject *other)
 		// Make sure both have colliders
 		if (getCollider() != NULL && other->getCollider() != NULL)
 		{
-			Collision collision = getCollider()->collideWith(other->getCollider());
-
-			// Only calculate impulse when actually colliding
-			if (collision.ifColliding())
+			// Only collide if two objects share same layers
+			if (getLayer() & other->getLayer() != 0)
 			{
-				// collide - impulse resolution
+				Collision collision = getCollider()->collideWith(other->getCollider());
 
-				// Get the resitution for this collision
-				float collision_resitution = fminf(getRestitution(), other->getRestitution());
+				// Only calculate impulse when actually colliding
+				if (collision.ifColliding())
+				{
+					// collide - impulse resolution
 
-				float velocity_along_normal = glm::dot(getVelocity() - other->getVelocity(), collision.getCollisionNormal());
+					// Get the resitution for this collision
+					float collision_resitution = fminf(getRestitution(), other->getRestitution());
 
-				// Calculate impulse
-				float impulse = (1 + collision_resitution) * velocity_along_normal / (getInvMass() + other->getInvMass());
+					float velocity_along_normal = glm::dot(getVelocity() - other->getVelocity(), collision.getCollisionNormal());
 
-				// Modify velocity
-				setVelocity(getVelocity() - impulse * getInvMass() * collision.getCollisionNormal());
-				other->setVelocity(other->getVelocity() + impulse * other->getInvMass() * collision.getCollisionNormal());
+					// Calculate impulse
+					float impulse = (1 + collision_resitution) * velocity_along_normal / (getInvMass() + other->getInvMass());
+
+					// Modify velocity
+					setVelocity(getVelocity() - impulse * getInvMass() * collision.getCollisionNormal());
+					other->setVelocity(other->getVelocity() + impulse * other->getInvMass() * collision.getCollisionNormal());
+				}
 			}
 		}
 	}

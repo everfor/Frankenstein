@@ -30,6 +30,11 @@ class PhysicsObject : public Component
 		float getMass() { return mass; };
 		float getInvMass() { return inv_mass; };
 		float getRestitution() { return resitution; };
+		// Layer
+		int getLayer() { return layer; };
+		void setLayer(int new_layer) { layer = new_layer; };
+		void addLayer(int level) { layer |= 1 << level; };
+		void removeLyaer(int level) { layer &= !(1 << level); };
 		// Override
 		virtual void setTransform(Transform *new_transform) override;
 		// Setters
@@ -44,5 +49,7 @@ class PhysicsObject : public Component
 	private:
 		std::unique_ptr<Collider> collider;
 		_physobj_type type;
+		// Only phys objs that share same level of layers will collide with eath other
+		int layer;
 };
 
