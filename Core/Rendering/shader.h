@@ -68,7 +68,8 @@ class Shader
 			SPOT_LIGHT,
 			SHADOW_MAP,
 			FILTER_NULL,
-			FILTER_GAUSS_BLUR
+			FILTER_GAUSS_BLUR,
+			FILTER_FXAA
 		};
 		virtual ~Shader();
 		// Shaders

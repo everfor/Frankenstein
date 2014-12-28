@@ -10,7 +10,7 @@
 
 #include <GL/glew.h>
 
-RenderingEngine::RenderingEngine()
+RenderingEngine::RenderingEngine() : renderProfiler(Profiler()), windowSyncProfiler(Profiler())
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -19,9 +19,8 @@ RenderingEngine::RenderingEngine()
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-
 	glEnable(GL_DEPTH_CLAMP);
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_MULTISAMPLE);
 
 	altCamera = new Camera(70, (float)Display::GetHeight() / (float)Display::GetWidth(), 0.01, 1000);
 	altCameraObject = std::unique_ptr<Object>(new Object());
@@ -31,6 +30,9 @@ RenderingEngine::RenderingEngine()
 	setVector(RENDERING_ENGINE_AMBIENT_LIGHT, glm::vec3(0.2, 0.2, 0.2));
 	setTexture(RENDERING_ENGINE_SHADOW_MAP, new Texture("shadow_map", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
 	setTexture(RENDERING_ENGINE_TEMP_TARGET, new Texture("temp_target", GL_TEXTURE_2D, GL_RG32F, GL_RGBA, GL_LINEAR, true, GL_COLOR_ATTACHMENT0));
+
+	// Display target texture for FXAA
+	setTexture(RENDERING_ENGINE_DISPLAY_TARGET, new Texture("display_target", GL_TEXTURE_2D, GL_RGBA, GL_RGBA, GL_LINEAR, false, GL_COLOR_ATTACHMENT0, Display::GetWidth(), Display::GetHeight()));
 
 	setFloat(RENDERING_ENGINE_SHADOW_MIN_VARIANCE, 0.0002f);
 	setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
@@ -113,7 +115,11 @@ void RenderingEngine::clearScreen()
 
 void RenderingEngine::render(Object& object)
 {
-	Display::BindAsRenderTarget();
+	// Stop Profiler
+	renderProfiler.startInvocation();
+
+	//Display::BindAsRenderTarget();
+	getTexture(RENDERING_ENGINE_DISPLAY_TARGET)->bindAsRenderTarget();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	clearScreen();
@@ -163,7 +169,7 @@ void RenderingEngine::render(Object& object)
 			//applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_NULL, NULL), getTexture(RENDERING_ENGINE_TEMP_TARGET), getTexture(RENDERING_ENGINE_SHADOW_MAP));
 			
 			// Apply gauss filter to shadow map to make shadow softer
-			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.4);
+			gaussBlur(getTexture(RENDERING_ENGINE_SHADOW_MAP), 0.8);
 		}
 		else
 		{
@@ -173,7 +179,8 @@ void RenderingEngine::render(Object& object)
 			setFloat(RENDERING_ENGINE_LIGHT_BLEEDING_THRESHOLD, 0.0f);
 		}
 
-		Display::BindAsRenderTarget();
+		//Display::BindAsRenderTarget();
+		getTexture(RENDERING_ENGINE_DISPLAY_TARGET)->bindAsRenderTarget();
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
@@ -185,6 +192,18 @@ void RenderingEngine::render(Object& object)
 		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 	}
+
+	// Stop Profiling
+	renderProfiler.stopInvocation();
+
+	// Start window Sync profiler
+	windowSyncProfiler.startInvocation();
+
+	// Apply FXAA
+	applyFilter(Shader::GetShader(Shader::_shader_type::FILTER_FXAA, NULL), getTexture(RENDERING_ENGINE_DISPLAY_TARGET), NULL);
+
+	// Stop window Sync profiler
+	windowSyncProfiler.stopInvocation();
 }
 
 void RenderingEngine::addLight(BaseLight *light)

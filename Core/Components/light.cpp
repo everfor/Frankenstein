@@ -29,7 +29,7 @@ glm::quat& BaseLight::getShadowRotation(Camera *cam)
 
 DirectionalLight::DirectionalLight(BaseLight& init_base, float init_shadow_area) : BaseLight(init_base), half_shadow_area(init_shadow_area / 2.0f)
 {
-	setShadow(new Shadow(glm::ortho<float>(-half_shadow_area, half_shadow_area, -half_shadow_area, half_shadow_area, -half_shadow_area, half_shadow_area), 0.0002, 0.05, true));
+	setShadow(new Shadow(glm::ortho<float>(-half_shadow_area, half_shadow_area, -half_shadow_area, half_shadow_area, -half_shadow_area, half_shadow_area), 0.0002, 0.0, false));
 }
 
 glm::vec3& DirectionalLight::getShadowTranslation(Camera* cam)

@@ -4,8 +4,8 @@
 
 std::map<std::string, std::unique_ptr<TextureResource>> TextureResource::_resources;
 
-TextureResource::TextureResource(GLenum init_target, GLenum init_internal_format, GLenum init_format, GLfloat init_filter, bool init_clamp, GLenum init_attachments) :
-			Resource(), target(init_target), filter(init_filter), frame_buffer_id(0), internal_format(init_internal_format), format(init_format), clamp(init_clamp), attachments(init_attachments)
+TextureResource::TextureResource(GLenum init_target, GLenum init_internal_format, GLenum init_format, GLfloat init_filter, bool init_clamp, GLenum init_attachments, int init_width, int init_height) :
+Resource(), target(init_target), filter(init_filter), frame_buffer_id(0), internal_format(init_internal_format), format(init_format), clamp(init_clamp), attachments(init_attachments), width(init_width), height(init_height)
 {
 	increaseRefCout();
 }
@@ -34,7 +34,7 @@ void TextureResource::_load_all()
 		// Store texture IDs
 		it->second.get()->setTextureID(ids[index++]);
 		// Bind resources
-		ResourceManager::LoadTexture(it->second.get()->getTextureID(), it->first, it->second.get());
+		ResourceManager::LoadTexture(it->first, it->second.get());
 
 		// Mipmapping
 		if (it->second.get()->getFilter() == GL_LINEAR_MIPMAP_NEAREST ||
@@ -43,6 +43,10 @@ void TextureResource::_load_all()
 			it->second.get()->getFilter() == GL_NEAREST_MIPMAP_LINEAR)
 		{
 			glGenerateMipmap(it->second.get()->getTarget());
+			// Anistropic filtering
+			GLfloat maxAnistropySample;
+			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnistropySample);
+			glTexParameterf(it->second.get()->getTarget(), GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnistropySample);
 		}
 		else
 		{
@@ -119,7 +123,7 @@ void TextureResource::_clear()
 	_resources.clear();
 }
 
-TextureResource* TextureResource::_get_resource(const std::string& fileName, GLenum target, GLenum internal_format, GLenum format, GLfloat filter, bool clamp, GLenum attachments)
+TextureResource* TextureResource::_get_resource(const std::string& fileName, GLenum target, GLenum internal_format, GLenum format, GLfloat filter, bool clamp, GLenum attachments, int width, int height)
 {
 	if (_resources.find(fileName) != _resources.end())
 	{
@@ -127,7 +131,7 @@ TextureResource* TextureResource::_get_resource(const std::string& fileName, GLe
 		return _resources.at(fileName).get();
 	}
 
-	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource(target, internal_format, format, filter, clamp, attachments))));
+	_resources.insert(std::pair<std::string, std::unique_ptr<TextureResource>>(fileName, std::unique_ptr<TextureResource>(new TextureResource(target, internal_format, format, filter, clamp, attachments, width, height))));
 	return _resources.at(fileName).get();
 }
 

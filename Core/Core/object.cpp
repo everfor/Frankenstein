@@ -41,6 +41,8 @@ void Object::addChild(Object *child)
 
 void Object::addComponent(Component *component)
 {
+	component->acceptParentObj(this);
+
 	if (engine != NULL)
 	{
 		component->setEngine(engine);

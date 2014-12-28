@@ -1,6 +1,8 @@
 #include "core_engine.h"
 #include "timer.h"
 #include "input.h"
+#include "rendering_engine.h"
+#include "physics_engine.h"
 
 // Platform dependent include for sleep function
 #ifdef _WIN32
@@ -13,7 +15,7 @@
 
 CoreEngine::CoreEngine(int width, int height, std::string& title, int init_frame_rate, float camera_fov, float camera_z_near, float camera_z_far, glm::vec3& camera_pos) :
 			window(Display::GetDisplay(width, height, title)), is_running(false), frame_rate(init_frame_rate), 
-			renderingEngine(RenderingEngine())
+			renderingEngine(RenderingEngine()), physicsEngine(PhysicsEngine())
 {
 }
 
@@ -40,7 +42,7 @@ void CoreEngine::run()
 {
 	// For counting frames
 	int frames = 0;
-	long frame_counter = 0;
+	double frame_counter = 0.0;
 
 	is_running = true;
 
@@ -78,6 +80,13 @@ void CoreEngine::run()
 
 			if (frame_counter >= 1.0)
 			{
+				// Display Profiling info for Rendering engine
+				renderingEngine.displayProfilerInfo((double)frames);
+				renderingEngine.displayWindowSyncProfilerInfo((double)frames);
+
+				// Total time each frame
+				std::cout << "Total time:" << "\t\t\t" << (1000.0 * frame_counter) / (double)frames << "ms." << std::endl << std::endl;
+
 				frames = 0;
 				frame_counter = 0;
 			}

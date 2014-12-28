@@ -23,6 +23,9 @@ class Object
 		void update(float delta);
 		void render(Shader *shader, RenderingEngine *rendering_engine);
 		Transform& getTransform() { return transform; };
+		// Rigid body
+		void setHasRigidBody(bool new_has) { has_rigid_body = new_has; };
+		bool hasRigidBody() { return has_rigid_body; };
 		// Add necessary components to rendering engine
 		void setEngine(CoreEngine *engine);
 	protected:
@@ -31,5 +34,6 @@ class Object
 		Transform transform;
 		std::vector<std::unique_ptr<Object>> children;
 		std::vector<std::unique_ptr<Component>> components;
+		bool has_rigid_body;
 };
 

@@ -14,7 +14,7 @@ class CoreEngine;
 class TestGame : public Game
 {
 	public:
-		TestGame(CoreEngine *core);
+		TestGame(CoreEngine *core, bool enable_phys = true);
 		virtual ~TestGame();
 		void input(float delta) override;
 		void update(float delta) override;

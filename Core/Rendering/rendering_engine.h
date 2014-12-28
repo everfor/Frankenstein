@@ -2,6 +2,7 @@
 
 #include "camera.h"
 #include "base_light.h"
+#include "profiler.h"
 
 #include <glm/glm.hpp>
 #include <vector>
@@ -12,6 +13,7 @@
 #define RENDERING_ENGINE_AMBIENT_LIGHT			"ambient"
 #define RENDERING_ENGINE_SHADOW_MAP				"shadow_map"
 #define RENDERING_ENGINE_TEMP_TARGET			"temp_target"
+#define RENDERING_ENGINE_DISPLAY_TARGET			"display_target"
 #define RENDERING_ENGINE_FILTER_TARGET			"filter_target"
 #define RENDERING_ENGINE_BLUR_SCALE				"blur_scale"
 #define RENDERING_ENGINE_SHADOW_MIN_VARIANCE	"min_variance"
@@ -45,7 +47,12 @@ class RenderingEngine
 		float getFloat(const std::string& key) { return floats.at(key); };
 		glm::vec3& getVector(const std::string& key) { return vectors.at(key); };
 		glm::mat4& getLightMatrix() { return lightMatrix; };
+		// Profiling
+		double displayProfilerInfo(double dividend = 0.0) { return renderProfiler.displayAndReset("Render Time", dividend); };
+		double displayWindowSyncProfilerInfo(double dividend = 0.0) { return windowSyncProfiler.displayAndReset("Window Sync", dividend); };
 	private:
+		Profiler renderProfiler;
+		Profiler windowSyncProfiler;
 		Camera *mainCamera;
 		std::vector<BaseLight*> lights;
 		Camera* altCamera;

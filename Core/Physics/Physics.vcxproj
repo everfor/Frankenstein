@@ -44,6 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../Components;../Core;../Rendering;../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,6 +65,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="aabb_collider.h" />
+    <ClInclude Include="collider.h" />
+    <ClInclude Include="physics_engine.h" />
+    <ClInclude Include="physics_object.h" />
+    <ClInclude Include="plane_collider.h" />
+    <ClInclude Include="rigid_body.h" />
+    <ClInclude Include="sphere_collider.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aabb_collider.cpp" />
+    <ClCompile Include="physics_engine.cpp" />
+    <ClCompile Include="physics_object.cpp" />
+    <ClCompile Include="plane_collider.cpp" />
+    <ClCompile Include="rigid_body.cpp" />
+    <ClCompile Include="sphere_collider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

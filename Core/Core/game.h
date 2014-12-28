@@ -8,17 +8,20 @@ class CoreEngine;
 class Game
 {
 	public:
-		Game(CoreEngine* core) : engine(core), root(Object()) { root.setEngine(engine); };
+		Game(CoreEngine* core, bool if_enable_phys = true) : engine(core), root(Object()), enablePhysicsEngine(if_enable_phys) { root.setEngine(engine); };
 		virtual ~Game() {};
 		virtual void input(float delta) { getRoot().input(delta); };
-		virtual void update(float delta) { getRoot().update(delta); };
+		virtual void update(float delta);
 		void render();
 		void addObject(Object *object) { root.addChild(object); };
 		void setEngine(CoreEngine *new_engine);
+		bool physicsEngineEnabled() { return enablePhysicsEngine; };
 	protected:
 		CoreEngine *engine;
 	private:
 		Object& getRoot() { return root; };
 		Object root;
+		// Whether or not to enable default physics engine
+		bool enablePhysicsEngine;
 };
 
