@@ -2,12 +2,14 @@
 #include "object.h"
 #include "transform.h"
 
-RigidBody::RigidBody(glm::vec3& init_vel, float init_mass, float init_resitution) : 
+RigidBody::RigidBody(glm::vec3& init_vel, float init_mass, float init_resitution, float init_static_fric, float init_dynamic_fric) :
 			PhysicsObject(PhysicsObject::_physobj_type::TYPE_RIGID_BODY)
 {
 	setVelocity(init_vel);
 	setMass(init_mass);
 	setResitution(init_resitution);
+	setStaticFriction(init_static_fric);
+	setDynamicFriction(init_dynamic_fric);
 }
 
 void RigidBody::setMass(float new_mass)
@@ -50,19 +52,45 @@ void RigidBody::collide(PhysicsObject *other)
 				// Only calculate impulse when actually colliding
 				if (collision.ifColliding())
 				{
-					// collide - impulse resolution
+					// Collision - impulse resolution
+					glm::vec3 relative_velocity = other->getVelocity() - getVelocity();
 
 					// Get the resitution for this collision
 					float collision_resitution = fminf(getRestitution(), other->getRestitution());
 
-					float velocity_along_normal = glm::dot(getVelocity() - other->getVelocity(), collision.getCollisionNormal());
+					float velocity_along_normal = glm::dot(relative_velocity, collision.getCollisionNormal());
 
 					// Calculate impulse
-					float impulse = (1 + collision_resitution) * velocity_along_normal / (getInvMass() + other->getInvMass());
+					float collision_impulse = -(1 + collision_resitution) * velocity_along_normal / (getInvMass() + other->getInvMass());
 
 					// Modify velocity
-					setVelocity(getVelocity() - impulse * getInvMass() * collision.getCollisionNormal());
-					other->setVelocity(other->getVelocity() + impulse * other->getInvMass() * collision.getCollisionNormal());
+					setVelocity(getVelocity() - collision_impulse * getInvMass() * collision.getCollisionNormal());
+					other->setVelocity(other->getVelocity() + collision_impulse * other->getInvMass() * collision.getCollisionNormal());
+
+					// Friction - friction resolution
+					glm::vec3 tangent = glm::normalize(relative_velocity - glm::dot(relative_velocity, collision.getCollisionNormal()) * collision.getCollisionNormal());
+
+					// Calculate friction impulse
+					float tangent_impulse = -glm::dot(relative_velocity, tangent) / (getInvMass() + other->getInvMass());
+
+					// Get static friction for this collision
+					float static_friction = sqrtf(getStaticFriction() * getStaticFriction() + other->getStaticFriction() * other->getStaticFriction());
+					glm::vec3 friction_impulse;
+					
+					if (fabs(tangent_impulse) < collision_impulse * static_friction)
+					{
+						friction_impulse = tangent_impulse * tangent;
+					}
+					else
+					{
+						// Tangent impulse larger than static friction - use dynamic friction
+						float dynamic_friction = sqrtf(getDynamicFriction() * getDynamicFriction() + other->getDynamicFriction() * other->getDynamicFriction());
+						friction_impulse = -dynamic_friction * collision_impulse * tangent;
+					}
+
+					// Modify velocity
+					setVelocity(getVelocity() - getInvMass() * friction_impulse);
+					other->setVelocity(other->getVelocity() - other->getInvMass() * friction_impulse);
 				}
 			}
 		}

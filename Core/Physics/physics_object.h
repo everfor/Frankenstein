@@ -8,6 +8,9 @@
 
 class CoreEngine;
 
+/*
+* Perfect Physics Object - Infinite mass, perfect elastic collision, perfectly smooth (no friction)
+*/
 class PhysicsObject : public Component
 {
 	public:
@@ -30,6 +33,8 @@ class PhysicsObject : public Component
 		float getMass() { return mass; };
 		float getInvMass() { return inv_mass; };
 		float getRestitution() { return resitution; };
+		float getStaticFriction() { return static_friction; };
+		float getDynamicFriction() { return dynamic_friction; };
 		// Layer
 		int getLayer() { return layer; };
 		void setLayer(int new_layer) { layer = new_layer; };
@@ -38,14 +43,18 @@ class PhysicsObject : public Component
 		// Override
 		virtual void setTransform(Transform *new_transform) override;
 		// Setters
-		virtual void setVelocity(glm::vec3& new_vel) {};
+		virtual void setVelocity(glm::vec3& new_vel) { velocity = new_vel; };
 		virtual void setMass(float new_mass) {};
 		virtual void setResitution(float new_resitution) {};
+		virtual void setStaticFriction(float new_static_fric) {};
+		virtual void setDynamicFriction(float new_dynamic_fric) {};
 	protected:
 		glm::vec3 velocity;
 		float mass;
 		float inv_mass;
 		float resitution;
+		float static_friction;
+		float dynamic_friction;
 	private:
 		std::unique_ptr<Collider> collider;
 		_physobj_type type;
