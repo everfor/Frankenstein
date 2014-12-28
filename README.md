@@ -5,6 +5,8 @@ My First 3D Game Engine.
 
 The rendering engine was developed based on thebennybox 3D Game Engine (https://github.com/BennyQBD/3DEngineCpp).
 
+The physics engine was inspired by http://gamedevelopment.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715.
+
 Dependencies
 ============
 - OpenGL
@@ -22,8 +24,8 @@ TO-DOs
 - <del>Normal Mapping</del> DONE!
 - <del>Render to Texture</del> DONE!
 - <del>Shadow Mapping</del> DONE! With bugs...
-- Anti-Aliasing
+- <del>Anti-Aliasing</del> DONE! With bugs...
 - Particle System
-- Physics Engine
+- <del>Physics Engine</del> DONE! Improvement underway...
 - Audio System
 - Cross Platform?
