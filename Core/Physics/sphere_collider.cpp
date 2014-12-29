@@ -15,10 +15,13 @@ Collision SphereCollider::collideWith(Collider* other)
 		glm::vec3 centerDir = other->getCenter() - getCenter();
 		float centerDist = glm::length(centerDir);
 		centerDir = centerDir / centerDist;
+		float penetration = radiusDist - centerDist;
 
 		// Set collision data
 		collision.setCollisionNormal(centerDir);
-		collision.setPenetration(radiusDist - centerDist);
+		collision.setPenetration(penetration);
+		collision.setContactRadiusA((getRadius() - penetration) * centerDir);
+		collision.setContactRadiusB((((SphereCollider*)other)->getRadius() - penetration) * centerDir);
 
 		// Collision Detection
 		collision.setIsColliding(centerDist < radiusDist);

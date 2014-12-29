@@ -20,3 +20,7 @@ void _get_path(const std::string& fileName, std::string& path);
 
 // Round and normalize to 2 decimal points
 void _round_normalize(glm::vec3& vec);
+
+class Collider;
+// Return the moment of inertia
+float _calculate_moment_of_interia(float mass, Collider* collider);
