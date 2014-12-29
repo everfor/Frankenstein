@@ -52,3 +52,24 @@ void _round_normalize(glm::vec3& vec)
 
 	vec = glm::normalize(vec);
 }
+
+#include "collider.h"
+#include "sphere_collider.h"
+
+float _calculate_moment_of_interia(float mass, Collider* collider)
+{
+	if (collider != NULL)
+	{
+		Collider::_collider_type type = collider->getType();
+		if (mass > 0.0f)
+		{
+			// Only give moi of sphere right now
+			if (type == Collider::_collider_type::COLLIDER_SPHERE)
+			{
+				return 0.4 * mass * ((SphereCollider*)collider)->getRadius() * ((SphereCollider*)collider)->getRadius();
+			}
+		}
+	}
+
+	return 0.0f;
+}
