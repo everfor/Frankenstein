@@ -29,3 +29,11 @@ TO-DOs
 - <del>Physics Engine</del> DONE! Improvement underway...
 - Audio System
 - Cross Platform?
+
+Known Issues
+============
+- Erros in transform calculation
+- Bugs in shadow map for directional lights
+- Shaking effect of FAAX
+- Profiler not fully used everywhere (just too lazy)
+- AABB colliders does not support angular momentum (because of non-rotational nature of AABB collider)
