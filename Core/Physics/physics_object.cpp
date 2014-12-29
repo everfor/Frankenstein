@@ -18,6 +18,8 @@ PhysicsObject::PhysicsObject(_physobj_type init_type, Collider* init_collider) :
 void PhysicsObject::addToEngine(CoreEngine* engine)
 {
 	engine->getPhysicsEngine()->addObject(this);
+
+	physEngine = engine->getPhysicsEngine();
 }
 
 void PhysicsObject::setCollider(Collider *new_collider)
@@ -42,6 +44,8 @@ void PhysicsObject::setTransform(Transform* new_transform)
 
 void PhysicsObject::simulate(float delta)
 {
+	// Apply gravity
+	setVelocity(getVelocity() + getMass() * getInvMass() * physEngine->getGravitationalAcc());
 	// Update velocity
 	setVelocity(getVelocity() + delta * getAcceleration());
 	// Velocity is always local

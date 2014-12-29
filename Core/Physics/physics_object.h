@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 
 class CoreEngine;
+class PhysicsEngine;
 
 /*
 * Perfect Physics Object - Infinite mass, perfect elastic collision, perfectly smooth (no friction)
@@ -75,5 +76,6 @@ class PhysicsObject : public Component
 		_physobj_type type;
 		// Only phys objs that share same level of layers will collide with eath other
 		int layer;
+		PhysicsEngine* physEngine;
 };
 
