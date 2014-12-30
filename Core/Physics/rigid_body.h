@@ -4,6 +4,10 @@
 
 #include <glm/glm.hpp>
 
+// Frictions are too small - needs correction to make them larger
+// without needing to use weirdly small friction constants
+#define FRICTION_CONSTANT_CORRECTION		0.55f
+
 class Object;
 
 class RigidBody : public PhysicsObject

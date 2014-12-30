@@ -117,25 +117,33 @@ void RigidBody::collide(PhysicsObject *other)
 					float angular_inertia_a = glm::length(glm::cross(contact_radius_a, tangent));
 					float angular_inertia_b = glm::length(glm::cross(contact_radius_b, tangent));
 
+					// Used to calculate friction generated from rotations of the two colliders
+					float angular_impulse_a = glm::dot(glm::cross(contact_radius_a, getAngularVelocity()), tangent);
+					float angular_impulse_b = glm::dot(glm::cross(contact_radius_b, other->getAngularVelocity()), tangent);
+
 					// Calculate friction impulse
 					float tangent_impulse = -(1 + collision_resitution) * glm::dot(relative_velocity, tangent) 
 						/ (getInvMass() + other->getInvMass() 
 						+ angular_inertia_a * angular_inertia_a * getInvMOI()
-						+ angular_inertia_b * angular_inertia_b * getInvMOI());
+						+ angular_inertia_b * angular_inertia_b * getInvMOI())
+						+ angular_impulse_a * static_friction
+						+ angular_impulse_b * static_friction;
 
 					// Get static friction for this collision
-					float static_friction = sqrtf(getStaticFriction() * getStaticFriction() + other->getStaticFriction() * other->getStaticFriction());
+					float static_friction = FRICTION_CONSTANT_CORRECTION * sqrtf(getStaticFriction() * getStaticFriction() + other->getStaticFriction() * other->getStaticFriction());
 					glm::vec3 friction_impulse;
 					
 					if (fabs(tangent_impulse) < normal_impulse * static_friction)
 					{
-						friction_impulse = tangent_impulse * tangent;
+						friction_impulse = (tangent_impulse) * tangent;
 					}
 					else
 					{
 						// Tangent impulse larger than static friction - use dynamic friction
-						float dynamic_friction = sqrtf(getDynamicFriction() * getDynamicFriction() + other->getDynamicFriction() * other->getDynamicFriction());
-						friction_impulse = -dynamic_friction * collision_impulse * tangent;
+						float dynamic_friction = sqrtf(getDynamicFriction() * getDynamicFriction() + other->getDynamicFriction() * other->getDynamicFriction()) / FRICTION_CONSTANT_CORRECTION;
+						friction_impulse = (-dynamic_friction * collision_impulse
+											+ angular_impulse_a * dynamic_friction
+											+ angular_impulse_b * dynamic_friction) * tangent;
 					}
 
 					// Apply Impulse
