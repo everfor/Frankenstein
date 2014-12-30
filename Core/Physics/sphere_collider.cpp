@@ -21,7 +21,7 @@ Collision SphereCollider::collideWith(Collider* other)
 		collision.setCollisionNormal(centerDir);
 		collision.setPenetration(penetration);
 		collision.setContactRadiusA((getRadius() - penetration) * centerDir);
-		collision.setContactRadiusB((((SphereCollider*)other)->getRadius() - penetration) * centerDir);
+		collision.setContactRadiusB(penetration - (((SphereCollider*)other)->getRadius()) * centerDir);
 
 		// Collision Detection
 		collision.setIsColliding(centerDist < radiusDist);

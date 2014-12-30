@@ -66,7 +66,7 @@ void RigidBody::applyImpulse(glm::vec3& impulse, glm::vec3& contact_vector)
 	setVelocity(getVelocity() + impulse * getInvMass());
 
 	// Apply impulse on angular velocity
-	setAngularVelocity(getAngularVelocity() + glm::cross(impulse, contact_vector) * getInvMOI());
+	setAngularVelocity(getAngularVelocity() + glm::cross(contact_vector, impulse) * getInvMOI());
 }
 
 void RigidBody::collide(PhysicsObject *other)

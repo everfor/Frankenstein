@@ -68,7 +68,7 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 
 	Object *sphere2 = new Object();
 	sphere2->addComponent(new MeshRenderer(smallPlaneMesh, cave));
-	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.2), glm::vec3(), glm::vec3(0, 0.02, 0), glm::vec3(), 10.0f, 1.0f, 0.15f, 0.15f);
+	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.2), glm::vec3(), glm::vec3(0, 0.02, 0), glm::vec3(), 10.0f, 1.0f, 0.12f, 0.12f);
 	rigidBody2->setCollider(new SphereCollider(1.0f));
 	sphere2->addComponent(rigidBody2);
 	sphere2->getTransform().moveZ(0.5);
