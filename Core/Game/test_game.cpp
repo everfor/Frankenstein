@@ -26,7 +26,6 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 	Input::Initialize();
 
 	// Common mesh
-	// Mesh *mesh = new Mesh("./res/models/monkey.obj");
 	Mesh *planeMesh = new Mesh("./res/models/terrain.obj");
 	Mesh *smallPlaneMesh = new Mesh("./res/models/sphere.obj");
 
@@ -34,21 +33,6 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 	Material *brick = new Material(0.1, 1024, "./res/textures/bricks.jpg", "./res/textures/bricks_normal.jpg", "./res/textures/bricks_disp.png", 0.03f, -0.5f);
 	Material *brick2 = new Material(0.1, 2048, "./res/textures/bricks2.jpg", "./res/textures/bricks2_normal.jpg", "./res/textures/bricks2_disp.jpg", 0.03f, -1.0f);
 	Material *cave = new Material(0.5, 512, "./res/textures/cave.png");
-
-	//cave->addTexture(MATERIAL_DIFFUSE_TEXTURE, *caveTex);
-	//cave->addFloat(MATERIAL_SPECULAR_INTENSITY, 0.2);
-	//cave->addFloat(MATERIAL_SPECULAR_EXPONENT, 128);
-
-	// Monkeys
-	// monkey1 = new Object();
-	// monkey2 = new Object();
-	// monkey2->addComponent(new MeshRenderer(mesh, metal));
-	// monkey2->getTransform().setTranslation(2, 0, 0);
-	// monkey2->getTransform().setScale(0.6, 0.6, 0.6);
-	// monkey1->addComponent(new MeshRenderer(mesh, wood));
-	// monkey1->getTransform().setTranslation(1, 0, 0);
-	// monkey1->getTransform().setScale(0.5, 0.5, 0.5);
-	//monkey1->addChild(monkey2);
 
 	// Planes
 	Object *bigPlane = new Object();
@@ -75,15 +59,7 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 	sphere2->getTransform().moveX(2.0);
 	sphere2->getTransform().moveY(-0.8);
 
-	// monkey = new Object();
-	// monkey->addComponent(new MeshRenderer(mesh, metal));
-	// monkey->addChild(monkey1);
-	// monkey->getTransform().setScale(0.5, 0.5, 0.5);
-	// monkey->getTransform().setTranslation(-1, 0, 0);
-
 	// Object
-	// addObject(monkey);
-	// addObject(monkey1);
 	addObject(bigPlane);
 	addObject(sphere1);
 	addObject(sphere2);
@@ -138,29 +114,7 @@ void TestGame::input(float delta)
 	}
 }
 
-static float sin_var = 0.0f;
-static float cos_var = 0.0f;
-static float last_sin = 0.0f;
-
 void TestGame::update(float delta)
 {
 	Game::update(delta);
-
-	// TEST uniform
-	static float temp = 0.0f;
-	temp += delta;
-	sin_var = sinf(temp);
-	cos_var = cosf(temp);
-
-	// TEST TRANSFORMATION
-	// transform.setTranslation(sin_var, 0, 0);
-	// monkey->getTransform().setRotation(glm::rotate(glm::quat(1, 0, 0, 0), sin_var * 180, glm::vec3(0, 1, 0)));
-	// monkey->getTransform().rotateY((sin_var - last_sin) * 180);
-	// monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
-	// monkey1->getTransform().rotateY((sin_var - last_sin) * 180);
-	//monkey2->getTransform().rotateY((sin_var - last_sin) * 180);
-	// camera->getTransform().setTranslation(sin_var, 0, 2 + sin_var);
-	last_sin = sin_var;
-	// camera->getTransform().rotateY(sin_var);
-	// transform.setScale(0.5, 0.5, 0.5);
 }
