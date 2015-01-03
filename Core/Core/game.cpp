@@ -20,7 +20,10 @@ void Game::update(float delta)
 		engine->getPhysicsEngine()->update(delta);
 	}
 
-	engine->getAudioEngine()->play();
+	if (audioEngineEnabled())
+	{
+		engine->getAudioEngine()->play();
+	}
 	
 	getRoot().update(delta);
 }

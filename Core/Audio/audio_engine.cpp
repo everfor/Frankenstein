@@ -5,7 +5,7 @@
 #include <iostream>
 
 AudioEngine::AudioEngine() :
-			audio_enabled(false), source_cursor(0), total_sources(DEFAULT_SOURCES), resource_generated(false)
+				audio_initialized(false), source_cursor(0), total_sources(DEFAULT_SOURCES), resource_generated(false), listener(NULL)
 {
 	device = alcOpenDevice(NULL);
 	if (device == NULL)
@@ -23,7 +23,7 @@ AudioEngine::AudioEngine() :
 
 	alcMakeContextCurrent(context);
 
-	setAudioEnable(true);
+	audio_initialized = true;
 
 	// Bakcground audio source
 	background_source = std::unique_ptr<AudioSource>(new AudioSource(true, AL_TRUE));
@@ -67,8 +67,20 @@ void AudioEngine::playAudio(Audio *audio, glm::vec3& source_pos, bool loop)
 
 void AudioEngine::play()
 {
-	if (audioEnabled())
+	if (audioInitialized())
 	{
+		// Set listener
+		if (getListener() != NULL)
+		{
+			glm::vec3 pos = getListener()->getTransform()->getTransformedTranslation();
+			glm::vec3 forward = getListener()->getTransform()->getTransformedForward();
+
+			float f[6] = { forward.x, forward.y, forward.z, 0.0f, 1.0f, 0.0f };
+
+			alListener3f(AL_POSITION, pos.x, pos.y, pos.z);
+			alListenerfv(AL_ORIENTATION, f);
+		}
+
 		background_source.get()->play();
 
 		for (int i = 0; i < audio_sources.size(); i++)
@@ -100,7 +112,7 @@ AudioSource* AudioEngine::getNextAvailableSource()
 
 void AudioEngine::loadResource()
 {
-	if (audioEnabled())
+	if (audioInitialized())
 	{
 		AudioSourceResource::_load_all();
 		AudioResource::_load_all();
