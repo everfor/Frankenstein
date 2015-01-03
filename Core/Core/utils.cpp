@@ -84,7 +84,7 @@ bool _is_big_endian()
 int _char_to_int(const char *buffer, int len)
 {
 	assert(len >= 0);
-	assert(len < 4);
+	assert(len <= 4);
 
 	int result = 0;
 

@@ -3,6 +3,7 @@
 #include "audio_resource.h"
 
 #include <glm/glm.hpp>
+#include <memory>
 
 class CoreEngine;
 class AudioEngine;
@@ -10,7 +11,7 @@ class AudioEngine;
 class Audio
 {
 	public:
-		Audio(std::string& file_name);
+		Audio(const std::string& file_name);
 		virtual ~Audio();
 		AudioResource* getResource() { return resource; };
 		void setEngine(CoreEngine* core);

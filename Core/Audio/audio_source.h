@@ -18,7 +18,7 @@ class AudioSource
 		void setLoop(ALboolean new_should) { should_loop = new_should; };
 		void setPosition(glm::vec3& new_pos) { pos = new_pos; };
 		void setPosition(float x, float y, float z) { pos = glm::vec3(x, y, z); };
-		void setAudio(Audio* new_audio) { audio = new_audio; };
+		void setAudio(Audio* new_audio) { audio = new_audio; enablePlay(); };
 		void play();
 	private:
 		bool is_background;

@@ -15,6 +15,7 @@
 * This class is supposed to serve as a general resource manager (loading files etc.)
 */
 class TextureResource;
+class AudioResource;
 class ResourceManager
 {
 	public:
@@ -24,6 +25,8 @@ class ResourceManager
 		static void LoadMesh(const std::string& fileName, Mesh& mesh);
 		// Parse an image file for texture
 		static void LoadTexture(const std::string& file, TextureResource *resource);
+		// Parse audio file
+		static void loadAudio(const std::string& fileName, AudioResource *resource);
 	private:
 		ResourceManager();
 };

@@ -15,6 +15,7 @@
 #include "rigid_body.h"
 #include "collider.h"
 #include "sphere_collider.h"
+#include "audio.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -90,7 +91,11 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 	addObject(directionalLight);
 	addObject(camera);
 
+	// Set background music
+	engine->getAudioEngine()->setBackgroundAudio(new Audio("./res/audios/piano.wav"));
+
 	Material::_load_textures();
+	engine->getAudioEngine()->loadResource();
 }
 
 TestGame::~TestGame()

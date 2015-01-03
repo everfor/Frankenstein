@@ -19,6 +19,8 @@ void Game::update(float delta)
 	{
 		engine->getPhysicsEngine()->update(delta);
 	}
+
+	engine->getAudioEngine()->play();
 	
 	getRoot().update(delta);
 }

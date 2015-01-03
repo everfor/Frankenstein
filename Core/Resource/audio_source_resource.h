@@ -11,11 +11,14 @@ class AudioSourceResource : public Resource
 {
 	public:
 		virtual ~AudioSourceResource();
+		void setID(ALuint new_id) { id = new_id; };
 		ALuint getID() { return id; };
 		// Factory
 		static AudioSourceResource* _get_resource();
 		// Load all resources
-		static void loadAll();
+		static void _load_all();
+		// Delete all resources
+		static void _delete_all();
 	private:
 		AudioSourceResource();
 		ALuint id;

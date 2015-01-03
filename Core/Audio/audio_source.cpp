@@ -13,10 +13,10 @@ AudioSource::~AudioSource()
 
 void AudioSource::play()
 {
-	// TODO: load audio data
 	if (shouldPlay() && audio != NULL)
 	{
-		alSourcePlay(resource->getID());
+		// Set Buffer
+		alSourcei(resource->getID(), AL_BUFFER, audio->getResource()->getID());
 		// Looping
 		alSourcei(resource->getID(), AL_LOOPING, shouldLoop());
 		// If not background music, set position
@@ -25,6 +25,8 @@ void AudioSource::play()
 			alSource3f(resource->getID(), AL_POSITION, pos.x, pos.y, pos.z);
 		}
 
+		// Play
+		alSourcePlay(resource->getID());
 		should_play = false;
 	}
 }

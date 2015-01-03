@@ -73,8 +73,10 @@
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="texture_resource.cpp" />
+    <ClCompile Include="wav_model.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio_model.h" />
     <ClInclude Include="audio_resource.h" />
     <ClInclude Include="audio_source_resource.h" />
     <ClInclude Include="indexed_model.h" />
@@ -84,6 +86,7 @@
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture_resource.h" />
+    <ClInclude Include="wav_model.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
