@@ -45,7 +45,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Rendering;..\include;..\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Rendering;..\include;..\Core;..\Audio;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -66,6 +66,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="audio_resource.cpp" />
+    <ClCompile Include="audio_source_resource.cpp" />
     <ClCompile Include="mesh_resource.cpp" />
     <ClCompile Include="obj_model.cpp" />
     <ClCompile Include="resource_manager.cpp" />
@@ -73,6 +75,8 @@
     <ClCompile Include="texture_resource.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio_resource.h" />
+    <ClInclude Include="audio_source_resource.h" />
     <ClInclude Include="indexed_model.h" />
     <ClInclude Include="mesh_resource.h" />
     <ClInclude Include="obj_model.h" />

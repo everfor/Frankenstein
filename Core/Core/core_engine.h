@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "rendering_engine.h"
 #include "physics_engine.h"
+#include "audio_engine.h"
 
 #define FRAME_CAP			1000
 #define MIN_SLEEP_TIME		1
@@ -25,6 +26,7 @@ class CoreEngine
 		void stop();
 		RenderingEngine* getRenderingEngine() { return &renderingEngine; };
 		PhysicsEngine* getPhysicsEngine() { return &physicsEngine; };
+		AudioEngine* getAudioEngine() { return &audioEngine; };
 	private:
 		void run();
 		void render();
@@ -33,6 +35,7 @@ class CoreEngine
 		unsigned int frame_rate;
 		RenderingEngine renderingEngine;
 		PhysicsEngine physicsEngine;
+		AudioEngine audioEngine;
 		Game *game;
 };
 
