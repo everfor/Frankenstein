@@ -9,6 +9,8 @@ Collision SphereCollider::collideWith(Collider* other)
 	Collider::_collider_type other_type = other->getType();
 	Collision collision;
 
+	collision.setImpactPoint((other->getCenter() + getCenter()) / 2.0f);
+
 	if (other_type == Collider::_collider_type::COLLIDER_SPHERE)
 	{
 		float radiusDist = radius + ((SphereCollider*)other)->getRadius();
@@ -21,7 +23,7 @@ Collision SphereCollider::collideWith(Collider* other)
 		collision.setCollisionNormal(centerDir);
 		collision.setPenetration(penetration);
 		collision.setContactRadiusA((getRadius() - penetration) * centerDir);
-		collision.setContactRadiusB((((SphereCollider*)other)->getRadius() - penetration) * centerDir);
+		collision.setContactRadiusB(penetration - (((SphereCollider*)other)->getRadius()) * centerDir);
 
 		// Collision Detection
 		collision.setIsColliding(centerDist < radiusDist);

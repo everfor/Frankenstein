@@ -24,3 +24,9 @@ void _round_normalize(glm::vec3& vec);
 class Collider;
 // Return the moment of inertia
 float _calculate_moment_of_interia(float mass, Collider* collider);
+
+// Detect if the current machine is storing numbers in big endians or small endians
+bool _is_big_endian();
+
+// Convert a character array into corresponding integer
+int _char_to_int(const char *buffer, int len);

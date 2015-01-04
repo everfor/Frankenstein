@@ -4,8 +4,11 @@
 #include "stb_image.h"
 #include "indexed_model.h"
 #include "obj_model.h"
+#include "audio_model.h"
+#include "wav_model.h"
 #include "display.h"
 #include "texture_resource.h"
+#include "audio_resource.h"
 
 #include <glm/glm.hpp>
 #include <fstream>
@@ -66,7 +69,7 @@ void ResourceManager::LoadMesh(const std::string& fileName, Mesh& mesh)
 		model = new ObjModel(fileName);
 		model->loadToMesh(&mesh);
 
-		free(model);
+		delete model;
 	}
 	else
 	{
@@ -108,4 +111,26 @@ void ResourceManager::LoadTexture(const std::string& file, TextureResource *reso
 	glTexImage2D(resource->getTarget(), 0, resource->getInternalFormat(), width, height, 0, resource->getFormat(), GL_UNSIGNED_BYTE, data);
 
 	stbi_image_free(data);
+}
+
+void ResourceManager::loadAudio(const std::string& fileName, AudioResource *resource)
+{
+	std::vector<std::string> splits;
+	int split_length = 0;
+	split_length = _split_string(fileName, std::string("."), splits);
+
+	AudioModel *model;
+
+	if (splits[split_length - 1] == "wav")
+	{
+		// Parse
+		model = new WavModel(std::string(fileName));
+		model->loadToAudio(resource);
+
+		delete model;
+	}
+	else
+	{
+		throw ResourceException("Audio loading for file " + fileName + " not implemented yet.");
+	}
 }

@@ -2,6 +2,7 @@
 
 #include "component.h"
 #include "collider.h"
+#include "audio.h"
 
 #include <memory>
 #include <glm/glm.hpp>
@@ -24,6 +25,9 @@ class PhysicsObject : public Component
 		virtual void setCollider(Collider* new_collider);
 		Collider* getCollider() { return collider.get(); };
 		_physobj_type getType() { return type; };
+		// Sound effects
+		void setImpactSound(Audio* new_sound);
+		Audio* getImpactSound() { return impact_sound.get(); };
 		// Used for update in physics engine
 		virtual void simulate(float delta);
 		virtual void collide(PhysicsObject *other) {};
@@ -75,5 +79,7 @@ class PhysicsObject : public Component
 		_physobj_type type;
 		// Only phys objs that share same level of layers will collide with eath other
 		int layer;
+		CoreEngine* engine;
+		std::unique_ptr<Audio> impact_sound;
 };
 

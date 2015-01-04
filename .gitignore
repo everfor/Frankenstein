@@ -184,3 +184,6 @@ FakesAssemblies/
 
 # Do not ignore models
 !**/models/**
+
+# Ignore all audio files
+*.wav

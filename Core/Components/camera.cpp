@@ -2,6 +2,7 @@
 #include "transform.h"
 #include "core_engine.h"
 #include "rendering_engine.h"
+#include "audio_engine.h"
 #include "movement.h"
 
 Camera::Camera(float init_fov, float init_asp, float init_znear, float init_zfar) :
@@ -26,4 +27,5 @@ glm::mat4& Camera::getCameraViewProjection()
 void Camera::addToEngine(CoreEngine *engine)
 {
 	engine->getRenderingEngine()->addCamera(this);
+	engine->getAudioEngine()->setListener(this);
 }

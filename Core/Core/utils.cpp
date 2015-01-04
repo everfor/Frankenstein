@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <cmath>
 #include <iostream>
+#include <cassert>
 
 int _split_string(std::string original, const std::string& delimiter, std::vector<std::string>& split_strings)
 {
@@ -72,4 +73,35 @@ float _calculate_moment_of_interia(float mass, Collider* collider)
 	}
 
 	return 0.0f;
+}
+
+bool _is_big_endian()
+{
+	int test = 1;
+	return !((char*)&test)[0];
+}
+
+int _char_to_int(const char *buffer, int len)
+{
+	assert(len >= 0);
+	assert(len <= 4);
+
+	int result = 0;
+
+	if (!_is_big_endian())
+	{
+		for (int i = 0; i < len; i++)
+		{
+			((char*)&result)[i] = buffer[i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < len; i++)
+		{
+			((char*)&result)[3 - i] = buffer[i];
+		}
+	}
+
+	return result;
 }
