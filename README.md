@@ -13,10 +13,11 @@ Dependencies
 - SDL2
 - stbi_image
 - Assimp 3.0
+- OpenAL
 
 Supported Platform
 ============
-- Windows: No additional dependencies requried. Just import the solution in Visual Studio.
+- Windows: No additional dependencies requried. Just import the solution in Visual Studio. <i>Currently solution only builds into Debug config</i>
 
 TO-DOs
 ============
@@ -26,8 +27,8 @@ TO-DOs
 - <del>Shadow Mapping</del> DONE! With bugs...
 - <del>Anti-Aliasing</del> DONE! With bugs...
 - Particle System
-- <del>Physics Engine</del> DONE! Improvement underway...
-- Audio System
+- <del>Physics Engine</del> DONE!
+- <del>Audio System</del> DONE!
 - Cross Platform?
 
 Known Issues
@@ -37,3 +38,4 @@ Known Issues
 - Shaking effect of FAAX
 - Profiler not fully used everywhere (just too lazy)
 - AABB colliders does not support angular momentum (because of non-rotational nature of AABB collider)
+- Audio Engine very primitive. Definitely need more improvements
