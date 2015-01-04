@@ -51,6 +51,11 @@ AudioEngine::~AudioEngine()
 	}
 }
 
+void AudioEngine::setBackgroundAudio(const std::string& file_name)
+{
+	setBackgroundAudio(new Audio(file_name));
+}
+
 void AudioEngine::setBackgroundAudio(Audio* back_audio)
 {
 	background.reset(back_audio);
@@ -92,8 +97,8 @@ void AudioEngine::play()
 
 AudioSource* AudioEngine::getNextAvailableSource()
 {
-	unsigned int cursor = source_cursor;
-	for (; source_cursor != cursor;)
+	unsigned int current_cursor = source_cursor;
+	do
 	{
 		AudioSource *source = audio_sources[source_cursor].get();
 		source_cursor = (source_cursor + 1) % total_sources;
@@ -103,7 +108,7 @@ AudioSource* AudioEngine::getNextAvailableSource()
 		{
 			return source;
 		}
-	}
+	} while (source_cursor != current_cursor);
 
 	// No available source found. return the first one
 	source_cursor = 1;
