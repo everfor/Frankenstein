@@ -149,6 +149,16 @@ void RigidBody::collide(PhysicsObject *other)
 					// Apply Impulse
 					applyImpulse(-friction_impulse, contact_radius_a);
 					other->applyImpulse(friction_impulse, contact_radius_b);
+
+					// Play sound effects
+					if (getImpactSound() != NULL)
+					{
+						getImpactSound()->play(collision.getImpactPoint());
+					}
+					if (other->getImpactSound() != NULL)
+					{
+						other->getImpactSound()->play(collision.getImpactPoint());
+					}
 				}
 			}
 		}

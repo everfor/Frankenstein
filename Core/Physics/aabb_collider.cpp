@@ -9,6 +9,9 @@ Collision AABBCollider::collideWith(Collider* other)
 	Collider::_collider_type other_type = other->getType();
 	Collision collision;
 
+	// Set impact point
+	collision.setImpactPoint((other->getCenter() + getCenter()) / 2.0f);
+
 	if (other_type == Collider::_collider_type::COLLIDER_AABB)
 	{
 		// Collision normal is the relative direction between the two aabbs

@@ -45,6 +45,7 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 	sphere1->addComponent(new MeshRenderer(smallPlaneMesh, brick2));
 	RigidBody *rigidBody1 = new RigidBody(glm::vec3(0.2, 0.0, -0.05), glm::vec3(), glm::vec3(), glm::vec3(), 1.0f, 0.9f, 0.2f, 0.2f);
 	rigidBody1->setCollider(new SphereCollider(1.0f));
+	rigidBody1->setImpactSound(new Audio("./res/audios/bang_mono.wav"));
 	sphere1->addComponent(rigidBody1);
 	sphere1->getTransform().moveX(-3.0);
 	sphere1->getTransform().moveY(-0.8);
@@ -55,6 +56,7 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 	sphere2->addComponent(new MeshRenderer(smallPlaneMesh, cave));
 	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.1), glm::vec3(), glm::vec3(0, 0.05, 0), glm::vec3(), 10.0f, 1.0f, 0.2f, 0.2f);
 	rigidBody2->setCollider(new SphereCollider(1.0f));
+	rigidBody2->setImpactSound(new Audio("./res/audios/bang_mono.wav"));
 	sphere2->addComponent(rigidBody2);
 	sphere2->getTransform().moveZ(0.25);
 	sphere2->getTransform().moveX(3.0);
