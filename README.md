@@ -39,3 +39,8 @@ Known Issues
 - Profiler not fully used everywhere (just too lazy)
 - AABB colliders does not support angular momentum (because of non-rotational nature of AABB collider)
 - Audio Engine very primitive. Definitely need more improvements
+
+Demo
+===========
+![Demo](https://raw.githubusercontent.com/everfor/Frankenstein/master/demo.gif)
+<br> A demo demonstrating functionality of Rendering and Physics Engine, showing a lighter sphere (left) colliding with a heavier one (right). A directional light and a spot light in the center was presented in the scene as well.
