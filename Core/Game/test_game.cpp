@@ -43,7 +43,7 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 
 	Object *sphere1 = new Object();
 	sphere1->addComponent(new MeshRenderer(smallPlaneMesh, brick2));
-	RigidBody *rigidBody1 = new RigidBody(glm::vec3(0.2, 0.0, -0.05), glm::vec3(), glm::vec3(), glm::vec3(), 1.0f, 0.9f, 0.2f, 0.2f);
+	RigidBody *rigidBody1 = new RigidBody(glm::vec3(0.2, 0.0, -0.05), glm::vec3(), glm::vec3(0, 0.5, 0), glm::vec3(), 2.0f, 0.9f, 0.2f, 0.2f);
 	rigidBody1->setCollider(new SphereCollider(1.0f));
 	rigidBody1->setImpactSound(new Audio("./res/audios/explosion_mono.wav"));
 	sphere1->addComponent(rigidBody1);
@@ -54,7 +54,7 @@ TestGame::TestGame(CoreEngine *core, bool enable_phys) :
 
 	Object *sphere2 = new Object();
 	sphere2->addComponent(new MeshRenderer(smallPlaneMesh, cave));
-	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.1), glm::vec3(), glm::vec3(0, 0.05, 0), glm::vec3(), 10.0f, 1.0f, 0.2f, 0.2f);
+	RigidBody *rigidBody2 = new RigidBody(glm::vec3(-0.4, 0.0, 0.1), glm::vec3(), glm::vec3(0.05, 0.05, 0), glm::vec3(), 10.0f, 1.0f, 0.2f, 0.2f);
 	rigidBody2->setCollider(new SphereCollider(1.0f));
 	rigidBody2->setImpactSound(new Audio("./res/audios/bang_mono.wav"));
 	sphere2->addComponent(rigidBody2);

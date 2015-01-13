@@ -28,7 +28,7 @@ void Game::update(float delta)
 
 	if (audioEngineEnabled())
 	{
-		engine->getAudioEngine()->play();
+		engine->getAudioEngine()->play(delta);
 	}
 	
 	getRoot().update(delta);
