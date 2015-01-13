@@ -21,11 +21,12 @@ class AudioEngine
 		Camera* getListener() { return listener; };
 		void setListener(Camera *new_cam) { listener = new_cam; };
 		bool audioInitialized() { return audio_initialized; };
+		void setBackgroundAudio(const std::string& file_name);
 		void setBackgroundAudio(Audio* back_audio);
 		// Audio to play in next loop
 		void playAudio(Audio *audio, glm::vec3& source_pos, bool loop);
 		// Play loop
-		void play();
+		void play(float delta);
 		// Load all resources
 		void loadResource();
 		// Delete all resources

@@ -17,7 +17,9 @@ class AudioResource : public Resource
 		ALsizei getSize() { return size; };
 		void setID(ALuint new_id) { id = new_id; };
 		ALuint getID() { return id; };
-		void loadAudioData(char *data, ALuint format, ALuint size, ALuint sample_rate);
+		void setDuration(float new_duration) { duration = new_duration; };
+		float getDuration() { return duration; };
+		void loadAudioData(char *data, ALuint format, ALuint size, ALuint sample_rate, float duration);
 		// Factory
 		static AudioResource* _get_resource(std::string& key);
 		// Load all resources
@@ -29,6 +31,7 @@ class AudioResource : public Resource
 		ALuint id;
 		std::unique_ptr<char> data;
 		ALsizei size;
+		float duration;
 		static std::map<std::string, std::unique_ptr<AudioResource>> _resources;
 };
 

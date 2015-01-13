@@ -28,7 +28,10 @@ WavModel::WavModel(std::string& file_name)
 		in.read(buffer, 4);
 		setSampleRate(_char_to_int(buffer, 4));
 
+		// Byte Rate
 		in.read(buffer, 4);
+		int byte_rate = _char_to_int(buffer, 4);
+
 		in.read(buffer, 2);
 
 		// Bit per sample
@@ -44,6 +47,9 @@ WavModel::WavModel(std::string& file_name)
 		initializeData(getSize());
 		char *data = getData();
 		in.read(data, getSize());
+
+		float duration = (float)getSize() / (float)byte_rate;
+		setDuration(duration);
 
 		// Set format
 		if (channel == 1)
@@ -77,5 +83,5 @@ WavModel::WavModel(std::string& file_name)
 
 void WavModel::loadToAudio(AudioResource *resource)
 {
-	resource->loadAudioData(getData(), getFormat(), getSize(), getSampleRate());
+	resource->loadAudioData(getData(), getFormat(), getSize(), getSampleRate(), getDuration());
 }

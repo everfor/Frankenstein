@@ -2,7 +2,6 @@
 
 #include "object.h"
 
-class RenderingEngine;
 class CoreEngine;
 
 class Game
@@ -14,6 +13,7 @@ class Game
 		virtual void update(float delta);
 		void render();
 		void addObject(Object *object) { root.addChild(object); };
+		void setBackgroundMusic(const std::string& file_name);
 		void setEngine(CoreEngine *new_engine);
 		bool physicsEngineEnabled() { return enablePhysicsEngine; };
 		bool audioEngineEnabled() { return enableAudioEngine; };

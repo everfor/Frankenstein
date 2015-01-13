@@ -1,6 +1,12 @@
 #include "game.h"
 #include "core_engine.h"
 #include "rendering_engine.h"
+#include "audio_engine.h"
+
+void Game::setBackgroundMusic(const std::string& file_name)
+{
+	engine->getAudioEngine()->setBackgroundAudio(file_name);
+}
 
 void Game::render()
 {
@@ -22,7 +28,7 @@ void Game::update(float delta)
 
 	if (audioEngineEnabled())
 	{
-		engine->getAudioEngine()->play();
+		engine->getAudioEngine()->play(delta);
 	}
 	
 	getRoot().update(delta);

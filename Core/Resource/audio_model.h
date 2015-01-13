@@ -19,11 +19,14 @@ class AudioModel
 		void initializeData(int size) { data = (char*)malloc(size * sizeof(char)); };
 		void setData(char* new_data) { data = new_data; };
 		char* getData() { return data; };
+		void setDuration(float new_duration) { duration = new_duration; };
+		float getDuration() { return duration; };
 		virtual void loadToAudio(AudioResource* audio) {};
 	private:
 		ALuint format;
 		ALsizei size;
 		ALsizei sample_rate;
+		float duration;
 		char* data;
 };
 

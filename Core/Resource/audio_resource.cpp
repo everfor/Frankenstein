@@ -12,10 +12,11 @@ AudioResource::~AudioResource()
 {
 }
 
-void AudioResource::loadAudioData(char *data, ALuint format, ALuint size, ALuint sample_rate)
+void AudioResource::loadAudioData(char *data, ALuint format, ALuint size, ALuint sample_rate, float duration)
 {
 	setData(data);
 	setSize(size);
+	setDuration(duration);
 	
 	alBufferData(getID(), format, getData(), getSize(), sample_rate);
 }

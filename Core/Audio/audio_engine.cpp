@@ -51,6 +51,11 @@ AudioEngine::~AudioEngine()
 	}
 }
 
+void AudioEngine::setBackgroundAudio(const std::string& file_name)
+{
+	setBackgroundAudio(new Audio(file_name));
+}
+
 void AudioEngine::setBackgroundAudio(Audio* back_audio)
 {
 	background.reset(back_audio);
@@ -65,7 +70,7 @@ void AudioEngine::playAudio(Audio *audio, glm::vec3& source_pos, bool loop)
 	source->setLoop(loop ? AL_TRUE : AL_FALSE);
 }
 
-void AudioEngine::play()
+void AudioEngine::play(float delta)
 {
 	if (audioInitialized())
 	{
@@ -81,29 +86,28 @@ void AudioEngine::play()
 			alListenerfv(AL_ORIENTATION, f);
 		}
 
-		background_source.get()->play();
+		background_source.get()->play(delta);
 
 		for (int i = 0; i < audio_sources.size(); i++)
 		{
-			audio_sources[i].get()->play();
+			audio_sources[i].get()->play(delta);
 		}
 	}
 }
 
 AudioSource* AudioEngine::getNextAvailableSource()
 {
-	unsigned int cursor = source_cursor;
-	for (; source_cursor != cursor;)
+	unsigned int current_cursor = source_cursor;
+	do
 	{
 		AudioSource *source = audio_sources[source_cursor].get();
 		source_cursor = (source_cursor + 1) % total_sources;
 
-		// If the audio is not looping, then it is considered available
-		if (source->shouldLoop() == AL_FALSE)
+		if (!source->isPlaying())
 		{
 			return source;
 		}
-	}
+	} while (source_cursor != current_cursor);
 
 	// No available source found. return the first one
 	source_cursor = 1;
