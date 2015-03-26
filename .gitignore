@@ -187,3 +187,5 @@ FakesAssemblies/
 
 # Ignore all audio files
 *.wav
+
+*.db
